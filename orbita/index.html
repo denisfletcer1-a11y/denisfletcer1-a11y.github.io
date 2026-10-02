@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ORBITA — детейлинг-студия</title>
+  <meta name="description" content="Полировка, керамика и защитная плёнка для автомобилей. Детейлинг-студия ORBITA.">
+  <meta name="theme-color" content="#040605">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="frames/f1/0001.webp?v=2026-09-28-360b">
+  <link rel="stylesheet" href="css/styles.css?v=2026-09-28-360b">
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">
+    <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="1.4"/><circle class="loader-dot" cx="27" cy="16" r="2.4"/></svg>
+    <span>ORBITA</span>
+  </div>
+  <div class="loader-bar"><i id="loaderBar"></i></div>
+</div>
+
+<header class="nav" id="nav">
+  <a class="logo" href="#top" aria-label="ORBITA — на главную">
+    <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="26.4" cy="11.5" r="2.6" fill="var(--accent)"/></svg>
+    <span class="logo-word">ORBITA</span>
+    <span class="logo-sub">detailing lab</span>
+  </a>
+  <nav class="nav-links" aria-label="Разделы">
+    <a href="#diagnostics">Диагностика</a>
+    <a href="#polish">Полировка</a>
+    <a href="#ceramic">Керамика</a>
+    <a href="#services">Услуги</a>
+    <a href="#works">Работы</a>
+    <a href="#prices">Цены</a>
+    <a href="#studio">Студия</a>
+  </nav>
+  <a class="btn btn-primary btn-sm" href="#booking">Записаться</a>
+</header>
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+<main>
+
+  <!-- 1. Главный экран: машину крутят мышкой / пальцем -->
+  <section class="stage stage-hero" id="top" data-stage="orbit" tabindex="0" aria-label="Автомобиль: зажмите и потяните, чтобы повернуть">
+    <canvas class="scene-canvas" aria-hidden="true"></canvas>
+    <div class="overlay">
+      <div class="hero-copy intro">
+        <p class="kicker">Детейлинг-студия ORBITA · Москва</p>
+        <h1>Глубже,<br>чем <em>с&nbsp;завода.</em></h1>
+        <p class="lead">Полировка, керамика и защитная плёнка. Возвращаем лаку глубину, которой не было даже в&nbsp;салоне дилера.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#booking">Записаться на осмотр</a>
+          <a class="btn btn-ghost" href="#prices">Смотреть цены</a>
+        </div>
+        <ul class="hero-metrics">
+          <li><b><span data-countup="97">97</span><small>GU</small></b><span>глянец после полировки</span></li>
+          <li><b>9H</b><span>твёрдость керамики</span></li>
+          <li><b><span data-countup="3">3</span><small>года</small></b><span>гарантия на покрытие</span></li>
+        </ul>
+      </div>
+      <div class="drag-hint drag-hint-hero"><i aria-hidden="true"></i><span>Зажмите и вращайте</span></div>
+    </div>
+  </section>
+
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track"><span>Полировка</span><i>✦</i><span><em>Керамика 9H</em></span><i>✦</i><span>Плёнка PPF</span><i>✦</i><span>Химчистка салона</span><i>✦</i><span><em>Диски и суппорта</em></span><i>✦</i><span>Детейлинг-мойка</span><i>✦</i><span>Полировка</span><i>✦</i><span><em>Керамика 9H</em></span><i>✦</i><span>Плёнка PPF</span><i>✦</i><span>Химчистка салона</span><i>✦</i><span><em>Диски и суппорта</em></span><i>✦</i><span>Детейлинг-мойка</span><i>✦</i></div>
+  </div>
+
+  <!-- 2. Диагностика: лупа по кузову -->
+  <section class="section diag" id="diagnostics">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="kicker">Шаг 0 · Диагностика</p>
+        <h2>Сначала — <em>диагностика.</em></h2>
+        <p class="section-lead">Под инспекционной лампой видно то, что прячет солнце: свирлы, голограммы и риски. Толщиномер показывает, где машину уже красили, — там полируем бережнее. Наведите курсор на кузов.</p>
+      </div>
+
+      <div class="lens-wrap reveal">
+        <div class="lens-stage" id="lensStage">
+          <canvas id="lensCanvas" aria-label="Интерактивная лупа: дефекты лака и толщина покрытия"></canvas>
+          <div class="lens-hint" id="lensHint">Наведите курсор на кузов</div>
+        </div>
+        <div class="lens-panel">
+          <div class="seg" role="group" aria-label="Режим лупы">
+            <button type="button" class="active" data-lens-mode="inspect">Лампа</button>
+            <button type="button" data-lens-mode="scan">Толщиномер</button>
+          </div>
+          <div class="readout">
+            <span class="readout-label" id="readoutLabel">Дефекты лака</span>
+            <span class="readout-value" id="readoutValue">—</span>
+            <span class="readout-note" id="readoutNote">Наведите лупу на кузов</span>
+          </div>
+          <div class="scale" id="scanScale" hidden>
+            <i></i>
+            <div><span>70 мкм</span><span>завод</span><span>260 мкм</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Полировка -->
+  <section class="stage" id="polish" data-stage="polish" tabindex="0" aria-label="Полировка: зажмите и потяните вправо">
+    <canvas class="scene-canvas" aria-hidden="true"></canvas>
+    <div class="scrim scrim-bottom"></div>
+    <div class="overlay">
+      <div class="scene-copy pos-bottom-left reveal">
+        <p class="kicker">Этап 1 · Полировка</p>
+        <h2>Снимаем 2&nbsp;микрона&nbsp;—<br><em>и&nbsp;все свирлы вместе с&nbsp;ними.</em></h2>
+        <p>Абразивная полировка в&nbsp;два-три шага под инспекционным светом. Слой в&nbsp;35&nbsp;раз тоньше волоса, а&nbsp;отражение становится чётким, как в&nbsp;зеркале.</p>
+      </div>
+      <div class="gauge pos-bottom-right reveal">
+        <span class="gauge-label">Глянец</span>
+        <span class="gauge-value"><span data-count-range="0.05,0.95" data-from="58" data-to="94">58</span><small>GU</small></span>
+        <span class="gauge-bar"><i data-bar-range="0.05,0.95"></i></span>
+      </div>
+      <div class="drag-hint"><i aria-hidden="true"></i><span>Зажмите и ведите вправо</span></div>
+    </div>
+  </section>
+
+  <section class="section compare">
+    <div class="container">
+      <div class="compare-head reveal">
+        <p class="kicker">До и после</p>
+        <h3>Потяните ползунок</h3>
+      </div>
+      <div class="ba reveal" id="baPolish" style="--pos:66%">
+        <img src="img/polish_after.webp" alt="Капот после полировки: чистое зеркальное отражение лампы" loading="lazy">
+        <div class="ba-before"><img src="img/polish_before.webp" alt="Капот до полировки: круговые свирлы вокруг блика" loading="lazy"></div>
+        <div class="ba-line"><span></span></div>
+        <span class="ba-tag ba-tag-l">До</span>
+        <span class="ba-tag ba-tag-r">После</span>
+        <input type="range" min="0" max="100" value="66" aria-label="Сравнение до и после полировки">
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Керамика -->
+  <section class="stage" id="ceramic" data-stage="ceramic" tabindex="0" aria-label="Керамика: зажмите и потяните вправо">
+    <canvas class="scene-canvas" aria-hidden="true"></canvas>
+    <div class="scrim scrim-bottom"></div>
+    <div class="overlay">
+      <div class="scene-copy pos-bottom-left reveal">
+        <p class="kicker">Этап 2 · Керамика</p>
+        <h2>Вода уходит <em>сама.</em></h2>
+        <p>Керамическое покрытие 9H заполняет микропоры лака. Грязь не цепляется, вода собирается в&nbsp;шарики и&nbsp;скатывается, а&nbsp;мойка занимает 15&nbsp;минут вместо часа.</p>
+      </div>
+      <div class="gauge pos-bottom-right reveal">
+        <span class="gauge-label">Краевой угол</span>
+        <span class="gauge-value"><span data-count-range="0.05,0.9" data-from="0" data-to="112">0</span><small>°</small></span>
+        <span class="gauge-bar"><i data-bar-range="0.05,0.9"></i></span>
+      </div>
+      <div class="drag-hint"><i aria-hidden="true"></i><span>Зажмите и ведите вправо — пойдёт дождь</span></div>
+    </div>
+  </section>
+
+  <!-- 5. До / после в студии -->
+  <section class="stage" id="result" data-stage="reveal" tabindex="0" aria-label="До и после: потяните шторку">
+    <canvas class="scene-canvas" aria-hidden="true"></canvas>
+    <div class="scrim scrim-bottom"></div>
+    <div class="overlay">
+      <div class="scene-copy pos-bottom-left reveal">
+        <p class="kicker">Результат</p>
+        <h2>Та же машина.<br><em>Через три дня.</em></h2>
+      </div>
+      <ul class="stats pos-bottom-right reveal">
+        <li><b data-countup="72">72</b><span>часа работы</span></li>
+        <li><b data-countup="3">3</b><span>шага полировки</span></li>
+        <li><b data-countup="2">2</b><span>слоя керамики</span></li>
+      </ul>
+      <div class="drag-hint"><i aria-hidden="true"></i><span>Потяните шторку</span></div>
+    </div>
+  </section>
+
+  <!-- 6. Салон -->
+  <section class="stage stage-auto" id="cabin" data-stage="cabin">
+    <canvas class="scene-canvas" aria-hidden="true"></canvas>
+    <div class="scrim scrim-bottom"></div>
+    <div class="overlay">
+      <div class="scene-copy pos-bottom-left reveal">
+        <p class="kicker">Салон</p>
+        <h2>Внутри&nbsp;—<br><em>как в&nbsp;первый день.</em></h2>
+        <p>Химчистка, уход за кожей и&nbsp;озонация. Кожа остаётся матовой и&nbsp;мягкой, без жирного блеска и&nbsp;запаха химии.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Как мы работаем: лента шагов, листается мышкой -->
+  <section class="section process" id="process">
+    <div class="container">
+      <div class="process-head">
+        <div class="section-head reveal">
+          <p class="kicker">Процесс</p>
+          <h2>Как мы <em>работаем.</em></h2>
+          <p class="section-lead">Пять шагов от осмотра до выдачи. Каждый этап снимаем на фото — вы видите, что происходит с машиной.</p>
+        </div>
+        <div class="rail-nav reveal">
+          <button type="button" class="rail-btn" data-rail-prev aria-label="Назад">←</button>
+          <button type="button" class="rail-btn" data-rail-next aria-label="Вперёд">→</button>
+        </div>
+      </div>
+    </div>
+    <div class="rail" id="processRail" tabindex="0" aria-label="Шаги работы: потяните мышкой или листайте">
+      <article class="step reveal">
+        <div class="step-img"><img src="img/inspect_lamp.webp" alt="Осмотр лака под инспекционной лампой" loading="lazy" draggable="false"></div>
+        <div class="step-body"><span class="step-num">01</span><h3>Осмотр</h3><p>Проверяем лак под инспекционной лампой и толщиномером. Фиксируем каждый дефект до начала работ.</p><span class="step-time">30 минут</span></div>
+      </article>
+      <article class="step reveal">
+        <div class="step-img"><img src="img/foam.webp" alt="Машина в пене во время мойки" loading="lazy" draggable="false"></div>
+        <div class="step-body"><span class="step-num">02</span><h3>Мойка</h3><p>Двухфазная мойка пеной, очистка битума и металлических вкраплений. В работу машина идёт идеально чистой.</p><span class="step-time">3 часа</span></div>
+      </article>
+      <article class="step reveal">
+        <div class="step-img"><img src="img/polish_before.webp" alt="Полировка кузова" loading="lazy" draggable="false"></div>
+        <div class="step-body"><span class="step-num">03</span><h3>Полировка</h3><p>Коррекция лака в 2–3 шага: убираем свирлы, голограммы и риски.</p><span class="step-time">1–2 дня</span></div>
+      </article>
+      <article class="step reveal">
+        <div class="step-img"><img src="img/ceramic_apply.webp" alt="Нанесение керамического покрытия" loading="lazy" draggable="false"></div>
+        <div class="step-body"><span class="step-num">04</span><h3>Керамика</h3><p>Наносим керамику в два слоя и сушим под инфракрасными лампами.</p><span class="step-time">1 день</span></div>
+      </article>
+      <article class="step reveal">
+        <div class="step-img"><img src="img/studio_after.webp" alt="Готовая машина в студии" loading="lazy" draggable="false"></div>
+        <div class="step-body"><span class="step-num">05</span><h3>Выдача</h3><p>Показываем результат под теми же лампами и отдаём машину с гарантией.</p><span class="step-time">В срок</span></div>
+      </article>
+    </div>
+    <div class="container"><div class="rail-progress"><i id="railProgress"></i></div></div>
+  </section>
+
+  <!-- 7. Глянец или сатин -->
+  <section class="section finish" id="ppf">
+    <div class="container finish-grid">
+      <div class="finish-copy reveal">
+        <p class="kicker">Защитная плёнка PPF</p>
+        <h2>Глянец или <em>сатин?</em></h2>
+        <p class="section-lead">Полиуретановая плёнка берёт на себя сколы, песок и&nbsp;царапины. Глянцевая незаметна на кузове, сатиновая превращает машину в&nbsp;скульптуру. Снимается без следов.</p>
+        <div class="seg" role="group" aria-label="Покрытие">
+          <button type="button" class="active" data-finish="gloss">Глянец</button>
+          <button type="button" data-finish="matte">Сатин</button>
+        </div>
+      </div>
+      <div class="finish-stage reveal" id="finishStage">
+        <img src="img/hero.webp" alt="Машина в глянцевом покрытии" loading="lazy" data-parallax="0.06" data-parallax-scale="1.1">
+        <img class="finish-matte" src="img/matte.webp" alt="Та же машина в сатиновой плёнке" loading="lazy" data-parallax="0.06" data-parallax-scale="1.1">
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Услуги -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="kicker">Услуги</p>
+        <h2>Всё, что нужно <em>кузову и&nbsp;салону.</em></h2>
+      </div>
+      <div class="cards">
+        <article class="card reveal">
+          <div class="card-img"><img src="img/polish_after.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Полировка кузова</h3><p>Восстановительная полировка в&nbsp;2–3 шага: убираем свирлы, голограммы и&nbsp;мелкие риски.</p><span class="price">от 25&nbsp;000&nbsp;₽</span></div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="img/hood_beads.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Керамика 9H</h3><p>Покрытие до 3&nbsp;лет: глубокий блеск, защита от реагентов и&nbsp;лёгкая мойка.</p><span class="price">от 35&nbsp;000&nbsp;₽</span></div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="img/matte.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Плёнка PPF</h3><p>Глянцевая или сатиновая плёнка: защищает от сколов, песка и&nbsp;царапин.</p><span class="price">от 90&nbsp;000&nbsp;₽</span></div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="img/interior.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Химчистка салона</h3><p>Кожа, алькантара, потолок и&nbsp;ковры. Уход за кожей и&nbsp;озонация.</p><span class="price">от 15&nbsp;000&nbsp;₽</span></div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="img/wheel.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Диски и&nbsp;суппорта</h3><p>Глубокая очистка и&nbsp;керамика для дисков: тормозная пыль больше не въедается.</p><span class="price">от 12&nbsp;000&nbsp;₽</span></div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="img/studio_after.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Детейлинг-мойка</h3><p>Двухфазная мойка, очистка битума и&nbsp;металлических вкраплений, сушка без касаний.</p><span class="price">от 4&nbsp;500&nbsp;₽</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Наши работы -->
+  <section class="section works" id="works">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="kicker">Наши работы</p>
+        <h2>Машины, которые <em>уже блестят.</em></h2>
+      </div>
+      <div class="works-grid">
+        <figure class="work reveal">
+          <img src="img/work_suv.webp" alt="Чёрный внедорожник после полировки и керамики" loading="lazy">
+          <figcaption><b>Чёрный внедорожник</b><span>Полировка в 3 шага + керамика 9H</span><i>4 дня</i></figcaption>
+        </figure>
+        <figure class="work reveal">
+          <img src="img/work_sedan.webp" alt="Белый седан после керамики" loading="lazy">
+          <figcaption><b>Белый седан</b><span>Керамика + плёнка на зоны риска</span><i>3 дня</i></figcaption>
+        </figure>
+        <figure class="work reveal">
+          <img src="img/work_sports.webp" alt="Красное купе в глянцевой плёнке" loading="lazy">
+          <figcaption><b>Красное купе</b><span>Полная оклейка глянцевой PPF</span><i>6 дней</i></figcaption>
+        </figure>
+        <figure class="work reveal">
+          <img src="img/work_matte.webp" alt="Серый кроссовер в сатиновой плёнке" loading="lazy">
+          <figcaption><b>Серый кроссовер</b><span>Сатиновая плёнка PPF + химчистка салона</span><i>5 дней</i></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Пакеты -->
+  <section class="section packages" id="prices">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="kicker">Цены</p>
+        <h2>Три пакета — <em>под любую задачу.</em></h2>
+      </div>
+      <div class="plans">
+        <article class="plan reveal">
+          <p class="plan-tag">Для машин до 3&nbsp;лет</p>
+          <h3>Блеск</h3>
+          <p class="plan-price">от 29&nbsp;900&nbsp;₽</p>
+          <ul>
+            <li>Детейлинг-мойка и&nbsp;деконтаминация</li>
+            <li>Полировка в&nbsp;один шаг</li>
+            <li>Силант на 6&nbsp;месяцев</li>
+            <li>Очистка дисков</li>
+          </ul>
+          <p class="plan-time">1 день</p>
+          <a class="btn btn-ghost" href="#booking" data-plan="gloss">Выбрать</a>
+        </article>
+        <article class="plan plan-featured reveal">
+          <p class="plan-tag">Самый популярный</p>
+          <h3>Керамика</h3>
+          <p class="plan-price">от 69&nbsp;900&nbsp;₽</p>
+          <ul>
+            <li>Всё из пакета «Блеск»</li>
+            <li>Коррекция ЛКП в&nbsp;два шага</li>
+            <li>Керамика 9H — 2&nbsp;слоя, 3&nbsp;года</li>
+            <li>Керамика на диски и&nbsp;стёкла</li>
+            <li>Ежегодный бесплатный осмотр</li>
+          </ul>
+          <p class="plan-time">3 дня</p>
+          <a class="btn btn-primary" href="#booking" data-plan="ceramic">Выбрать</a>
+        </article>
+        <article class="plan reveal">
+          <p class="plan-tag">Максимальная защита</p>
+          <h3>Броня</h3>
+          <p class="plan-price">от 319&nbsp;000&nbsp;₽</p>
+          <ul>
+            <li>Полная оклейка PPF — глянец или сатин</li>
+            <li>Подготовка и&nbsp;коррекция ЛКП</li>
+            <li>Керамика поверх плёнки</li>
+            <li>Химчистка салона</li>
+            <li>Гарантия на плёнку 10&nbsp;лет</li>
+          </ul>
+          <p class="plan-time">5–7 дней</p>
+          <a class="btn btn-ghost" href="#booking" data-plan="armor">Выбрать</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Студия -->
+  <section class="studio" id="studio">
+    <img class="studio-bg" data-parallax="0.1" data-parallax-scale="1.15" src="img/studio_wide.webp" alt="Студия ORBITA: потолок из светодиодных сот, зелёный автомобиль в центре" loading="lazy">
+    <div class="studio-shade"></div>
+    <div class="container studio-inner">
+      <div class="reveal">
+        <p class="kicker">Студия</p>
+        <h2>Свет, который <em>не&nbsp;прощает ошибок.</em></h2>
+        <p class="section-lead">Четыре бокса, потолок из 1&nbsp;200 светодиодных сот и&nbsp;чистая зона без пыли. При таком освещении видно каждую риску — поэтому мы их не&nbsp;пропускаем.</p>
+      </div>
+      <ul class="studio-stats reveal">
+        <li><b data-countup="2017" data-from="1990">2017</b><span>год основания</span></li>
+        <li><b><span data-countup="1900">1&nbsp;900</span>+</b><span>машин</span></li>
+        <li><b data-countup="4">4</b><span>бокса</span></li>
+        <li><b><span data-countup="3">3</span> года</b><span>гарантия</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 11. Запись -->
+  <section class="section booking" id="booking">
+    <div class="container booking-grid">
+      <div class="booking-copy reveal">
+        <p class="kicker">Запись</p>
+        <h2>Запишитесь на <em>бесплатный осмотр.</em></h2>
+        <p class="section-lead">Замерим толщину лака, покажем дефекты под лампой и&nbsp;назовём точную цену. Осмотр занимает 30&nbsp;минут.</p>
+        <div class="estimate">
+          <span class="estimate-label">Ориентировочно</span>
+          <span class="estimate-value" id="estimateValue">от 69&nbsp;900&nbsp;₽</span>
+          <span class="estimate-note">Точную стоимость назовём после осмотра.</span>
+        </div>
+      </div>
+
+      <form class="form reveal" id="bookingForm" novalidate>
+        <div class="field">
+          <span class="field-label">Кузов</span>
+          <div class="chips" data-group="body">
+            <button type="button" class="chip active" data-value="1">Седан / купе</button>
+            <button type="button" class="chip" data-value="1.15">Кроссовер</button>
+            <button type="button" class="chip" data-value="1.3">Внедорожник</button>
+          </div>
+        </div>
+        <label class="field">
+          <span class="field-label">Услуга</span>
+          <select id="serviceSelect">
+            <option value="4500">Детейлинг-мойка</option>
+            <option value="25000">Полировка кузова</option>
+            <option value="35000">Керамика 9H</option>
+            <option value="29900" data-plan="gloss">Пакет «Блеск»</option>
+            <option value="69900" data-plan="ceramic" selected>Пакет «Керамика»</option>
+            <option value="319000" data-plan="armor">Пакет «Броня»</option>
+            <option value="15000">Химчистка салона</option>
+            <option value="12000">Диски и суппорта</option>
+          </select>
+        </label>
+        <div class="field">
+          <span class="field-label">День</span>
+          <div class="chips chips-days" id="dayChips"></div>
+        </div>
+        <div class="field">
+          <span class="field-label">Время</span>
+          <div class="chips" id="timeChips"></div>
+        </div>
+        <div class="field-row">
+          <label class="field"><span class="field-label">Имя</span><input type="text" id="nameInput" autocomplete="name" placeholder="Как к вам обращаться"></label>
+          <label class="field"><span class="field-label">Телефон</span><input type="tel" id="phoneInput" autocomplete="tel" placeholder="+7 (___) ___-__-__"></label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-wide">Записаться на осмотр</button>
+        <p class="form-note" id="formNote">Нажимая кнопку, вы соглашаетесь на обработку данных.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="logo" href="#top"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="26.4" cy="11.5" r="2.6" fill="var(--accent)"/></svg><span class="logo-word">ORBITA</span></a>
+      <p class="footer-muted">Детейлинг-студия полного цикла.</p>
+    </div>
+    <div>
+      <p>Москва, ул. Полировочная, 7</p>
+      <p class="footer-muted">Ежедневно 9:00–21:00</p>
+    </div>
+    <div>
+      <p><a href="#booking">+7 (900) 000-00-00</a></p>
+      <p class="footer-muted">hello@orbita.example</p>
+    </div>
+  </div>
+  <p class="container footer-demo">Демо-проект для портфолио. Студия, адрес, автомобиль и изображения вымышлены и созданы с помощью ИИ.</p>
+</footer>
+
+<script src="js/lens-data.js?v=2026-09-28-360b"></script>
+<script src="js/app.js?v=2026-09-28-360b"></script>
+</body>
+</html>
