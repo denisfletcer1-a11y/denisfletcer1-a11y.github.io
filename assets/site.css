@@ -234,14 +234,22 @@ h3 { font-size: clamp(18px, 1.5vw, 22px); font-weight: 700; letter-spacing: -0.0
 /* ---------- адаптив ---------- */
 @media (max-width: 1080px) {
   .nav-links { display: none; }
-  .hero-grid { grid-template-columns: 1fr; }
-  .devices { max-width: 640px; width: 100%; margin: 10px auto 0; }
   .work, .work-rev { grid-template-columns: 1fr; }
   .work-rev .work-media { order: 0; }
   .tiles { grid-template-columns: 1fr 1fr; }
   .steps { grid-template-columns: 1fr 1fr; }
   .plans { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; }
   .faq-grid { grid-template-columns: 1fr; }
+}
+/* Узкий или вертикальный экран: текст сверху, макеты ноутбука и телефона под ним.
+   Планшет «лёжа» остаётся в две колонки — как на компьютере. */
+@media (max-width: 900px), (max-aspect-ratio: 1/1) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .devices { max-width: 640px; width: 100%; margin: 10px auto 0; }
+}
+/* Телефон «лёжа»: макеты не выше экрана */
+@media (orientation: landscape) and (max-height: 520px) {
+  .devices { max-width: min(640px, 105vh); }
 }
 @media (max-width: 640px) {
   body { font-size: 16px; }

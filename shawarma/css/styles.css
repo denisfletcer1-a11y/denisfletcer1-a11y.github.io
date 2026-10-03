@@ -566,7 +566,16 @@ legend { padding: 0; margin-bottom: 12px; font-size: 12px; font-weight: 800; let
   .nav-links { display: none; }
   .menu-grid, .inside-grid, .builder-grid, .delivery-grid { grid-template-columns: 1fr; }
   .stage { position: relative; top: 0; }
-  /* текст сверху, шаурма отдельным блоком ниже — без наложения */
+}
+/* Широкий экран (монитор, планшет «лёжа»): текст слева, шаурма справа.
+   Кадр сдвинут правее, а текст не шире половины экрана — заголовок не задевает лаваш. */
+@media (min-aspect-ratio: 6/5) {
+  .hero-video { object-position: 38% 45%; }
+  .hero-copy > * { max-width: min(540px, 48vw); }
+  .hero h1 { max-width: min(720px, 52vw); }
+}
+/* Вертикальный или почти квадратный экран: текст сверху, шаурма отдельным блоком ниже — без наложения */
+@media (max-aspect-ratio: 6/5) {
   .hero { flex-direction: column; align-items: stretch; min-height: 0; padding-bottom: 20px; }
   .hero-copy { order: 1; padding-top: 110px; }
   .hero-stage {
@@ -579,12 +588,21 @@ legend { padding: 0; margin-bottom: 12px; font-size: 12px; font-weight: 800; let
     mask-image: radial-gradient(closest-side at 50% 52%, #000 62%, transparent 100%);
   }
   .hero::after { height: 18%; }
+  /* гриль: на узком экране текст лежит на мясе — затемняем фон ровнее, чтобы читалось */
+  .grill-shade {
+    background:
+      linear-gradient(rgba(10, 7, 5, 0.5), rgba(10, 7, 5, 0.5)),
+      linear-gradient(to top, var(--bg), transparent 30%),
+      linear-gradient(to bottom, var(--bg), transparent 25%);
+  }
+}
+@media (max-width: 760px) and (max-aspect-ratio: 6/5) {
+  .hero-copy { padding-top: 96px; }
+  .hero-stage { height: 112vw; margin: -20px -40% 0; }
 }
 @media (max-width: 760px) {
   body { font-size: 16px; }
   .container, .hero-copy { width: calc(100% - 32px); }
-  .hero-copy { padding-top: 96px; }
-  .hero-stage { height: 112vw; margin: -20px -40% 0; }
   .hero-stats { gap: 18px; }
   .hero-stats b { font-size: 22px; }
   .cart-sum { display: none; }
@@ -604,6 +622,38 @@ legend { padding: 0; margin-bottom: 12px; font-size: 12px; font-weight: 800; let
   .stage-replay { top: 12px; right: 12px; bottom: auto; padding: 8px 12px; font-size: 12px; }
   .zones li { flex-direction: column; }
   .zones span { text-align: left; }
+}
+/* Телефон «лёжа»: экран низкий и широкий.
+   Заставка — текст слева, шаурма справа. Меню — сцена слева и всегда на виду, список блюд справа. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .nav { padding-block: 8px; }
+  .nav.scrolled { padding-block: 6px; }
+  .cart-btn { height: 40px; }
+
+  .hero { min-height: 100vh; min-height: 100svh; }
+  .hero-copy { padding: 64px 0 18px; }
+  .hero-copy > * { max-width: 46%; }
+  .hero h1 { font-size: clamp(22px, 4vw, 34px); max-width: 54%; }
+  .hero-copy .lead, .hero-stats { display: none; }
+  .cta-row { margin-top: 18px; }
+  .hero-stage { inset: 0 0 0 40%; }
+
+  .inside-grid { grid-template-columns: 1.1fr 1fr; gap: 24px; }
+  .layers { margin-top: 16px; }
+  .grill { min-height: 0; }
+  .grill-inner { padding: 64px 0; }
+
+  .menu-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+  .stage { position: sticky; top: 60px; }
+  .stage-inner { aspect-ratio: auto; display: flex; flex-direction: column; border-radius: 20px; }
+  .stage-media { position: relative; inset: auto; aspect-ratio: 16 / 9; max-height: calc(100vh - 176px); max-height: calc(100svh - 176px); }
+  .stage-shade { display: none; }
+  .stage-caption { position: static; order: 2; display: flex; align-items: center; gap: 10px; padding: 10px 14px 2px; }
+  .stage-name { order: -1; font-size: 18px; }
+  .stage-steps { position: static; order: 3; max-width: none; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 6px 14px 12px; gap: 6px; -webkit-mask-image: linear-gradient(to right, #000 85%, transparent); mask-image: linear-gradient(to right, #000 85%, transparent); }
+  .stage-steps::-webkit-scrollbar { display: none; }
+  .stage-steps li { flex: none; font-size: 11px; backdrop-filter: none; background: rgba(255, 255, 255, 0.04); }
+  .stage-replay { top: 10px; right: 10px; bottom: auto; padding: 7px 11px; font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

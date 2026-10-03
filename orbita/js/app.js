@@ -3,6 +3,7 @@
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const BG = '#040605';
+  const SHORT_LANDSCAPE = window.matchMedia('(orientation: landscape) and (max-height: 520px)');
   // Метка версии: меняется при обновлении кадров, чтобы браузер не брал старые из кэша.
   const ASSET_V = '2026-09-28-360b';
   const withV = src => src + '?v=' + ASSET_V;
@@ -155,15 +156,21 @@
       const img = s.seq.get(s.frameIndex(p));
       if (!img) return;
       const portrait = cw / ch < 0.8;
-      const stacked = window.innerWidth <= 1000 || cw / ch < 1.45;
+      // телефон «лёжа»: текст слева, машина справа — как на компьютере
+      const shortLandscape = SHORT_LANDSCAPE.matches;
+      const stacked = !shortLandscape && (window.innerWidth <= 1000 || cw / ch < 1.45);
       let r;
       if (portrait || stacked) {
         r = drawFit(ctx, img, cw, ch, portrait ? { fit: 'contain', scale: 1, fy: 0.9 } : { fit: 'contain', scale: 0.8, fy: 0.97 });
       } else {
-        // справа внизу, 60% ширины экрана — в профиль машина не наезжает на текст слева
-        const w = cw * 0.6;
-        const h = w * (img.naturalHeight / img.naturalWidth);
-        r = { x: cw - w - cw * 0.01, y: ch - h - ch * 0.08, w, h };
+        // справа внизу, 60% ширины экрана — в профиль машина не наезжает на текст слева.
+        // На низком экране (телефон «лёжа») кадр уже и прижат к правому краю, по высоте — не выше экрана.
+        let w = cw * (shortLandscape ? 0.56 : 0.6);
+        let h = w * (img.naturalHeight / img.naturalWidth);
+        if (h > ch * 0.92) { h = ch * 0.92; w = h * (img.naturalWidth / img.naturalHeight); }
+        r = shortLandscape
+          ? { x: cw - w, y: ch - h - ch * 0.02, w, h }
+          : { x: cw - w - cw * 0.01, y: ch - h - ch * 0.08, w, h };
         ctx.drawImage(img, r.x, r.y, r.w, r.h);
       }
       sheen(ctx, r, s.clock);

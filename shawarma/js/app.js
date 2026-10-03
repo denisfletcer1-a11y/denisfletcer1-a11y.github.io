@@ -353,12 +353,21 @@
     });
     replay.addEventListener('click', () => current && show(current, true));
 
+    // Телефон и планшет: сцена стоит над списком. После выбора блюда подкручиваем к ней — иначе сборку не видно.
+    function revealStage() {
+      const media = stage.querySelector('.stage-media').getBoundingClientRect();
+      const top = document.getElementById('nav').offsetHeight + 8;
+      if (media.top >= top - 4 && media.bottom <= window.innerHeight + 4) return;
+      window.scrollTo({ top: window.scrollY + media.top - top, behavior: reduced ? 'auto' : 'smooth' });
+    }
+
     list.addEventListener('click', e => {
       if (e.target.closest('[data-add]')) return;
       const li = e.target.closest('.dish');
       if (!li) return;
       userPicked = true;
       show(MENU.find(d => d.id === li.dataset.id), true);
+      revealStage();
     });
     list.addEventListener('keydown', e => {
       if (e.key !== 'Enter' && e.key !== ' ') return;
@@ -367,6 +376,7 @@
       e.preventDefault();
       userPicked = true;
       show(MENU.find(d => d.id === li.dataset.id), true);
+      revealStage();
     });
 
     // 3D-наклон сцены за курсором

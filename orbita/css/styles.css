@@ -254,6 +254,11 @@ em {
 .hero-metrics b { display: flex; align-items: baseline; gap: 6px; font: 500 clamp(26px, 2.4vw, 36px)/1 var(--f-mono); letter-spacing: -0.04em; }
 .hero-metrics small { font-size: 13px; color: var(--accent); letter-spacing: 0.04em; }
 .hero-metrics li > span { font-size: 13px; line-height: 1.35; color: var(--muted); }
+/* Ноутбук (1280–1600): машина начинается примерно с 42% ширины экрана — текст заканчиваем раньше её носа */
+@media (min-width: 1001px) and (min-aspect-ratio: 29/20) and (min-height: 521px) {
+  .hero-copy .lead { max-width: min(640px, 40vw - clamp(20px, 6vw, 96px)); }
+  .hero-metrics { gap: clamp(22px, 2.2vw, 44px); }
+}
 
 .scene-copy { position: absolute; max-width: 700px; }
 .scene-copy p:not(.kicker) { color: rgba(238, 242, 238, 0.78); font-size: clamp(16px, 1.2vw, 19px); max-width: 32em; margin: 20px 0 0; }
@@ -676,7 +681,7 @@ em {
   .logo-sub { display: none; }
   .hero-copy { top: 96px; }
   .scene-copy { left: 16px; right: 16px; bottom: 150px; max-width: none; }
-  .drag-hint { font-size: 11px; padding: 10px 14px 10px 12px; }
+  .drag-hint { font-size: 11px; padding: 10px 14px 10px 12px; width: max-content; max-width: calc(100vw - 32px); white-space: normal; text-align: center; line-height: 1.4; }
   .scene-copy p:not(.kicker) { display: none; }
   .gauge, .stats { left: 16px; right: auto; bottom: 28px; }
   .gauge { min-width: 0; padding: 14px 16px; }
@@ -687,6 +692,57 @@ em {
   .lens-panel { flex-direction: column; align-items: stretch; }
   .lens-stage { cursor: default; }
   .readout-value { font-size: 40px; }
+}
+
+/* Вертикальные экраны (телефон, планшет «стоя»): широкий кадр на весь экран превращается в крупный кусок.
+   Поэтому сцена = кадр в нормальных пропорциях, а заголовок, текст и счётчики — под ним. */
+@media (max-aspect-ratio: 1/1) {
+  .stage:not(.stage-hero) { --media-h: 75vw; height: auto; min-height: 0; display: flex; flex-direction: column; }
+  #result.stage { --media-h: 62.5vw; }
+  .stage:not(.stage-hero) .scene-canvas { position: relative; inset: auto; height: var(--media-h); }
+  .stage:not(.stage-hero) .scrim { display: none; }
+  .stage:not(.stage-hero) .overlay { position: static; display: flex; flex-direction: column; gap: 22px; padding: 28px clamp(16px, 5vw, 48px) 48px; }
+  .stage:not(.stage-hero) .scene-copy,
+  .stage:not(.stage-hero) .gauge,
+  .stage:not(.stage-hero) .stats { position: static; max-width: 640px; }
+  .stage:not(.stage-hero) .scene-copy p:not(.kicker) { display: block; }
+  .stage:not(.stage-hero) .gauge { align-self: flex-start; min-width: 220px; }
+  .stage:not(.stage-hero) .drag-hint { top: calc(var(--media-h) / 2); }
+
+  .studio { min-height: 0; display: block; }
+  .studio-bg { position: relative; inset: auto; height: auto; aspect-ratio: 16 / 10; transform: none !important; }
+  .studio-shade { display: none; }
+  .studio-inner { padding: 30px 0 56px; }
+}
+
+/* Телефон, повёрнутый горизонтально: экран низкий и широкий.
+   Первый экран — две колонки (текст слева, машина справа), сцены — широкий кадр и текст под ним. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .nav { padding-block: 8px; }
+  .stage { min-height: 0; }
+  .stage-hero { height: auto; min-height: 100vh; min-height: 100svh; }
+  .hero-copy { top: 64px; max-width: 44%; }
+  .hero-copy h1 { font-size: clamp(24px, 4vw, 38px); }
+  .hero-copy .lead { display: none; }
+  .hero-copy .cta-row { margin-top: 16px; }
+  .hero-metrics { display: none; }
+  .drag-hint-hero { left: 72%; bottom: 12px; }
+
+  .stage:not(.stage-hero) { --media-h: 56.25vw; height: auto; display: flex; flex-direction: column; }
+  .stage:not(.stage-hero) .scene-canvas { position: relative; inset: auto; height: var(--media-h); }
+  .stage:not(.stage-hero) .scrim { display: none; }
+  .stage:not(.stage-hero) .overlay { position: static; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 22px; padding: 24px clamp(16px, 4vw, 40px) 40px; }
+  .stage:not(.stage-hero) .scene-copy,
+  .stage:not(.stage-hero) .gauge,
+  .stage:not(.stage-hero) .stats { position: static; max-width: 560px; }
+  .stage:not(.stage-hero) .scene-copy { flex: 1 1 340px; }
+  .stage:not(.stage-hero) .scene-copy p:not(.kicker) { display: block; }
+  .stage:not(.stage-hero) .drag-hint { top: calc(var(--media-h) / 2); }
+
+  .studio { min-height: 0; display: block; }
+  .studio-bg { position: relative; inset: auto; height: auto; aspect-ratio: 16 / 9; transform: none !important; }
+  .studio-shade { display: none; }
+  .studio-inner { padding: 28px 0 48px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
