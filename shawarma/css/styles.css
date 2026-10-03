@@ -349,6 +349,7 @@ h3 { font-size: clamp(18px, 1.5vw, 22px); font-weight: 700; letter-spacing: -0.0
   transition: transform 0.6s var(--ease);
   will-change: transform;
 }
+.stage-media { position: absolute; inset: 0; overflow: hidden; }
 .stage-img, .stage-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .stage-img { transition: opacity 0.5s; }
 .stage-img.kenburns { animation: kenburns 9s ease-in-out infinite alternate; }
@@ -592,8 +593,15 @@ legend { padding: 0; margin-bottom: 12px; font-size: 12px; font-weight: 800; let
   .dish-buy { grid-column: 1 / -1; grid-auto-flow: column; justify-content: space-between; align-items: center; }
   .field-row { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
-  .stage-caption { right: 16px; bottom: 64px; }
-  .stage-steps { max-width: 92%; }
+  /* сцена меню на телефоне: картинка выше, подписи — под картинкой, без наложений */
+  .stage-inner { aspect-ratio: auto; display: flex; flex-direction: column; border-radius: 22px; }
+  .stage-media { position: relative; inset: auto; aspect-ratio: 4 / 3; }
+  .stage-shade { display: none; }
+  .stage-caption { position: static; order: 2; padding: 14px 16px 4px; gap: 8px; }
+  .stage-name { font-size: 22px; }
+  .stage-steps { position: static; order: 3; max-width: none; padding: 6px 16px 16px; gap: 6px; }
+  .stage-steps li { backdrop-filter: none; background: rgba(255, 255, 255, 0.04); }
+  .stage-replay { top: 12px; right: 12px; bottom: auto; padding: 8px 12px; font-size: 12px; }
   .zones li { flex-direction: column; }
   .zones span { text-align: left; }
 }
