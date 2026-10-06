@@ -15,7 +15,7 @@
     html.sc-on, html.sc-on * { cursor: none !important; }
     ${TEXT.split(', ').map(s => 'html.sc-on ' + s).join(', ')} { cursor: text !important; }
     .sc-cursor { position: fixed; left: 0; top: 0; z-index: 2147483000; pointer-events: none; opacity: 0; transition: opacity .15s; will-change: transform; }
-    .sc-cursor svg { position: absolute; left: -1.1px; top: -9px; transform-origin: 1.1px 9px; transform: rotate(50deg) scale(var(--k, 1)); transition: transform .2s; overflow: visible; }
+    .sc-cursor svg { position: absolute; left: -1.1px; top: -9px; display: block; width: 46px !important; height: 20px !important; max-width: none !important; max-height: none !important; transform-origin: 1.1px 9px; transform: rotate(50deg) scale(var(--k, 1)); transition: transform .2s; overflow: visible; filter: drop-shadow(0 0 .6px rgba(0, 0, 0, .7)) drop-shadow(0 1.5px 2px rgba(0, 0, 0, .35)); }
     .sc-cursor.hot { --k: 1.12; }
     .sc-st { fill: #d3d8dd; stroke: #646b72; stroke-width: .6; }
     .sc-sk { fill: none; stroke: #c2c8ce; stroke-linecap: round; }
