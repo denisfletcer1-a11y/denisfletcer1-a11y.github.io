@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ПРОСТОР — загородные дома под ключ за 5 месяцев</title>
+<meta name="description" content="Строим загородные дома под ключ: фундамент, стены, кровля, фасад и благоустройство. Фиксированная смета, оплата по этапам, гарантия 10 лет.">
+<meta name="theme-color" content="#121b2a">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="img/hero_night.webp" media="(min-aspect-ratio: 6/5)" fetchpriority="high">
+<link rel="preload" as="image" href="img/hero_night_m.webp" media="(max-aspect-ratio: 6/5)" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="fonts/jost-cyrillic-300-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/inter-cyrillic-400-normal.woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=1">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="ПРОСТОР — в начало">
+      <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V13L16 4l11 9v14z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12.5 27v-8h7v8" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      <span class="logo-text"><b>ПРОСТОР</b><small>дома под ключ</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Разделы сайта">
+      <a href="#build">Как строим</a>
+      <a href="#evening">День и вечер</a>
+      <a href="#calc">Калькулятор</a>
+      <a href="#steps">Этапы</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a class="btn btn-primary btn-sm nav-cta" href="#calc">Рассчитать дом</a>
+    <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- 1. Первый экран: дом вечером -->
+  <section class="hero" id="top">
+    <div class="hero-layer" id="heroLayer">
+      <picture class="hero-media">
+        <source media="(max-aspect-ratio: 6/5)" srcset="img/hero_night_m.webp">
+        <img id="heroImg" src="img/hero_night.webp" alt="Готовый дом в стиле барнхаус вечером: тёплый свет в панорамных окнах" width="2400" height="1340" fetchpriority="high">
+      </picture>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="callouts" id="callouts" aria-hidden="true">
+        <span class="callout" data-x="1660" data-y="300" data-side="right"><i></i><em>Фальцевая кровля</em></span>
+        <span class="callout" data-x="1702" data-y="590" data-side="right"><i></i><em>Панорамное остекление · 3,2 м</em></span>
+        <span class="callout" data-x="1880" data-y="880" data-side="right"><i></i><em>Фасад из лиственницы</em></span>
+      </div>
+    </div>
+    <div class="wrap hero-content">
+      <div class="hero-copy reveal">
+        <p class="kicker">Загородные дома под ключ</p>
+        <h1>Построим ваш дом <em>за 5 месяцев</em></h1>
+        <p class="lead">От пустого участка до новоселья: фундамент, стены, кровля, фасад и благоустройство.<span class="lead-more"> Одна команда, фиксированная смета и гарантия 10 лет.</span></p>
+        <div class="cta-row">
+          <a class="btn btn-light" href="#calc">Рассчитать стоимость</a>
+          <a class="btn btn-ghost-light" href="#build">Смотреть, как строим</a>
+        </div>
+      </div>
+      <ul class="hero-facts reveal">
+        <li><b>5 мес</b><span>от разметки до новоселья</span></li>
+        <li><b>0 ₽</b><span>доплат сверх сметы в договоре</span></li>
+        <li><b>10 лет</b><span>гарантия на конструктив</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. Дом строится на глазах -->
+  <section class="section build" id="build">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Как мы строим</p>
+        <h2>Дом растёт <em>на глазах</em></h2>
+        <p class="lead">20 недель — от разметки участка до вечера в новом доме. Нажмите на любой этап, чтобы посмотреть его ближе.</p>
+      </header>
+
+      <div class="player reveal" id="player">
+        <div class="player-frame">
+          <video id="buildVideo" muted playsinline preload="none" poster="media/build_poster.jpg" data-src="media/build.mp4" aria-label="Анимация: дом строится от пустого участка до готового дома вечером"></video>
+          <div class="player-top">
+            <span class="player-month" id="playerMonth">Неделя 1</span>
+            <span class="player-stage" id="playerStage">Участок</span>
+          </div>
+          <button class="player-btn" id="playerBtn" type="button" aria-label="Пауза"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/><path class="i-play" d="M8 5.5v13l11-6.5z"/><path class="i-replay" d="M12 5a7 7 0 1 1-6.6 4.7l1.9.7A5 5 0 1 0 12 7v3L7.5 6 12 2z"/></svg></button>
+          <div class="player-bar"><i id="playerBar"></i></div>
+        </div>
+        <ol class="stages" id="stages"></ol>
+        <div class="stage-info" id="stageInfo" aria-live="polite">
+          <p class="stage-name"></p>
+          <p class="stage-text"></p>
+          <p class="stage-time"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. День и вечер -->
+  <section class="section evening" id="evening">
+    <div class="wrap evening-grid">
+      <div class="evening-copy reveal">
+        <p class="kicker">Свет и стекло</p>
+        <h2>Днём — свет с улицы, <em>вечером дом светится сам</em></h2>
+        <p class="lead">Панорамные окна от пола до потолка и тёплая подсветка фасада. Потяните шторку, чтобы увидеть дом в разное время суток.</p>
+        <ul class="specs">
+          <li><b>3,2 м</b><span>высота остекления гостиной</span></li>
+          <li><b>2700 K</b><span>тёплый свет фасадных бра</span></li>
+          <li><b>148 м²</b><span>площадь этого дома</span></li>
+        </ul>
+      </div>
+      <div class="dn-frame reveal" id="dnFrame" data-cursor="hot" style="--pos:50%">
+        <img class="dn-img" src="img/house_night.webp" alt="Дом вечером, свет в окнах" width="1600" height="900" loading="lazy">
+        <img class="dn-img dn-day" src="img/house_day.webp" alt="Тот же дом днём" width="1600" height="900" loading="lazy">
+        <span class="dn-tag dn-tag-l">День</span>
+        <span class="dn-tag dn-tag-r">Вечер</span>
+        <span class="dn-line" aria-hidden="true"></span>
+        <span class="dn-handle" id="dnHandle" role="slider" tabindex="0" aria-label="Шторка «день и вечер»" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <svg viewBox="0 0 28 12" aria-hidden="true"><path d="M8 2 3 6l5 4M20 2l5 4-5 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Калькулятор -->
+  <section class="section calc" id="calc">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Калькулятор</p>
+        <h2>Сколько стоит <em>ваш дом</em></h2>
+        <p class="lead">От уютного каркасного дома до архитектурного проекта. Выберите класс и параметры — посчитаем цену, срок и платёж по ипотеке.</p>
+      </header>
+      <div class="calc-grid reveal">
+        <form class="calc-form" id="calcForm" onsubmit="return false">
+          <fieldset class="calc-group">
+            <legend>Класс дома</legend>
+            <div class="seg seg-4" id="calcClass">
+              <button type="button" data-v="econom">Эконом</button>
+              <button type="button" data-v="comfort" class="on">Комфорт</button>
+              <button type="button" data-v="business">Бизнес</button>
+              <button type="button" data-v="premium">Премиум</button>
+            </div>
+            <p class="calc-hint" id="classHint"></p>
+          </fieldset>
+          <div class="calc-group">
+            <label class="calc-label" for="calcArea">Площадь дома <output id="areaOut">150 м²</output></label>
+            <input class="range" id="calcArea" type="range" min="60" max="400" step="5" value="150">
+            <div class="range-scale" aria-hidden="true"><span>60</span><span>150</span><span>250</span><span>400 м²</span></div>
+          </div>
+          <fieldset class="calc-group">
+            <legend>Этажность</legend>
+            <div class="seg seg-3" id="calcFloors">
+              <button type="button" data-v="1">1 этаж</button>
+              <button type="button" data-v="attic">С мансардой</button>
+              <button type="button" data-v="2" class="on">2 этажа</button>
+            </div>
+          </fieldset>
+          <fieldset class="calc-group">
+            <legend>Стены</legend>
+            <div class="seg seg-4" id="calcWalls">
+              <button type="button" data-v="frame">Каркас</button>
+              <button type="button" data-v="aerated" class="on">Газобетон</button>
+              <button type="button" data-v="timber">Клееный брус</button>
+              <button type="button" data-v="brick">Кирпич</button>
+            </div>
+          </fieldset>
+          <fieldset class="calc-group">
+            <legend>Готовность</legend>
+            <div class="seg seg-3" id="calcFinish">
+              <button type="button" data-v="shell">Тёплый контур</button>
+              <button type="button" data-v="prefinish">Предчистовая</button>
+              <button type="button" data-v="turnkey" class="on">Под ключ</button>
+            </div>
+          </fieldset>
+          <fieldset class="calc-group">
+            <legend>Дополнительно</legend>
+            <div class="checks" id="calcExtras">
+              <label class="check"><input type="checkbox" value="terrace" checked><span>Терраса</span></label>
+              <label class="check"><input type="checkbox" value="carport"><span>Навес для машины</span></label>
+              <label class="check"><input type="checkbox" value="floors"><span>Тёплые полы</span></label>
+              <label class="check"><input type="checkbox" value="garden" checked><span>Благоустройство</span></label>
+            </div>
+          </fieldset>
+        </form>
+
+        <aside class="calc-result" aria-live="polite">
+          <p class="res-label">Ориентировочная стоимость</p>
+          <p class="res-price" id="resPrice">—</p>
+          <p class="res-range" id="resRange"></p>
+          <dl class="res-list">
+            <div><dt>Срок строительства</dt><dd id="resTime">—</dd></div>
+            <div><dt>Семейная ипотека, 6%</dt><dd id="resLoan">—</dd></div>
+            <div><dt>Цена за м²</dt><dd id="resM2">—</dd></div>
+          </dl>
+          <div class="res-bars" id="resBars" aria-hidden="true"></div>
+          <a class="btn btn-primary btn-wide" href="#contact" id="resCta">Получить точную смету</a>
+          <p class="res-note">Расчёт примерный: взнос 20%, ипотека на 20 лет. Точную смету подготовим после бесплатного выезда на участок.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Этапы и гарантии -->
+  <section class="section steps" id="steps">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Как мы работаем</p>
+        <h2>Пять шагов <em>до новоселья</em></h2>
+      </header>
+      <ol class="step-list">
+        <li class="step reveal"><span class="step-n">01</span><h3>Выезд на участок</h3><p>Бесплатно: геология, замеры, привязка дома к сторонам света.</p></li>
+        <li class="step reveal"><span class="step-n">02</span><h3>Проект и смета</h3><p>Фиксируем цену и сроки в договоре — доплат сверх сметы не будет.</p></li>
+        <li class="step reveal"><span class="step-n">03</span><h3>Стройка</h3><p>Своя бригада, фотоотчёт каждый день, оплата по этапам.</p></li>
+        <li class="step reveal"><span class="step-n">04</span><h3>Сдача дома</h3><p>Приёмка вместе с независимым инженером — по чек-листу из 120 пунктов.</p></li>
+        <li class="step reveal"><span class="step-n">05</span><h3>Гарантия 10 лет</h3><p>На фундамент, стены и кровлю. Приедем, если что-то пойдёт не так.</p></li>
+      </ol>
+      <div class="perks">
+        <div class="perk reveal"><b>Смета в договоре</b><span>Цена не меняется, даже если подорожают материалы.</span></div>
+        <div class="perk reveal"><b>Оплата по этапам</b><span>Платите за сделанную работу, а не авансом за всё.</span></div>
+        <div class="perk reveal"><b>Семейная ипотека</b><span>Работаем с банками по программам для частных домов.</span></div>
+        <div class="perk reveal"><b>Без субподряда</b><span>Все этапы — наши штатные бригады и прорабы.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Заявка -->
+  <section class="section contact" id="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-copy reveal">
+        <p class="kicker kicker-light">Экскурсия</p>
+        <h2>Приезжайте в построенный дом</h2>
+        <p class="lead">Покажем дом, в котором уже живут: потрогаете материалы, посмотрите узлы и спросите хозяев, как им строилось.</p>
+        <dl class="contact-list">
+          <div><dt>Офис</dt><dd>ул. Строителей, 15</dd></div>
+          <div><dt>Часы</dt><dd>Ежедневно 9:00–21:00</dd></div>
+          <div><dt>Телефон</dt><dd><a href="tel:+79000000000">+7 (900) 000-00-00</a></dd></div>
+        </dl>
+      </div>
+      <form class="lead-form reveal" id="leadForm" novalidate>
+        <p class="form-title">Запишитесь на экскурсию</p>
+        <label class="field"><span>Ваше имя</span><input name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" required></label>
+        <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (900) 000-00-00" required></label>
+        <label class="field"><span>Комментарий</span><textarea name="comment" rows="3" placeholder="Например: участок 12 соток, хотим дом к следующему лету"></textarea></label>
+        <input type="hidden" name="estimate" id="estimateField">
+        <p class="form-estimate" id="formEstimate" hidden></p>
+        <button class="btn btn-primary btn-wide" type="submit">Записаться</button>
+        <p class="form-note" id="formNote" aria-live="polite">Перезвоним в течение 15 минут в рабочее время.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <a class="logo" href="#top"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V13L16 4l11 9v14z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12.5 27v-8h7v8" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span class="logo-text"><b>ПРОСТОР</b><small>дома под ключ</small></span></a>
+      <p class="footer-muted">Загородные дома под ключ.</p>
+    </div>
+    <div>
+      <p>ул. Строителей, 15</p>
+      <p class="footer-muted">Ежедневно 9:00–21:00</p>
+    </div>
+    <div>
+      <p><a href="tel:+79000000000">+7 (900) 000-00-00</a></p>
+      <p class="footer-muted">hello@prostor-dom.example</p>
+    </div>
+  </div>
+  <p class="wrap footer-demo">Демо-проект для портфолио. Компания, адрес, цены и изображения вымышлены и созданы с помощью ИИ.</p>
+</footer>
+
+<script src="js/crosshair-cursor.js?v=1"></script>
+<script src="js/app.js?v=1"></script>
+</body>
+</html>
