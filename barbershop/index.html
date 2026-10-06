@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Цирюльня №7 — мужская цирюльня в английском стиле</title>
+<meta name="description" content="Мужские и детские стрижки, королевское бритьё опасной бритвой и горячие полотенца в атмосфере старой лондонской цирюльни.">
+<meta name="theme-color" content="#16301f">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="frames/chair/0001.webp?v=1" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="fonts/playfair-display-cyrillic-700-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/pt-serif-cyrillic-400-normal.woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=1">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="Цирюльня №7 — в начало">
+      <span class="pole" aria-hidden="true"><i></i></span>
+      <span class="logo-text"><span class="logo-word">Цирюльня <b>№7</b></span><span class="logo-est">осн. 1907</span></span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Разделы сайта">
+      <a href="#cuts">Стрижки</a>
+      <a href="#before-after">До и после</a>
+      <a href="#shave">Бритьё</a>
+      <a href="#masters">Мастера</a>
+      <a href="#prices">Цены</a>
+    </nav>
+    <a class="btn btn-primary btn-sm nav-cta" href="#booking">Записаться</a>
+    <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- 1. Заставка: кресло мастера вращается, его можно повернуть рукой -->
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-head reveal">
+        <p class="kicker kicker-left">Мужская цирюльня · Лондонский стиль</p>
+        <h1>Стрижка и бритьё <em>по-английски</em></h1>
+      </div>
+
+      <div class="chair-wrap reveal">
+        <div class="chair-stage">
+          <canvas id="chairCanvas" tabindex="0" data-cursor="hot" role="img" aria-label="Винтажное кресло цирюльника. Потяните мышью или пальцем, чтобы повернуть; с клавиатуры — стрелками"></canvas>
+        </div>
+        <svg class="stamp" viewBox="0 0 120 120" aria-hidden="true">
+          <defs><path id="stampPath" d="M60 60m-45 0a45 45 0 1 1 90 0a45 45 0 1 1-90 0"/></defs>
+          <circle cx="60" cy="60" r="59" fill="#7c2027"/>
+          <circle cx="60" cy="60" r="55.5" fill="none" stroke="#dcc28e" stroke-width="1"/>
+          <circle cx="60" cy="60" r="34" fill="none" stroke="#dcc28e" stroke-width="1"/>
+          <text class="stamp-ring"><textPath href="#stampPath" textLength="280" lengthAdjust="spacing">ЦИРЮЛЬНЯ №7 · ОСНОВАНА В 1907 · ЛОНДОН ·</textPath></text>
+          <text class="stamp-mid" x="60" y="69" text-anchor="middle">№7</text>
+        </svg>
+        <p class="plaque" id="chairPlaque">
+          <svg class="drag-ico" viewBox="0 0 28 12" aria-hidden="true"><path d="M2 6h24M6 2 2 6l4 4M22 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="plaque-hint">Потяните<span class="hint-long"> — кресло повернётся</span><span class="hint-short"> кресло</span></span>
+          <span class="plaque-title">Кресло мастера · 1907</span>
+        </p>
+      </div>
+
+      <div class="hero-body reveal">
+        <p class="lead">Классические и модные стрижки, королевское бритьё опасной бритвой и горячие полотенца<span class="lead-more"> в атмосфере старой лондонской цирюльни</span>.<span class="lead-more"> Для джентльменов и юных джентльменов.</span></p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#booking">Записаться</a>
+          <a class="btn btn-ghost" href="#cuts">Примерить стрижку</a>
+        </div>
+        <ul class="hero-facts">
+          <li><b>1907</b><span>год основания</span></li>
+          <li><b>8</b><span>стрижек в примерочной</span></li>
+          <li><b>45 мин</b><span>королевское бритьё</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <div class="ticker-group"><span>Мужские стрижки</span><i></i><span>Детские стрижки</span><i></i><span>Королевское бритьё</span><i></i><span>Оформление бороды</span><i></i><span>Горячее полотенце</span><i></i><span>Камуфляж седины</span><i></i></div>
+      <div class="ticker-group"><span>Мужские стрижки</span><i></i><span>Детские стрижки</span><i></i><span>Королевское бритьё</span><i></i><span>Оформление бороды</span><i></i><span>Горячее полотенце</span><i></i><span>Камуфляж седины</span><i></i></div>
+    </div>
+  </div>
+
+  <!-- 2. Примерочная: стрижка меняется на одном и том же лице -->
+  <section class="section paper cuts" id="cuts">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Примерочная</p>
+        <h2>Примерьте стрижку <em>до визита</em></h2>
+        <p class="lead">Выберите стрижку — и машинка «пострижёт» гостя прямо на экране. Мастер подскажет, что подойдёт именно вам.</p>
+      </header>
+      <div class="fitting">
+        <div class="tabs reveal" role="tablist" aria-label="Чьи стрижки показать">
+          <button class="tab" role="tab" id="tab-men" aria-selected="true" aria-controls="cutList" data-set="men" type="button">Мужские</button>
+          <button class="tab" role="tab" id="tab-kids" aria-selected="false" aria-controls="cutList" data-set="kids" type="button" tabindex="-1">Детские</button>
+        </div>
+        <figure class="mirror reveal">
+          <div class="mirror-glass" id="mirrorGlass">
+            <img class="cut-img" id="cutBase" src="img/cuts/men_before.jpg" alt="До стрижки: отросшие волосы и неровная борода" width="1600" height="900">
+            <img class="cut-img cut-next" id="cutNext" src="img/cuts/men_before.jpg" alt="" width="1600" height="900" aria-hidden="true">
+            <span class="wipe-line" id="wipeLine" aria-hidden="true"></span>
+            <span class="clipper" id="clipper" aria-hidden="true">
+              <svg viewBox="0 0 200 84">
+                <defs>
+                  <linearGradient id="clBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c4b3e"/><stop offset=".35" stop-color="#2a211b"/><stop offset="1" stop-color="#0f0b09"/></linearGradient>
+                  <linearGradient id="clSteel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7f9fa"/><stop offset=".5" stop-color="#b9c1c8"/><stop offset="1" stop-color="#6f7881"/></linearGradient>
+                  <linearGradient id="clBrass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e5b6"/><stop offset=".5" stop-color="#d9b26a"/><stop offset="1" stop-color="#a57b3c"/></linearGradient>
+                  <pattern id="clTeeth" width="6" height="16" patternUnits="userSpaceOnUse"><path d="M.5 0h5L3.6 14.5H2.4Z" fill="#9ba4ac"/></pattern>
+                </defs>
+                <rect x="6" y="4" width="188" height="46" rx="23" fill="url(#clBody)"/>
+                <rect x="30" y="9" width="140" height="3" rx="1.5" fill="#fff" opacity=".16"/>
+                <rect x="56" y="23" width="88" height="6" rx="3" fill="url(#clBrass)"/>
+                <circle cx="168" cy="27" r="7" fill="url(#clBrass)"/>
+                <circle cx="168" cy="27" r="2.6" fill="#5c4b3e"/>
+                <rect x="22" y="47" width="156" height="18" rx="3" fill="url(#clSteel)"/>
+                <rect x="25" y="64" width="150" height="16" fill="url(#clTeeth)"/>
+              </svg>
+            </span>
+          </div>
+          <figcaption class="mirror-plaque" id="cutPlaque" aria-live="polite"><b>До стрижки</b><span>выберите стрижку</span></figcaption>
+        </figure>
+        <ul class="cut-list reveal" id="cutList" role="tabpanel" aria-labelledby="tab-men"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. До и после: шторка -->
+  <section class="section dark ba" id="before-after">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">До и после</p>
+        <h2>Один час в кресле — <em>и вы другой человек</em></h2>
+        <p class="lead">Потяните шторку: слева — каким гость пришёл, справа — после стрижки «Помпадур» и оформления бороды.</p>
+      </header>
+      <div class="ba-frame reveal" id="baFrame" data-cursor="hot" style="--pos:50%">
+        <img class="ba-img" src="img/cuts/men_pompadour.jpg" alt="После: стрижка «Помпадур» и оформленная борода" width="1600" height="900" loading="lazy">
+        <img class="ba-img ba-before" src="img/cuts/men_before.jpg" alt="До: отросшие волосы и неровная борода" width="1600" height="900" loading="lazy">
+        <span class="ba-tag ba-tag-l">До</span>
+        <span class="ba-tag ba-tag-r">После</span>
+        <span class="ba-line" aria-hidden="true"></span>
+        <span class="ba-handle" id="baHandle" role="slider" tabindex="0" aria-label="Шторка «до и после»" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <svg viewBox="0 0 28 12" aria-hidden="true"><path d="M8 2 3 6l5 4M20 2l5 4-5 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Королевское бритьё: бритва раскрывается при прокрутке -->
+  <section class="section paper shave" id="shave">
+    <div class="wrap shave-grid">
+      <figure class="razor-card reveal">
+        <div class="razor-frame"><canvas id="razorCanvas" role="img" aria-label="Опасная бритва раскрывается"></canvas></div>
+        <figcaption class="plaque plaque-light">Сталь и орех · правка на ремне</figcaption>
+      </figure>
+      <div class="shave-copy reveal">
+        <p class="kicker kicker-left">Королевское бритьё</p>
+        <h2>Опасная бритва, <em>горячее полотенце</em> и никакой спешки</h2>
+        <p class="shave-intro">Ритуал, который в лондонских цирюльнях проводят больше ста лет:</p>
+        <ol class="ritual">
+          <li><span><b>Горячее полотенце</b> — распаривает кожу.</span></li>
+          <li><span><b>Масло и пена</b> — взбиваем помазком, как сто лет назад.</span></li>
+          <li><span><b>Опасная бритва</b> — два прохода, гладко и без раздражения.</span></li>
+          <li><span><b>Холодное полотенце</b> — успокаивает кожу.</span></li>
+          <li><span><b>Бальзам</b> — с ароматом сандала.</span></li>
+        </ol>
+        <div class="shave-foot">
+          <p class="shave-price"><b>2 500 ₽</b><span>45 минут</span></p>
+          <a class="btn btn-primary" href="#booking">Записаться на бритьё</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Мастера -->
+  <section class="section dark masters" id="masters">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Мастера</p>
+        <h2>Руки, которым <em>доверяют</em></h2>
+      </header>
+      <div class="masters-grid">
+        <article class="master reveal">
+          <div class="master-photo"><img src="img/masters/master1.jpg" alt="Мастер Артур Ветров" width="720" height="894" loading="lazy"></div>
+          <h3>Артур Ветров</h3>
+          <p class="master-role">Старший мастер</p>
+          <p class="master-note">Классические стрижки и королевское бритьё. Стаж 15 лет.</p>
+        </article>
+        <article class="master reveal">
+          <div class="master-photo"><img src="img/masters/master2.jpg" alt="Мастер Илья Каменев" width="720" height="894" loading="lazy"></div>
+          <h3>Илья Каменев</h3>
+          <p class="master-role">Барбер</p>
+          <p class="master-note">Фейды, кропы и современные стрижки. Стаж 6 лет.</p>
+        </article>
+        <article class="master reveal">
+          <div class="master-photo"><img src="img/masters/master3.jpg" alt="Мастер Мария Лосева" width="720" height="894" loading="lazy"></div>
+          <h3>Мария Лосева</h3>
+          <p class="master-role">Барбер</p>
+          <p class="master-note">Детские стрижки и укладки. Стаж 9 лет.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Прейскурант -->
+  <section class="section paper prices" id="prices">
+    <div class="wrap">
+      <div class="price-board reveal">
+        <p class="kicker">Прейскурант</p>
+        <h2>Цены <em>без сюрпризов</em></h2>
+        <div class="price-cols">
+          <div>
+            <h3>Стрижки</h3>
+            <ul class="price-list">
+              <li><span>Мужская стрижка</span><i></i><b>от 2 200 ₽</b></li>
+              <li><span>Стрижка машинкой</span><i></i><b>1 600 ₽</b></li>
+              <li><span>Стрижка и борода</span><i></i><b>3 200 ₽</b></li>
+              <li><span>Детская стрижка до 12 лет</span><i></i><b>от 1 500 ₽</b></li>
+              <li><span>Укладка</span><i></i><b>800 ₽</b></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Борода и бритьё</h3>
+            <ul class="price-list">
+              <li><span>Оформление бороды</span><i></i><b>1 400 ₽</b></li>
+              <li><span>Королевское бритьё</span><i></i><b>2 500 ₽</b></li>
+              <li><span>Бритьё головы</span><i></i><b>1 800 ₽</b></li>
+              <li><span>Камуфляж седины</span><i></i><b>1 200 ₽</b></li>
+              <li><span>Горячее полотенце</span><i></i><b>в подарок</b></li>
+            </ul>
+          </div>
+        </div>
+        <p class="price-note">Чай, кофе и разговор о жизни — за счёт заведения.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Запись -->
+  <section class="section dark booking" id="booking">
+    <div class="wrap booking-grid">
+      <div class="booking-copy reveal">
+        <p class="kicker kicker-left">Запись</p>
+        <h2>Кресло <em>ждёт вас</em></h2>
+        <p class="lead">Оставьте телефон — администратор перезвонит и подберёт удобное время.</p>
+        <dl class="contact-list">
+          <div><dt>Адрес</dt><dd>ул. Брадобрейная, 7</dd></div>
+          <div><dt>Часы</dt><dd>Ежедневно 10:00–22:00</dd></div>
+          <div><dt>Телефон</dt><dd><a href="tel:+79000000707">+7 (900) 000-07-07</a></dd></div>
+        </dl>
+      </div>
+      <form class="book-form reveal" id="bookForm" novalidate>
+        <p class="form-title">Талон на стрижку</p>
+        <label class="field"><span>Ваше имя</span><input name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" required></label>
+        <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (900) 000-00-00" required></label>
+        <div class="field-row">
+          <label class="field"><span>Услуга</span>
+            <select name="service">
+              <option>Мужская стрижка</option>
+              <option>Стрижка и борода</option>
+              <option>Королевское бритьё</option>
+              <option>Детская стрижка</option>
+              <option>Оформление бороды</option>
+            </select>
+          </label>
+          <label class="field"><span>Мастер</span>
+            <select name="master">
+              <option>Любой мастер</option>
+              <option>Артур Ветров</option>
+              <option>Илья Каменев</option>
+              <option>Мария Лосева</option>
+            </select>
+          </label>
+        </div>
+        <div class="field-row">
+          <label class="field"><span>Дата</span><input name="date" type="date"></label>
+          <label class="field"><span>Время</span>
+            <select name="time">
+              <option>10:00</option><option>12:00</option><option>14:00</option><option>16:00</option><option>18:00</option><option>20:00</option>
+            </select>
+          </label>
+        </div>
+        <button class="btn btn-primary btn-wide" type="submit">Записаться</button>
+        <p class="form-note" id="formNote" aria-live="polite">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <a class="logo" href="#top"><span class="pole" aria-hidden="true"><i></i></span><span class="logo-text"><span class="logo-word">Цирюльня <b>№7</b></span><span class="logo-est">осн. 1907</span></span></a>
+      <p class="footer-muted">Стрижки, бритьё и уход за бородой.</p>
+    </div>
+    <div>
+      <p>ул. Брадобрейная, 7</p>
+      <p class="footer-muted">Ежедневно 10:00–22:00</p>
+    </div>
+    <div>
+      <p><a href="tel:+79000000707">+7 (900) 000-07-07</a></p>
+      <p class="footer-muted">hello@ciryulnya7.example</p>
+    </div>
+  </div>
+  <p class="wrap footer-demo">Демо-проект для портфолио. Заведение, мастера, адрес и изображения вымышлены и созданы с помощью ИИ.</p>
+</footer>
+
+<script src="js/scissors-cursor.js?v=1"></script>
+<script src="js/app.js?v=1"></script>
+</body>
+</html>
