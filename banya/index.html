@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ЛЕСНОЙ ПАР — бани под ключ с террасой и купелью</title>
+<meta name="description" content="Каркасные бани с панорамным окном, террасой и купелью. Привезём готовую баню и соберём за один день. Растопите печь прямо на сайте.">
+<meta name="theme-color" content="#121110">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="img/banya_hero.webp" media="(min-aspect-ratio: 6/5)" fetchpriority="high">
+<link rel="preload" as="image" href="img/banya_hero_m.webp" media="(max-aspect-ratio: 6/5)" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="fonts/cormorant-garamond-cyrillic-300-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/golos-text-cyrillic-400-normal.woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=3">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="ЛЕСНОЙ ПАР — в начало">
+      <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V14L16 5l11 9v13z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path class="logo-steam" d="M12.5 23c0-2.4 2.4-3 2.4-5.4M17.3 23c0-2.4 2.4-3 2.4-5.4" fill="none" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span class="logo-text"><b>Лесной пар</b><small>бани под ключ</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Разделы сайта">
+      <a href="#heat">Растопите печь</a>
+      <a href="#builder">Конструктор</a>
+      <a href="#steps">Как работаем</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a class="btn btn-amber btn-sm nav-cta" href="#builder">Собрать баню</a>
+    <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- 1. Первый экран: баня в зимнем лесу, идёт снег, над купелью пар -->
+  <section class="hero" id="top">
+    <div class="hero-layer" id="heroLayer">
+      <picture class="hero-media">
+        <source media="(max-aspect-ratio: 6/5)" srcset="img/banya_hero_m.webp">
+        <img id="heroImg" src="img/banya_hero.webp" alt="Баня из обожжённой доски ночью в заснеженном лесу: тёплый свет в панорамных окнах, терраса и купель с паром" width="2400" height="1340" fetchpriority="high">
+      </picture>
+      <canvas class="hero-fx" id="heroFx" aria-hidden="true"></canvas>
+      <div class="hero-shade" aria-hidden="true"></div>
+    </div>
+    <div class="wrap hero-content">
+      <div class="hero-copy reveal">
+        <p class="kicker">Бани под ключ<span class="kicker-more"> · доставка за 1 день</span></p>
+        <h1>Своя баня в лесу — <em>уже этой зимой</em></h1>
+        <p class="lead">Каркасные бани с панорамным окном, террасой и купелью.<span class="lead-more"> Строим в цеху, привозим готовой и растапливаем первую печь вместе с вами.</span></p>
+        <div class="cta-row">
+          <a class="btn btn-amber" href="#builder">Собрать свою баню</a>
+          <a class="btn btn-ghost" href="#heat">Растопить печь</a>
+        </div>
+      </div>
+      <ul class="hero-facts reveal">
+        <li><b>30 дней</b><span>от заказа до первого пара</span></li>
+        <li><b>−40 °C</b><span>держит тепло в любой мороз</span></li>
+        <li><b>5 лет</b><span>гарантия на баню и печь</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. Растопите печь -->
+  <section class="section heat" id="heat">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Растопите печь</p>
+        <h2>От холодной парной <em>до лёгкого пара</em></h2>
+        <p class="lead">Потяните термометр — печь разгорится, камни раскалятся, а парную наполнит мягкий пар.</p>
+      </header>
+      <div class="heat-grid reveal" id="heat-box">
+        <figure class="sauna" id="sauna">
+          <img class="sauna-img" src="img/sauna_cold.webp" alt="Парная из липы, печь ещё холодная" width="1920" height="1072" loading="lazy">
+          <img class="sauna-img sauna-fire" src="img/sauna_fire.webp" alt="" width="1920" height="1072" loading="lazy" aria-hidden="true">
+          <img class="sauna-img sauna-steam" src="img/sauna_steam.webp" alt="" width="1920" height="1072" loading="lazy" aria-hidden="true">
+          <canvas class="sauna-fx" id="saunaFx" aria-hidden="true"></canvas>
+          <figcaption class="sauna-temp" aria-hidden="true"><b id="tempBig">20°</b><span id="tempWord">парная остыла</span></figcaption>
+        </figure>
+        <div class="heat-side">
+          <div class="thermo" id="thermo" role="slider" tabindex="0" data-cursor="hot" aria-label="Температура в парной" aria-valuemin="20" aria-valuemax="90" aria-valuenow="20" aria-valuetext="20 градусов">
+            <span class="thermo-scale" aria-hidden="true"><i>90°</i><i>70°</i><i>50°</i><i>30°</i></span>
+            <span class="thermo-track" aria-hidden="true"><span class="thermo-fill" id="thermoFill"></span></span>
+            <span class="thermo-knob" id="thermoKnob" aria-hidden="true"></span>
+          </div>
+          <div class="heat-info" aria-live="polite">
+            <p class="heat-title" id="heatTitle">Парная остыла</p>
+            <p class="heat-text" id="heatText">Печь ещё холодная. Потяните термометр вверх — и растопим.</p>
+            <button class="btn btn-amber" id="splashBtn" type="button" disabled>Поддать пару</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Конструктор -->
+  <section class="section builder" id="builder">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Конструктор</p>
+        <h2>Соберите <em>свою баню</em></h2>
+        <p class="lead">Выберите размер, печь и дополнения — 3D-модель бани и цена меняются сразу.</p>
+      </header>
+      <div class="builder-grid reveal">
+        <figure class="build-view" id="buildView">
+          <img class="bv-img" src="img/build_base.webp" alt="Баня из обожжённой доски в зимнем лесу" width="1920" height="1072" loading="lazy">
+          <img class="bv-img bv-layer" id="layerTerrace" src="img/build_terrace.webp" alt="" width="1920" height="1072" loading="lazy" aria-hidden="true">
+          <img class="bv-img bv-layer" id="layerTub" src="img/build_tub.webp" alt="" width="1920" height="1072" loading="lazy" aria-hidden="true">
+          <div class="bv-3d" id="bv3d" data-cursor="hot"></div>
+          <p class="bv-hint" id="bvHint" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5c0 1.9 3.4 3.5 7.5 3.5s7.5-1.6 7.5-3.5S16.1 9 12 9"/><path d="M13.7 7.2 11.8 9l1.9 1.8"/></svg><b>3D</b><span class="bv-hint-text">потяните, чтобы повернуть</span></p>
+          <figcaption class="bv-tags" id="bvTags"></figcaption>
+        </figure>
+        <form class="build-form" id="buildForm" onsubmit="return false">
+          <fieldset class="b-group">
+            <legend>Размер</legend>
+            <div class="seg seg-3" id="bSize">
+              <button type="button" data-v="mini"><b>2×3 м</b><span>до 3 человек</span></button>
+              <button type="button" data-v="std" class="on"><b>3×4 м</b><span>до 5 человек</span></button>
+              <button type="button" data-v="family"><b>4×6 м</b><span>до 8 человек</span></button>
+            </div>
+          </fieldset>
+          <fieldset class="b-group">
+            <legend>Печь</legend>
+            <div class="seg seg-2" id="bStove">
+              <button type="button" data-v="wood" class="on"><b>Дровяная</b><span>со стеклянной дверцей</span></button>
+              <button type="button" data-v="electric"><b>Электрическая</b><span>с пультом</span></button>
+            </div>
+          </fieldset>
+          <fieldset class="b-group">
+            <legend>Полки</legend>
+            <div class="seg seg-3" id="bWood">
+              <button type="button" data-v="linden" class="on"><b>Липа</b><span>светлая, мягкая</span></button>
+              <button type="button" data-v="abash"><b>Абаш</b><span>не нагревается</span></button>
+              <button type="button" data-v="cedar"><b>Кедр</b><span>аромат леса</span></button>
+            </div>
+          </fieldset>
+          <fieldset class="b-group">
+            <legend>Дополнения</legend>
+            <div class="toggles">
+              <label class="toggle"><input type="checkbox" id="optTerrace"><span><b>Терраса 12 м²</b><em>+ 160 000 ₽</em></span></label>
+              <label class="toggle"><input type="checkbox" id="optTub"><span><b>Купель с подогревом и лесенкой</b><em>+ 245 000 ₽</em></span></label>
+              <label class="toggle"><input type="checkbox" id="optRest"><span><b>Комната отдыха</b><em>+ 210 000 ₽</em></span></label>
+            </div>
+          </fieldset>
+          <div class="b-total">
+            <div>
+              <p class="b-label">Ваша баня под ключ</p>
+              <p class="b-price" id="bPrice">—</p>
+              <p class="b-meta" id="bMeta">—</p>
+            </div>
+            <a class="btn btn-amber" href="#contact" id="bCta">Заказать баню</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Как работаем -->
+  <section class="section steps" id="steps">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Как работаем</p>
+        <h2>Четыре шага <em>до первого пара</em></h2>
+      </header>
+      <ol class="step-list">
+        <li class="step reveal"><span class="step-n">I</span><h3>Замер и проект</h3><p>Бесплатно приедем на участок, выберем место и посчитаем баню до рубля.</p><small>1 день</small></li>
+        <li class="step reveal"><span class="step-n">II</span><h3>Сборка в цеху</h3><p>Баню собирают в тёплом цеху — без грязи на участке. Фотоотчёт каждые три дня.</p><small>14–21 день</small></li>
+        <li class="step reveal"><span class="step-n">III</span><h3>Доставка и монтаж</h3><p>Привозим готовой на манипуляторе, ставим на сваи и подключаем.</p><small>1 день</small></li>
+        <li class="step reveal"><span class="step-n">IV</span><h3>Первая растопка</h3><p>Растапливаем печь вместе: покажем, как топить и как поддавать пар.</p><small>вечер того же дня</small></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 5. Отзывы -->
+  <section class="section reviews" id="reviews">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Отзывы</p>
+        <h2>Что говорят <em>после первого пара</em></h2>
+      </header>
+      <div class="review-list">
+        <blockquote class="review reveal"><p>«Привезли утром, а вечером мы уже парились. Соседи до сих пор не верят, что баню поставили за один день».</p><cite>Андрей · баня 3×4 с купелью</cite></blockquote>
+        <blockquote class="review reveal"><p>«Панорамное окно — лучшее решение. Сидишь на полке и смотришь, как в лесу идёт снег».</p><cite>Марина · баня 2×3 с террасой</cite></blockquote>
+        <blockquote class="review reveal"><p>«Печь прогревает парную за сорок минут, а камни держат жар до утра. Дети в восторге от купели».</p><cite>Сергей · семейная 4×6</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Заявка -->
+  <section class="section contact" id="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-copy reveal">
+        <p class="kicker">Тест-драйв</p>
+        <h2>Приезжайте <em>попариться</em></h2>
+        <p class="lead">Наша демонстрационная баня стоит в лесу за городом. Приезжайте с семьёй: растопим печь и попаримся — бесплатно.</p>
+        <dl class="contact-list">
+          <div><dt>Где</dt><dd>пос. Сосновый Бор, ул. Лесная, 3</dd></div>
+          <div><dt>Когда</dt><dd>Ежедневно 10:00–22:00</dd></div>
+          <div><dt>Телефон</dt><dd><a href="tel:+79000000303">+7 (900) 000-03-03</a></dd></div>
+        </dl>
+      </div>
+      <form class="lead-form reveal" id="leadForm" novalidate>
+        <p class="form-title">Запись на тест-драйв</p>
+        <label class="field"><span>Ваше имя</span><input name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" required></label>
+        <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (900) 000-00-00" required></label>
+        <label class="field"><span>Удобный день</span><input name="date" type="date"></label>
+        <input type="hidden" name="config" id="configField">
+        <p class="form-config" id="formConfig" hidden></p>
+        <button class="btn btn-amber btn-wide" type="submit">Записаться</button>
+        <p class="form-note" id="formNote" aria-live="polite">Перезвоним и подберём время.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <a class="logo" href="#top"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V14L16 5l11 9v13z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path class="logo-steam" d="M12.5 23c0-2.4 2.4-3 2.4-5.4M17.3 23c0-2.4 2.4-3 2.4-5.4" fill="none" stroke-width="1.6" stroke-linecap="round"/></svg><span class="logo-text"><b>Лесной пар</b><small>бани под ключ</small></span></a>
+      <p class="footer-muted">Бани под ключ с доставкой.</p>
+    </div>
+    <div>
+      <p>пос. Сосновый Бор, ул. Лесная, 3</p>
+      <p class="footer-muted">Ежедневно 10:00–22:00</p>
+    </div>
+    <div>
+      <p><a href="tel:+79000000303">+7 (900) 000-03-03</a></p>
+      <p class="footer-muted">hello@lesnoy-par.example</p>
+    </div>
+  </div>
+  <p class="wrap footer-demo">Демо-проект для портфолио. Компания, адрес, цены, отзывы и изображения вымышлены и созданы с помощью ИИ.</p>
+</footer>
+
+<script src="js/ladle-cursor.js?v=1"></script>
+<script src="js/app.js?v=3"></script>
+</body>
+</html>
