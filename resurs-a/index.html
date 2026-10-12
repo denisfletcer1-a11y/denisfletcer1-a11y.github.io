@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ресурс-А — вентиляция и кондиционирование под ключ</title>
+<meta name="description" content="Проектирование, монтаж, пусконаладка и обслуживание вентиляции и кондиционирования для банков, офисов, производств и складов. Бесплатный выезд инженера, смета за 24 часа, договор и исполнительная документация.">
+<meta name="theme-color" content="#06080b">
+<!-- черновик для показа клиенту: не индексировать. Убрать при запуске на домене клиента -->
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Ресурс-А — вентиляция и кондиционирование под ключ">
+<meta property="og:description" content="Проект, монтаж, пусконаладка и сервис. Бесплатный выезд инженера, смета за 24 часа.">
+<meta property="og:image" content="img/og.jpg">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" as="font" type="font/woff2" href="fonts/unbounded-cyrillic-800-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/manrope-cyrillic-500-normal.woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=2">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip" href="#services">К содержанию</a>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="Ресурс-А — в начало"><img src="img/logo-dark.png" alt="Ресурс-А" width="501" height="101"></a>
+    <nav class="nav-links" id="navLinks" aria-label="Разделы сайта">
+      <a href="#services">Услуги</a>
+      <a href="#works">Объекты</a>
+      <a href="#calc">Расчёт</a>
+      <a href="#process">Как работаем</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a class="nav-phone" data-contact="phone" href="#contact"><span data-contact-text="phone">+7 (000) 000-00-00</span><small data-contact-text="hours">Ежедневно 8:00–20:00</small></a>
+    <a class="btn btn-air btn-sm nav-cta" href="#contact">Вызвать инженера</a>
+    <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- 1. Первый экран: 3D-установка, через которую идёт воздух -->
+  <section class="hero" id="top">
+    <div class="ahu" id="ahu" data-cursor="hot">
+      <div class="ahu-poster" aria-hidden="true"></div>
+    </div>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">Вентиляция · Кондиционирование · Пусконаладка</p>
+        <h1>Вентиляция и&nbsp;кондиционеры <span class="air">под ключ</span></h1>
+        <p class="lead">Проектируем, монтируем, запускаем и&nbsp;обслуживаем системы для банков, офисов, производств и&nbsp;складов. Сдаём объект по&nbsp;акту&nbsp;— с&nbsp;исполнительной документацией на&nbsp;все работы.</p>
+        <div class="cta-row">
+          <a class="btn btn-air" href="#calc">Рассчитать стоимость</a>
+          <a class="btn btn-ghost" href="#contact">Бесплатный выезд инженера</a>
+        </div>
+        <ul class="hero-facts">
+          <li><b>10+ лет</b><span>в вентиляции и&nbsp;климате</span></li>
+          <li><b>5–20</b><span>монтажников на&nbsp;объекте</span></li>
+          <li><b>24 часа</b><span>смета после замера</span></li>
+        </ul>
+      </div>
+      <div class="model-slot" id="modelSlot">
+        <img class="slot-poster" src="img/ahu-poster.webp" alt="3D-модель приточно-вытяжной установки с рекуператором" width="1400" height="760" fetchpriority="high">
+        <div class="stage-ui">
+          <button class="chip-btn" id="explodeBtn" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Разобрать установку</span></button>
+          <p class="stage-hint" id="stageHint"><b>3D</b> <span>потяните, чтобы повернуть</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Банки</span><i>✦</i><span class="hl">Офисы</span><i>✦</i><span>Производства</span><i>✦</i><span class="hl">Склады</span><i>✦</i><span>Магазины</span><i>✦</i><span class="hl">Кафе и рестораны</span><i>✦</i><span>Бассейны</span><i>✦</i><span class="hl">Школы</span><i>✦</i><span>Серверные</span><i>✦</i><span class="hl">Частные дома</span><i>✦</i>
+      <span>Банки</span><i>✦</i><span class="hl">Офисы</span><i>✦</i><span>Производства</span><i>✦</i><span class="hl">Склады</span><i>✦</i><span>Магазины</span><i>✦</i><span class="hl">Кафе и рестораны</span><i>✦</i><span>Бассейны</span><i>✦</i><span class="hl">Школы</span><i>✦</i><span>Серверные</span><i>✦</i><span class="hl">Частные дома</span><i>✦</i>
+    </div>
+  </div>
+
+  <!-- 2. Почему нам доверяют крупные заказчики -->
+  <section class="trust" aria-label="Почему нам доверяют">
+    <div class="wrap trust-grid">
+      <div class="trust-item reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10 12 4l9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Объекты банков</b><span>Работали на&nbsp;объектах ВТБ и&nbsp;Сбербанка</span></p></div>
+      <div class="trust-item reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Официально</b><span>Договор, акты, счета-фактуры</span></p></div>
+      <div class="trust-item reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h11l5 5v9H4zM8 13l2.5 2.5L16 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Исполнительная документация</b><span>На&nbsp;все выполненные работы</span></p></div>
+      <div class="trust-item reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8.2 7 10 4-1.8 7-5.5 7-10V6zM9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Гарантия</b><span>На&nbsp;монтаж и&nbsp;все виды работ</span></p></div>
+    </div>
+  </section>
+
+  <!-- 3. Услуги -->
+  <section class="section services" id="services">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Услуги</p>
+        <h2>Полный цикл&nbsp;— <span class="air">от&nbsp;проекта до&nbsp;сервиса</span></h2>
+        <p class="lead">Одна команда отвечает за&nbsp;всё: расчёт, оборудование, монтаж, запуск и&nbsp;обслуживание. Вам не&nbsp;нужно искать отдельно проектировщика, монтажников и&nbsp;наладчиков.</p>
+      </header>
+      <div class="svc-grid">
+        <article class="svc reveal"><figure class="svc-media"><img src="img/svc/proektirovanie.webp" alt="" loading="lazy" width="1200" height="896" data-svc="project"></figure><div class="svc-body"><span class="svc-n">01</span><h3>Проектирование</h3><p>Расчёт воздухообмена, подбор оборудования, проект по&nbsp;действующим нормам.</p></div></article>
+        <article class="svc reveal"><figure class="svc-media"><img src="img/svc/montazh.webp" alt="" loading="lazy" width="1200" height="896" data-svc="vent"></figure><div class="svc-body"><span class="svc-n">02</span><h3>Монтаж вентиляции</h3><p>Приточно-вытяжные системы, воздуховоды любого сечения, клапаны, решётки.</p></div></article>
+        <article class="svc reveal"><figure class="svc-media"><img src="img/svc/kondicionirovanie.webp" alt="" loading="lazy" width="1200" height="896" data-svc="ac"></figure><div class="svc-body"><span class="svc-n">03</span><h3>Кондиционирование</h3><p>Сплит, мульти-сплит, канальные и&nbsp;кассетные системы. Офисы, залы, серверные.</p></div></article>
+        <article class="svc reveal"><figure class="svc-media"><img src="img/svc/protivodymnaya.webp" alt="" loading="lazy" width="1200" height="896" data-svc="smoke"></figure><div class="svc-body"><span class="svc-n">04</span><h3>Противодымная вентиляция</h3><p>Дымоудаление, подпор воздуха и&nbsp;аварийная вентиляция по&nbsp;нормам пожарной безопасности.</p></div></article>
+        <article class="svc reveal"><figure class="svc-media"><img src="img/svc/pnr.webp" alt="" loading="lazy" width="1200" height="896" data-svc="pnr"></figure><div class="svc-body"><span class="svc-n">05</span><h3>Пусконаладка и&nbsp;автоматика</h3><p>ПНР, замеры и&nbsp;настройка автоматики. Исполнительная документация на&nbsp;все работы.</p></div></article>
+        <article class="svc reveal"><figure class="svc-media"><img src="img/svc/servis.webp" alt="" loading="lazy" width="1200" height="896" data-svc="service"></figure><div class="svc-body"><span class="svc-n">06</span><h3>Сервис и&nbsp;обслуживание</h3><p>Плановое ТО по&nbsp;договору, чистка, диагностика и&nbsp;ремонт систем.</p></div></article>
+      </div>
+      <div class="home-strip reveal">
+        <p><b>Для квартир и&nbsp;частных домов</b> — кондиционеры, бризеры, приточная вентиляция и&nbsp;скрытый монтаж на&nbsp;этапе ремонта.</p>
+        <a class="btn btn-ghost btn-sm" href="#calc">Рассчитать для дома</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Объекты: реальные фото -->
+  <section class="section works" id="works">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Объекты</p>
+        <h2>Наши работы&nbsp;— <span class="air">реальные фото</span></h2>
+        <p class="lead">Снято на&nbsp;объектах во&nbsp;время монтажа и&nbsp;после сдачи. Нажмите на&nbsp;карточку, чтобы посмотреть все фото.</p>
+      </header>
+      <div class="work-grid" id="workGrid"></div>
+    </div>
+  </section>
+
+  <!-- 5. Калькулятор -->
+  <section class="section calc" id="calc">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Расчёт</p>
+        <h2>Сколько стоит <span class="air">для вашего объекта</span></h2>
+        <p class="lead">Выберите объект и&nbsp;площадь&nbsp;— покажем ориентировочную стоимость. Точную смету пришлём за&nbsp;24&nbsp;часа после бесплатного выезда инженера.</p>
+      </header>
+      <div class="calc-grid reveal">
+        <form class="calc-form" id="calcForm" onsubmit="return false">
+          <fieldset class="c-group">
+            <legend>Тип объекта</legend>
+            <div class="seg seg-4" id="cType">
+              <button type="button" data-v="office" class="on"><b>Офис или банк</b></button>
+              <button type="button" data-v="prod"><b>Производство или склад</b></button>
+              <button type="button" data-v="retail"><b>Магазин или кафе</b></button>
+              <button type="button" data-v="home"><b>Квартира или дом</b></button>
+            </div>
+          </fieldset>
+          <fieldset class="c-group">
+            <legend>Площадь</legend>
+            <div class="area">
+              <input type="range" id="cArea" min="20" max="3000" step="10" value="250" aria-label="Площадь, квадратных метров">
+              <label class="area-num"><input type="number" id="cAreaNum" min="20" max="20000" step="10" value="250" inputmode="numeric" aria-label="Площадь числом"><span>м²</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="c-group">
+            <legend>Что нужно сделать</legend>
+            <div class="chips" id="cWorks">
+              <label class="chip"><input type="checkbox" value="vent" checked><span>Вентиляция</span></label>
+              <label class="chip"><input type="checkbox" value="ac"><span>Кондиционирование</span></label>
+              <label class="chip" data-hide="home"><input type="checkbox" value="smoke"><span>Противодымная вентиляция</span></label>
+              <label class="chip"><input type="checkbox" value="project"><span>Проект</span></label>
+              <label class="chip"><input type="checkbox" value="pnr"><span>Пусконаладка и&nbsp;автоматика</span></label>
+            </div>
+          </fieldset>
+        </form>
+        <aside class="calc-result" aria-live="polite">
+          <p class="r-label">Ориентировочно</p>
+          <p class="r-price" id="rPrice">—</p>
+          <ul class="r-lines" id="rLines"></ul>
+          <p class="r-note">Оборудование и&nbsp;материалы подбираем и&nbsp;закупаем сами. Точную сумму назовём после бесплатного замера.</p>
+          <form class="r-form" id="calcLead" novalidate>
+            <label class="field"><span>Телефон для сметы</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required></label>
+            <button class="btn btn-air btn-wide" type="submit">Получить точную смету</button>
+            <p class="consent">Нажимая кнопку, вы соглашаетесь с&nbsp;<a href="policy.html">политикой обработки персональных данных</a>.</p>
+            <p class="form-note" aria-live="polite"></p>
+          </form>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Как работаем -->
+  <section class="section process" id="process">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Как работаем</p>
+        <h2>Пять шагов <span class="air">до&nbsp;свежего воздуха</span></h2>
+      </header>
+      <ol class="steps">
+        <li class="step reveal"><span class="step-n">01</span><h3>Заявка</h3><p>Звонок, сообщение или форма на&nbsp;сайте.</p><small>5 минут</small></li>
+        <li class="step reveal"><span class="step-n">02</span><h3>Бесплатный выезд</h3><p>Инженер осмотрит объект и&nbsp;сделает замеры.</p><small>1–2 дня</small></li>
+        <li class="step reveal"><span class="step-n">03</span><h3>Смета</h3><p>Понятный расчёт работ и&nbsp;оборудования.</p><small>24 часа</small></li>
+        <li class="step reveal"><span class="step-n">04</span><h3>Договор и&nbsp;монтаж</h3><p>Свои бригады, сроки фиксируем в&nbsp;договоре.</p><small>по графику</small></li>
+        <li class="step reveal"><span class="step-n">05</span><h3>Запуск и&nbsp;сдача</h3><p>Пусконаладка, сдача по&nbsp;акту с&nbsp;исполнительной документацией.</p><small>в срок</small></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 7. Документы -->
+  <section class="section docs" id="docs">
+    <div class="wrap docs-grid">
+      <div class="docs-copy reveal">
+        <p class="kicker">Для юрлиц</p>
+        <h2>Работаем <span class="air">официально</span></h2>
+        <p class="lead">Знаем требования крупных заказчиков к&nbsp;проекту, документам и&nbsp;срокам. Безналичный расчёт, все закрывающие документы&nbsp;— в&nbsp;срок.</p>
+        <ul class="docs-list">
+          <li>Договор подряда и&nbsp;смета</li>
+          <li>Акты выполненных работ</li>
+          <li>Счета-фактуры</li>
+          <li>Исполнительная документация</li>
+          <li>Гарантийные обязательства</li>
+          <li>Коммерческое предложение по&nbsp;запросу</li>
+        </ul>
+      </div>
+      <div class="doc-stack reveal" aria-hidden="true">
+        <div class="doc d3"><i></i><i></i><i></i></div>
+        <div class="doc d2"><i></i><i></i><i></i><i></i></div>
+        <div class="doc d1"><b>Акт сдачи системы</b><i></i><i></i><i></i><i></i><i></i><span class="stamp">Принято</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Вопросы -->
+  <section class="section faq" id="faq">
+    <div class="wrap faq-grid">
+      <header class="section-head reveal">
+        <p class="kicker">Вопросы</p>
+        <h2>Часто <span class="air">спрашивают</span></h2>
+      </header>
+      <div class="faq-list reveal">
+        <details><summary>Сколько стоит вентиляция?</summary><p>Зависит от&nbsp;площади, типа объекта и&nbsp;оборудования. Ориентир даёт калькулятор выше, точную сумму назовём после бесплатного замера&nbsp;— смета за&nbsp;24&nbsp;часа.</p></details>
+        <details><summary>Сколько длится монтаж?</summary><p>Кондиционер обычно ставим за&nbsp;один день. Вентиляцию офиса, цеха или кафе&nbsp;— от&nbsp;нескольких дней, в&nbsp;зависимости от&nbsp;объёма. Сроки фиксируем в&nbsp;договоре.</p></details>
+        <details><summary>Можно делать во&nbsp;время ремонта?</summary><p>Да, это лучший момент: воздуховоды и&nbsp;трассы спрячем в&nbsp;стены и&nbsp;потолок, решётки впишем в&nbsp;дизайн.</p></details>
+        <details><summary>Вы делаете проект?</summary><p>Да. Рассчитываем воздухообмен, подбираем оборудование и&nbsp;готовим проект по&nbsp;действующим нормам. Если проект уже есть&nbsp;— смонтируем по&nbsp;нему.</p></details>
+        <details><summary>Проводите пусконаладку?</summary><p>Да, сами проводим ПНР: запускаем систему, настраиваем автоматику, делаем замеры и&nbsp;выдаём исполнительную документацию.</p></details>
+        <details><summary>Обслуживаете после монтажа?</summary><p>Да. Берём системы на&nbsp;плановое техобслуживание по&nbsp;договору: чистка, замена фильтров, диагностика и&nbsp;ремонт.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Заявка -->
+  <section class="section contact" id="contact">
+    <canvas class="contact-air" id="contactAir" aria-hidden="true"></canvas>
+    <div class="wrap contact-grid">
+      <div class="contact-copy reveal">
+        <p class="kicker">Заявка</p>
+        <h2>Бесплатный выезд <span class="air">инженера</span></h2>
+        <p class="lead">Оставьте телефон&nbsp;— перезвоним, договоримся о&nbsp;времени и&nbsp;приедем на&nbsp;объект. Смета за&nbsp;24&nbsp;часа после замера.</p>
+        <div class="contact-buttons" id="contactButtons">
+          <a class="cbtn" data-contact="phone" href="#contact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z" fill="currentColor"/></svg><span><b>Позвонить</b><small data-contact-text="phone">+7 (000) 000-00-00</small></span></a>
+          <a class="cbtn" data-contact="whatsapp" href="#contact" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.6-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2z" fill="currentColor"/></svg><span><b>WhatsApp</b><small>написать</small></span></a>
+          <a class="cbtn" data-contact="telegram" href="#contact" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 4.3 2.9 11.5c-1 .4-1 1.8 0 2.1l4.7 1.5 1.8 5.5c.3.8 1.3 1 1.9.4l2.6-2.4 4.7 3.4c.7.5 1.6.1 1.8-.7l3.2-15c.2-1.1-.9-2-2-1.6ZM9.6 14.4l8.3-6.7-6.6 7.8-.3 3-1.4-4.1Z" fill="currentColor"/></svg><span><b>Telegram</b><small>написать</small></span></a>
+          <a class="cbtn" data-contact="max" href="#contact" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.9 3 3 6.6 3 11.2c0 2.4 1.1 4.6 2.9 6.1L5.3 21l3.9-2a10.6 10.6 0 0 0 2.8.4c5.1 0 9-3.6 9-8.2S17.1 3 12 3Z" fill="currentColor"/></svg><span><b>MAX</b><small>написать</small></span></a>
+        </div>
+        <p class="contact-hours"><span data-contact-text="hours">Ежедневно 8:00–20:00</span> · <span data-contact-text="email">почта появится позже</span></p>
+      </div>
+      <form class="lead-form reveal" id="leadForm" novalidate>
+        <p class="form-title">Вызвать инженера</p>
+        <label class="field"><span>Ваше имя</span><input name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" required></label>
+        <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required></label>
+        <label class="field"><span>Объект и задача</span><textarea name="task" rows="3" placeholder="Например: офис 300 м², нужна приточная вентиляция и кондиционеры"></textarea></label>
+        <input type="hidden" name="calc" id="calcField">
+        <label class="agree"><input type="checkbox" name="agree" required><span>Согласен с&nbsp;<a href="policy.html">политикой обработки персональных данных</a></span></label>
+        <button class="btn btn-air btn-wide" type="submit">Вызвать инженера бесплатно</button>
+        <p class="form-note" aria-live="polite">Перезвоним в&nbsp;течение 15 минут в&nbsp;рабочее время.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <img class="footer-logo" src="img/logo-dark.png" alt="Ресурс-А" width="501" height="101" loading="lazy">
+      <p class="footer-muted">Проектирование, монтаж, пусконаладка и&nbsp;сервис систем вентиляции и&nbsp;кондиционирования.</p>
+    </div>
+    <div>
+      <p><a data-contact="phone" href="#contact" data-contact-text="phone">+7 (000) 000-00-00</a></p>
+      <p class="footer-muted" data-contact-text="hours">Ежедневно 8:00–20:00</p>
+      <p class="footer-muted" data-contact-text="email">почта появится позже</p>
+    </div>
+    <div>
+      <p data-contact-text="company">Ресурс-А</p>
+      <p class="footer-muted" data-contact-text="inn">ИНН появится позже</p>
+      <p><a class="footer-muted" href="policy.html">Политика обработки персональных данных</a></p>
+    </div>
+  </div>
+  <p class="wrap footer-note">© <span id="year">2026</span> Ресурс-А. Информация на&nbsp;сайте не&nbsp;является публичной офертой.</p>
+</footer>
+
+<div class="mobile-bar" id="mobileBar">
+  <a class="mb-call" data-contact="phone" href="#contact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z" fill="currentColor"/></svg>Позвонить</a>
+  <a class="mb-calc" href="#calc">Рассчитать стоимость</a>
+</div>
+
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lb-close" type="button" aria-label="Закрыть">×</button>
+  <button class="lb-prev" type="button" aria-label="Предыдущее фото">‹</button>
+  <figure class="lb-fig"><img alt=""><figcaption></figcaption></figure>
+  <button class="lb-next" type="button" aria-label="Следующее фото">›</button>
+</div>
+
+<script src="js/fan-cursor.js?v=1"></script>
+<script src="js/app.js?v=2"></script>
+</body>
+</html>
