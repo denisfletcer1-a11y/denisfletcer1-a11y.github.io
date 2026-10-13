@@ -164,13 +164,13 @@
     };
     const load = () => {
       const s = document.createElement('script');
-      s.src = 'js/ahu3d.js?v=3';
+      s.src = 'js/ahu3d.js?v=4';
       s.async = true;
       s.onload = () => {
         if (!window.AHU3D) return;
         // объёмный логотип в шапке: плоский прячем, когда 3D готов
         const lg = document.getElementById('logo3d');
-        if (lg && window.AHU3D.logo && window.AHU3D.logo(lg, 'img/logo-shapes.json')) {
+        if (lg && window.AHU3D.logo && window.AHU3D.logo(lg, 0)) {
           const swap = () => lg.classList.contains('ready') ? lg.closest('.logo').classList.add('is-3d') : requestAnimationFrame(swap);
           swap();
         }
@@ -192,8 +192,9 @@
       };
       document.head.appendChild(s);
     };
-    if (document.readyState === 'complete') setTimeout(load, 50);
-    else window.addEventListener('load', () => setTimeout(load, 50));
+    load();   // сразу, не дожидаясь картинок: логотип должен закрутиться как можно раньше
+    // если 3D так и не запустилось — показываем обычный логотип
+    setTimeout(() => { const l = document.querySelector('.logo'); if (!l.classList.contains('is-3d')) l.classList.add('no-3d'); }, 4000);
   })();
 
   // ---------- объекты и просмотр фото ----------
