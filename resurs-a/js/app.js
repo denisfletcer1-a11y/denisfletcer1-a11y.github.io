@@ -164,11 +164,17 @@
     };
     const load = () => {
       const s = document.createElement('script');
-      s.src = 'js/ahu3d.js?v=2';
+      s.src = 'js/ahu3d.js?v=3';
       s.async = true;
       s.onload = () => {
         if (!window.AHU3D) return;
-        api = window.AHU3D.mount(box, { logo: 'img/logo-dark.png', onInteract: () => { touched = true; hero.classList.add('touched'); } });
+        // объёмный логотип в шапке: плоский прячем, когда 3D готов
+        const lg = document.getElementById('logo3d');
+        if (lg && window.AHU3D.logo && window.AHU3D.logo(lg, 'img/logo-shapes.json')) {
+          const swap = () => lg.classList.contains('ready') ? lg.closest('.logo').classList.add('is-3d') : requestAnimationFrame(swap);
+          swap();
+        }
+        api = window.AHU3D.mount(box,{ logo: 'img/logo-dark.png', onInteract: () => { touched = true; hero.classList.add('touched'); } });
         if (!api) { btn.hidden = true; return; }
         syncSlot();
         const waitReady = () => box.classList.contains('ready') ? hero.classList.add('ready-3d') : requestAnimationFrame(waitReady);
