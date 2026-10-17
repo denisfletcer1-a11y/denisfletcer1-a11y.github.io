@@ -457,8 +457,21 @@ p { margin: 0; }
   body { font-size: 17.5px; }
 }
 
+/* карточки услуг: «живое» фото, наклон и блик за курсором */
+@keyframes svcDrift {
+  0%, 100% { transform: scale(1.05) translate3d(0, 0, 0); }
+  50% { transform: scale(1.11) translate3d(-1.4%, -1.1%, 0); }
+}
+.svc.live .svc-media img { animation: svcDrift 18s ease-in-out infinite; }
+.svc:nth-child(2n).live .svc-media img { animation-duration: 21s; animation-delay: -6s; }
+.svc:nth-child(3n).live .svc-media img { animation-duration: 24s; animation-delay: -11s; }
+.js .svc.reveal.in.tilt { transition: box-shadow .3s, transform .18s ease-out; box-shadow: inset 0 0 0 1px var(--line-2), 0 28px 70px -30px rgba(79, 216, 255, .5); }
+.svc-glare { position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit; opacity: 0; transition: opacity .35s; background: radial-gradient(460px circle at var(--gx, 50%) var(--gy, 0%), rgba(199, 245, 255, .14), transparent 60%); }
+.svc.tilt .svc-glare { opacity: 1; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .svc.live .svc-media img { animation: none; }
   .air, .marquee-track { animation: none; }
   .js .reveal { transform: none; transition: opacity .4s ease; }
 }

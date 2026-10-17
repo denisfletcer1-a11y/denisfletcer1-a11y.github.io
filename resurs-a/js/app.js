@@ -93,6 +93,32 @@
     els.forEach(e => io.observe(e));
   })();
 
+  // ---------- карточки услуг: появление по очереди, «живое» фото, наклон за курсором ----------
+  (() => {
+    const cards = [...document.querySelectorAll('.svc')];
+    cards.forEach((c, i) => {
+      c.style.transitionDelay = (i % 3) * 0.14 + 's';
+      c.addEventListener('transitionend', function clear(e) { if (e.propertyName === 'opacity') { c.style.transitionDelay = ''; c.removeEventListener('transitionend', clear); } });
+      c.insertAdjacentHTML('beforeend', '<span class="svc-glare" aria-hidden="true"></span>');
+      if (!reduced) onScreen(c, v => c.classList.toggle('live', v));
+    });
+    if (reduced || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    cards.forEach(c => {
+      let raf = 0;
+      c.addEventListener('pointerenter', () => c.classList.add('tilt'));
+      c.addEventListener('pointermove', e => {
+        const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          c.style.setProperty('--gx', (x * 100).toFixed(1) + '%');
+          c.style.setProperty('--gy', (y * 100).toFixed(1) + '%');
+          c.style.transform = `perspective(900px) rotateX(${((0.5 - y) * 6).toFixed(2)}deg) rotateY(${((x - 0.5) * 8).toFixed(2)}deg) translateY(-4px)`;
+        });
+      });
+      c.addEventListener('pointerleave', () => { cancelAnimationFrame(raf); c.classList.remove('tilt'); c.style.transform = ''; });
+    });
+  })();
+
   // ---------- струи воздуха на фоне ----------
   function airCanvas(canvas, density) {
     if (!canvas) return;
