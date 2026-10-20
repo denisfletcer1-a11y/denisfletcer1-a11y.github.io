@@ -287,7 +287,7 @@
     const num = document.getElementById('cAreaNum');
     const worksBox = document.getElementById('cWorks');
     if (!typeBox) return;
-    const TYPES = { office: 'офис или банк', prod: 'производство или склад', retail: 'магазин или кафе', home: 'квартира или дом' };
+    const TYPES = { office: 'офис или банк', prod: 'производство или склад', retail: 'магазин или кафе', home: 'частный дом' };
     let type = 'office';
     typeBox.addEventListener('click', e => {
       const b = e.target.closest('button');
