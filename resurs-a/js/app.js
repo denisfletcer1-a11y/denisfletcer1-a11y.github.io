@@ -96,6 +96,13 @@
   // ---------- карточки услуг: появление по очереди, «живое» фото, наклон за курсором ----------
   (() => {
     const cards = [...document.querySelectorAll('.svc')];
+    // вся карточка, включая картинку, открывает страницу услуги
+    cards.forEach(c => {
+      const more = c.querySelector('.svc-more');
+      if (!more) return;
+      c.classList.add('svc-link');
+      c.addEventListener('click', e => { if (!e.target.closest('a')) window.location.href = more.href; });
+    });
     cards.forEach((c, i) => {
       c.style.transitionDelay = (i % 3) * 0.14 + 's';
       c.addEventListener('transitionend', function clear(e) { if (e.propertyName === 'opacity') { c.style.transitionDelay = ''; c.removeEventListener('transitionend', clear); } });

@@ -459,7 +459,7 @@ p { margin: 0; }
 
 /* ссылка «Подробнее» на карточке услуги ведёт на её страницу; вся карточка кликабельна */
 .svc-more { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; font-weight: 700; font-size: 14.5px; color: var(--cyan); text-decoration: none; }
-.svc-more::after { content: ""; position: absolute; inset: 0; z-index: 3; }
+.svc.svc-link { cursor: pointer; }
 .svc-more span { transition: transform .3s var(--ease); }
 .svc:hover .svc-more span { transform: translateX(4px); }
 
