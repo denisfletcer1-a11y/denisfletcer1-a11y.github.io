@@ -172,7 +172,23 @@
   (() => {
     const box = document.getElementById('ahu');
     const btn = document.getElementById('explodeBtn');
-    if (!box) return;
+    const mountLogo = () => {
+      const lg = document.getElementById('logo3d');
+      if (lg && window.AHU3D.logo && window.AHU3D.logo(lg, 0)) {
+        const swap = () => lg.classList.contains('ready') ? lg.closest('.logo').classList.add('is-3d') : requestAnimationFrame(swap);
+        swap();
+      }
+    };
+    const fallback = () => setTimeout(() => { const l = document.querySelector('.logo'); if (l && !l.classList.contains('is-3d')) l.classList.add('no-3d'); }, 4000);
+    if (!box) {   // страницы услуг: установки нет, только объёмный логотип
+      const s = document.createElement('script');
+      s.src = 'js/ahu3d.js?v=5';
+      s.async = true;
+      s.onload = () => { if (window.AHU3D) mountLogo(); };
+      document.head.appendChild(s);
+      fallback();
+      return;
+    }
     let api = null, touched = false;
     const label = btn.querySelector('span');
     const setBtn = on => { btn.setAttribute('aria-pressed', String(on)); label.textContent = on ? 'Собрать установку' : 'Разобрать установку'; };
@@ -195,11 +211,7 @@
       s.onload = () => {
         if (!window.AHU3D) return;
         // объёмный логотип в шапке: плоский прячем, когда 3D готов
-        const lg = document.getElementById('logo3d');
-        if (lg && window.AHU3D.logo && window.AHU3D.logo(lg, 0)) {
-          const swap = () => lg.classList.contains('ready') ? lg.closest('.logo').classList.add('is-3d') : requestAnimationFrame(swap);
-          swap();
-        }
+        mountLogo();
         api = window.AHU3D.mount(box,{ logo: 'img/logo-dark.png', onInteract: () => { touched = true; hero.classList.add('touched'); } });
         if (!api) { btn.hidden = true; return; }
         syncSlot();
@@ -220,7 +232,7 @@
     };
     load();   // сразу, не дожидаясь картинок: логотип должен закрутиться как можно раньше
     // если 3D так и не запустилось — показываем обычный логотип
-    setTimeout(() => { const l = document.querySelector('.logo'); if (!l.classList.contains('is-3d')) l.classList.add('no-3d'); }, 4000);
+    fallback();
   })();
 
   // ---------- объекты и просмотр фото ----------
@@ -341,7 +353,7 @@
     }
     // короткая форма в калькуляторе
     const cl = document.getElementById('calcLead');
-    cl.addEventListener('submit', async e => {
+    if (cl) cl.addEventListener('submit', async e => {
       e.preventDefault();
       const phone = cl.elements.phone, note = cl.querySelector('.form-note');
       if (phone.value.replace(/\D/g, '').length < 11) {
@@ -357,6 +369,7 @@
     });
     // основная форма
     const f = document.getElementById('leadForm');
+    if (!f) return;
     f.addEventListener('submit', async e => {
       e.preventDefault();
       const name = f.elements.name, phone = f.elements.phone, agree = f.elements.agree, note = f.querySelector('.form-note');
