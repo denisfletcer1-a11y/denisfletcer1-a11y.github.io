@@ -190,7 +190,7 @@
     };
     const load = () => {
       const s = document.createElement('script');
-      s.src = 'js/ahu3d.js?v=4';
+      s.src = 'js/ahu3d.js?v=5';
       s.async = true;
       s.onload = () => {
         if (!window.AHU3D) return;
