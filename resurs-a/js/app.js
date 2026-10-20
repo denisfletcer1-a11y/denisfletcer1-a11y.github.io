@@ -27,12 +27,17 @@
   const WORK_NAMES = { vent: 'Вентиляция', ac: 'Кондиционирование', smoke: 'Система дымоудаления', project: 'Проект', pnr: 'Пусконаладка и автоматика' };
   // Объекты: реальные фото заказчика (подписи уточнить)
   const WORKS = [
+    { title: 'Жилые комплексы', text: 'Кондиционирование и вентиляция многоэтажных домов на этапе строительства', photos: ['zhk-1', 'zhk-2', 'zhk-3', 'zhk-4', 'zhk-5', 'zhk-6'] },
+    { title: 'Производства и склады', text: 'Магистральные воздуховоды под кровлей и в техпомещениях', photos: ['prod-1', 'prod-2'] },
+    { title: 'Офисы и коммерческие помещения', text: 'Приточно-вытяжные системы, воздуховоды с изоляцией', photos: ['office-2', 'office-1', 'office-3', 'office-4'] },
+    { title: 'Кафе и рестораны', text: 'Вытяжные зонты, вентиляция кухонь, кондиционирование залов', photos: ['cafe-1', 'cafe-2', 'cafe-3'] },
     { title: 'Бассейн', text: 'Приточно-вытяжная вентиляция зала бассейна', photos: ['pool-1', 'pool-2'] },
-    { title: 'Учебная лаборатория', text: 'Вытяжные зонты над рабочими местами', photos: ['lab-1', 'lab-2'] },
-    { title: 'Кондиционирование', text: 'Офисы, детский центр, серверная, фасад здания', photos: ['ac-1', 'ac-2', 'ac-4', 'ac-3'] },
-    { title: 'Воздуховоды', text: 'Магистрали под потолком и в шахтах', photos: ['duct-1', 'duct-2', 'duct-3', 'duct-4', 'duct-5'] },
+    { title: 'Воздуховоды', text: 'Магистрали под потолком и в шахтах', photos: ['duct-1', 'duct-2', 'duct-3', 'duct-4', 'duct-5', 'duct-6', 'duct-7', 'duct-8'] },
     { title: 'Вентустановки', text: 'Монтаж и обвязка приточно-вытяжных установок', photos: ['ahu-1', 'ahu-2'] },
-    { title: 'Щиты автоматики', text: 'Сборка, подключение и пусконаладка', photos: ['auto-1', 'auto-2'] },
+    { title: 'Фасадные работы', text: 'Наружные блоки, трассы и вытяжные воздуховоды на фасадах', photos: ['facade-1', 'facade-2', 'facade-3', 'facade-4'] },
+    { title: 'Кондиционирование', text: 'Офисы, детский центр, серверная, фасад здания', photos: ['ac-1', 'ac-2', 'ac-4', 'ac-3'] },
+    { title: 'Учебная лаборатория', text: 'Вытяжные зонты над рабочими местами', photos: ['lab-1', 'lab-2'] },
+    { title: 'Щиты автоматики', text: 'Сборка, подключение и пусконаладка', photos: ['auto-1', 'auto-2', 'auto-3'] },
   ];
   // ===========================================================================
 
@@ -250,19 +255,31 @@
     if (!grid || !lb) return;
     grid.innerHTML = WORKS.map((w, i) => `
       <button class="work reveal in" type="button" data-i="${i}">
-        <span class="work-media"><img src="img/works/${w.photos[0]}-s.webp" alt="${w.title}" loading="lazy" width="540" height="720"><span class="work-count">${w.photos.length} ${plural(w.photos.length, 'фото', 'фото', 'фото')}</span></span>
+        <span class="work-media"><img src="img/works/${w.photos[0]}-s.webp" alt="${w.title}" loading="lazy" width="540" height="720"><span class="work-count">${w.video ? 'Видео' : w.photos.length + ' ' + plural(w.photos.length, 'фото', 'фото', 'фото')}</span>${w.video ? '<span class="work-play" aria-hidden="true"></span>' : ''}</span>
         <span class="work-body"><b>${w.title}</b><span>${w.text}</span></span>
       </button>`).join('');
     const img = lb.querySelector('img'), cap = lb.querySelector('figcaption');
+    const vid = document.createElement('video');   // для объектов с видео
+    vid.controls = true; vid.muted = true; vid.playsInline = true; vid.loop = true; vid.preload = 'none';
+    img.after(vid);
     let cur = null, idx = 0, opener = null;
     const show = () => {
       const w = WORKS[cur];
+      const many = w.photos.length > 1 && !w.video;
+      lb.classList.toggle('single', !many);
+      if (w.video) {
+        img.hidden = true; vid.hidden = false;
+        vid.poster = `img/works/${w.photos[0]}.webp`; vid.src = `img/works/${w.video}`; vid.play().catch(() => {});
+        cap.textContent = `${w.title} · ${w.text}`;
+        return;
+      }
+      vid.pause(); vid.removeAttribute('src'); vid.load(); vid.hidden = true; img.hidden = false;
       img.src = `img/works/${w.photos[idx]}.webp`;
       img.alt = `${w.title} — фото ${idx + 1}`;
       cap.textContent = `${w.title} · ${w.text} · ${idx + 1} / ${w.photos.length}`;
     };
     const open = (i, el) => { cur = i; idx = 0; opener = el; lb.hidden = false; document.body.style.overflow = 'hidden'; show(); lb.querySelector('.lb-close').focus(); };
-    const close = () => { lb.hidden = true; document.body.style.overflow = ''; img.src = ''; if (opener) opener.focus(); };
+    const close = () => { lb.hidden = true; document.body.style.overflow = ''; img.src = ''; vid.pause(); vid.removeAttribute('src'); vid.load(); if (opener) opener.focus(); };
     const step = d => { const n = WORKS[cur].photos.length; idx = (idx + d + n) % n; show(); };
     grid.addEventListener('click', e => { const b = e.target.closest('.work'); if (b) open(+b.dataset.i, b); });
     lb.querySelector('.lb-close').addEventListener('click', close);
