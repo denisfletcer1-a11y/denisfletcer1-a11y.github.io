@@ -3,14 +3,15 @@
 
   // ================== НАСТРОЙКИ: заполнить данными заказчика ==================
   const CONTACT = {
-    phone: '',            // '+7 (900) 123-45-67'
+    phone: '+7 (989) 122-37-60',
     whatsapp: '',         // номер только цифрами: '79001234567'
     telegram: '',         // 'https://t.me/имя'
     max: '',              // 'https://max.ru/...'
-    email: '',            // 'info@...'
+    email: 'trk1701@mail.ru',
     hours: 'Ежедневно 8:00–20:00',
-    company: '',          // 'ООО «Ресурс-А»'
-    inn: '',              // '0000000000'
+    company: 'Ресурс-А',
+    inn: '232907759045',
+    ogrnip: '325237500326971',
   };
   const LEADS = {
     endpoint: '',         // куда отправлять заявки (подключим перед запуском)
@@ -61,7 +62,7 @@
       if (href) a.href = href;
       else if (k !== 'phone') a.hidden = true;   // нет мессенджера — кнопку прячем
     });
-    const texts = { phone: CONTACT.phone, hours: CONTACT.hours, email: CONTACT.email, company: CONTACT.company, inn: CONTACT.inn && 'ИНН ' + CONTACT.inn };
+    const texts = { phone: CONTACT.phone, hours: CONTACT.hours, email: CONTACT.email, company: CONTACT.company, inn: CONTACT.inn && `ИП · ИНН ${CONTACT.inn}` + (CONTACT.ogrnip ? ` · ОГРНИП ${CONTACT.ogrnip}` : '') };
     document.querySelectorAll('[data-contact-text]').forEach(el => { const v = texts[el.dataset.contactText]; if (v) el.textContent = v; });
   })();
 
