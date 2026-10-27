@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Строительство бассейнов под ключ — Бассейны-строим.рф</title>
+<meta name="description" content="Строим надёжные бассейны из полипропилена со сроком эксплуатации от 25 лет. Краснодар, Краснодарский край, Адыгея, Санкт-Петербург. Гарантия 24 месяца, от проекта до бассейна под ключ за 30–45 дней.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=6">
+<link rel="stylesheet" href="css/sections.css?v=2">
+<link rel="stylesheet" href="css/motion.css?v=1">
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="#"><span class="logo-mark"></span><span>бассейны-строим<i>.рф</i></span></a>
+  <nav class="top-nav">
+    <a href="#build">Конструктор</a><a href="#projects">Проекты и цены</a><a href="#bowls">Чаши</a><a href="#stages">Этапы</a><a href="#faq">Вопросы</a><a href="#contact">Контакты</a>
+  </nav>
+  <a class="top-phone" href="tel:+79675557205">+7 967 555-72-05</a>
+</header>
+
+<main>
+  <!-- ===== первый экран: 3D-конструктор ===== -->
+  <section class="hero" id="build">
+    <div class="stage" id="stage">
+      <button class="explode" id="explodeBtn"><svg viewBox="0 0 24 24"><path d="M12 3v6M12 15v6M5 8l7 4 7-4M5 16l7-4 7 4"/></svg><span>Разобрать на слои</span></button>
+      <div class="stage-hint"><svg viewBox="0 0 24 24"><path d="M4 12h16M4 12l4-4M4 12l4 4M20 12l-4-4M20 12l-4 4"/></svg>Потяните, чтобы повернуть</div>
+    </div>
+
+    <div class="hero-copy">
+      <p class="kicker">Краснодар · Краснодарский край · Адыгея · Санкт-Петербург</p>
+      <h1>Строительство бассейнов <em>под ключ</em></h1>
+      <p class="lead">Строим надёжные бассейны из полипропилена со сроком эксплуатации от 25 лет — по индивидуальному или готовому проекту. Соберите свой бассейн в 3D и получите предварительный расчёт стоимости за 1 минуту.</p>
+      <ul class="facts">
+        <li>Цена не изменится в процессе строительства</li>
+        <li>Гарантия 24 месяца включена в договор</li>
+        <li>От проекта до бассейна «под ключ» за 30–45 дней</li>
+      </ul>
+    </div>
+
+    <aside class="panel" aria-label="Конструктор бассейна">
+      <div class="row">
+        <span class="lbl">Форма чаши</span>
+        <div class="seg seg-grid" data-k="shape">
+          <button data-v="rect" class="on">Прямоугольная</button><button data-v="oval">Овальная</button><button data-v="round">Круглая</button><button data-v="kids">С детской зоной</button>
+          <button data-v="overflow">Переливная</button><button data-v="ground">Наземная</button><button data-v="kupel">Купель</button><button data-v="free">Нестандартная</button>
+        </div>
+      </div>
+      <div class="row" id="rowLen">
+        <span class="lbl">Длина <b id="vLen">6,0 м</b></span>
+        <input type="range" id="len" min="3" max="12" step="0.5" value="6">
+      </div>
+      <div class="row">
+        <span class="lbl"><span id="wLbl">Ширина</span> <b id="vWid">3,0 м</b></span>
+        <input type="range" id="wid" min="2" max="5" step="0.5" value="3">
+      </div>
+      <div class="row">
+        <span class="lbl">Глубина</span>
+        <div class="seg" data-k="depth">
+          <button data-v="1.2">1,2 м</button><button data-v="1.5" class="on">1,5 м</button><button data-v="1.8">1,8 м</button>
+        </div>
+      </div>
+      <div class="row">
+        <span class="lbl">Спуск в бассейн</span>
+        <div class="seg" data-k="steps">
+          <button data-v="none">Лестница</button><button data-v="straight" class="on">Классика</button><button data-v="roman">Бельэтаж</button>
+        </div>
+      </div>
+      <div class="row">
+        <span class="lbl">Подогрев воды</span>
+        <div class="seg seg-4" data-k="heat">
+          <button data-v="none" class="on">Нет</button><button data-v="electric">Электро</button><button data-v="exchanger">Котёл</button><button data-v="pump">Теплонасос</button>
+        </div>
+      </div>
+      <div class="row color-row">
+        <div>
+          <span class="lbl">Цвет полипропилена</span>
+          <div class="swatches" data-k="color">
+            <button data-v="blue" class="on" style="--c:#8fd6ec" title="Голубой"></button>
+            <button data-v="white" style="--c:#eef4f6" title="Белый"></button>
+            <button data-v="sand" style="--c:#e6d6b4" title="Песочный"></button>
+            <button data-v="grey" style="--c:#a3aeb5" title="Серый"></button>
+          </div>
+        </div>
+        <div class="toggles"><label><input type="checkbox" id="light" checked><span></span>Освещение</label></div>
+      </div>
+      <div class="price">
+        <span>Предварительный расчёт, под ключ</span>
+        <strong id="price">от 920 000 ₽</strong>
+        <small>Стоимость фиксируется в договоре и не изменится</small>
+      </div>
+      <button class="cta" id="ctaBtn">Рассчитать стоимость бассейна</button>
+    </aside>
+  </section>
+
+  <!-- ===== примеры проектов и цены ===== -->
+  <svg class="wave" viewBox="0 0 2880 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 Q 180 0 360 30 T 720 30 T 1080 30 T 1440 30 T 1800 30 T 2160 30 T 2520 30 T 2880 30 V60 H0Z" fill="#0f1a2e"/><path d="M0 34 Q 240 10 480 34 T 960 34 T 1440 34 T 1920 34 T 2400 34 T 2880 34 V60 H0Z" fill="#4fe0f2"/></svg>
+  <section class="sec" id="projects">
+    <div class="wrap">
+      <p class="eyebrow">Наши объекты</p>
+      <h2>Примеры проектов <em>и цены</em></h2>
+      <div class="stats">
+        <div class="stat"><b data-count="5" data-suffix="+">0</b><span>лет строим бассейны из полипропилена</span></div>
+        <div class="stat"><b data-count="25" data-prefix="от ">0</b><span>лет срок эксплуатации чаши</span></div>
+        <div class="stat"><b data-count="24">0</b><span>месяца гарантии по договору</span></div>
+        <div class="stat"><b data-count="45" data-prefix="21–">0</b><span>дней от проекта до бассейна под ключ</span></div>
+      </div>
+      <div class="gallery" id="gallery">
+        <img src="img/obj1.jpg" alt="Готовый бассейн из полипропилена" loading="lazy">
+        <img src="img/obj2.jpg" alt="Бассейн на участке" loading="lazy">
+        <img src="img/obj3.jpg" alt="Бассейн с зоной отдыха" loading="lazy">
+        <img src="img/obj4.jpg" alt="Овальный бассейн" loading="lazy">
+        <img src="img/obj5.jpg" alt="Бассейн у дома" loading="lazy">
+        <img src="img/obj6.jpg" alt="Бассейн с видом на горы" loading="lazy">
+        <img src="img/obj7.jpg" alt="Круглый бассейн" loading="lazy">
+        <img src="img/obj8.jpg" alt="Бассейн нестандартной формы" loading="lazy">
+        <img src="img/obj9.jpg" alt="Бассейн в Сочи" loading="lazy">
+      </div>
+      <div class="projects">
+        <article><h3>Бассейн 6×3×1,5 в Краснодаре</h3><p>Построен в 2020 г. Ступени Классика, стандартный комплект оборудования в техбоксе, теплосберегающее покрытие, отделка борта камнем.</p><b>от 1 млн ₽</b></article>
+        <article><h3>Бассейн 4×3×1,5, Всеволожский р-н ЛО</h3><p>Апрель–май 2022. Котлован вручную под подиумом из террасной доски, выносные ступени Стандарт, инверторный теплонасос — вода до +26 даже коротким питерским летом.</p><b>1,2–1,3 млн ₽</b></article>
+        <article><h3>Бассейн 6,5×3×1,5 в ст. Елизаветинская</h3><p>Установлен летом 2020 г. Стандартная комплектация + ступени Классика. Монтаж — 14 дней, заказчик получал фотоотчёты по каждому этапу.</p><b>от 800 тыс. ₽</b></article>
+        <article><h3>Переливной бассейн 6×3×1,5, п. Дивноморское</h3><p>В подвальном помещении, на этапе строительства дома. Полипропилен 5 и 8 мм, встроенные ступени Классика, подогрев и автоматическая станция дозации.</p><b>от 1,2 млн ₽</b></article>
+        <article><h3>Бассейн 9×3×1,5 + ступени Рио</h3><p>Всеволожский район Санкт-Петербурга. Стандартная система фильтрации, автоматическая станция дозации химии и противоток.</p><b>от 1,5 млн ₽</b></article>
+        <article><h3>Бассейн 10×4 в п. Супсех</h3><p>Ноябрь 2021 г. Переменное дно и детская зона, автоматическая станция дозации химии. Срок выполнения — 45 дней.</p><b>от 1,5 млн ₽</b></article>
+        <article><h3>Бассейн 4,2×2,2×1,5 в п. Ильский</h3><p>Чаша собиралась на месте, сентябрь 2020 г. Стандартное оборудование, металлические ступени.</p><b>от 600 тыс. ₽</b></article>
+        <article><h3>Три бассейна 6×3×1,5 в ст. Крепостной</h3><p>Коммерческий проект: дома посуточной аренды, у каждого — бассейн и баня. Встроенные ступени Стандарт.</p><b>от 850 тыс. ₽ за бассейн</b></article>
+        <article><h3>Бассейн 6,5×2,6×1,5, Адлерский р-н Сочи</h3><p>Построен в 2020 г. Стандартная комплектация + ступени Классика.</p><b>от 900 тыс. ₽</b></article>
+        <article><h3>Бассейн нестандартной формы в Сочи</h3><p>На крыше дома, лето 2020 г. Фильтрационное оборудование + перелив по одной стороне.</p><b>от 700 тыс. ₽</b></article>
+        <article><h3>Бассейн 6×3×1,5 в п. Агроном</h3><p>Весна 2022 г., под Краснодаром. Ступени Классика, освещение. Срок — 30 дней.</p><b>от 900 тыс. ₽</b></article>
+        <article><h3>Бассейн 6×3×1,5 в Краснодаре</h3><p>Апрель 2022 г. Ступени Бельэтаж радиусом 2 м. Срок реализации — 30 дней.</p><b>от 950 тыс. ₽</b></article>
+        <article><h3>Бассейн 6×3×1,5, пригород Краснодара</h3><p>Сентябрь 2022 г. Освещение, отделка борта камнем. Срок — 21 день.</p><b>от 850 тыс. ₽</b></article>
+        <article><h3>Бассейн 4×3×1,5, п. Черешня (Сочи)</h3><p>Оборудование в герметичном пластиковом техбоксе, встроенные ступени Рио. Срок — 35 дней.</p><b>от 750 тыс. ₽</b></article>
+        <article><h3>Бассейн 7×3×1,5 в Сочи</h3><p>Июнь 2022 г. Автоматическая станция дозации химии, донный слив, два прожектора, подогрев.</p><b>от 1,3 млн ₽</b></article>
+        <article><h3>Бассейн 6×3×1,5, ст. Отрадная</h3><p>Июнь 2023 г. Стандартная комплектация + автодолив и донный слив.</p><b>от 900 тыс. ₽</b></article>
+      </div>
+      <button class="more" id="moreProjects">Показать все проекты</button>
+    </div>
+  </section>
+
+  <!-- ===== представьте ===== -->
+  <section class="sec dream">
+    <div class="wrap">
+      <h2>Представьте, как уже завтра вы купаетесь в бассейне <em>вашей мечты</em></h2>
+      <div class="dream-row">
+        <div><span>01</span>Отдыхаете семьёй и встречаете друзей</div>
+        <div><span>02</span>Восстанавливаете силы после работы и занимаетесь спортом</div>
+        <div><span>03</span>Дарите своим детям здоровое и счастливое детство, о котором сами мечтали</div>
+      </div>
+      <button class="cta cta-inline" data-open-lead>Заказать консультацию</button>
+      <p class="note">Перезвоним в течение 5 минут и ответим на все ваши вопросы</p>
+    </div>
+  </section>
+
+  <!-- ===== чаши ===== -->
+  <section class="sec" id="bowls">
+    <div class="wrap">
+      <p class="eyebrow">Собственное производство в Краснодаре и Санкт-Петербурге</p>
+      <h2>Можно заказать <em>только чашу</em></h2>
+      <p class="sub">Если хотите сэкономить и провести монтаж самостоятельно — отправим инструкцию и расскажем обо всех нюансах успешного монтажа.</p>
+      <div class="bowls">
+        <figure><img src="img/b-rect.jpg" alt="Прямоугольная чаша" loading="lazy"><figcaption><b>Прямоугольная чаша</b><span>от 96 640 ₽</span></figcaption></figure>
+        <figure><img src="img/b-oval.jpg" alt="Овальная чаша" loading="lazy"><figcaption><b>Овальная чаша</b><span>от 101 440 ₽</span></figcaption></figure>
+        <figure><img src="img/b-round.jpg" alt="Круглая чаша" loading="lazy"><figcaption><b>Круглая чаша</b><span>от 70 420 ₽</span></figcaption></figure>
+        <figure><img src="img/b-steps.jpg" alt="Чаша со встроенными ступенями" loading="lazy"><figcaption><b>Чаша со встроенными ступенями</b><span>от 128 990 ₽</span></figcaption></figure>
+        <figure><img src="img/b-kids.jpg" alt="Чаша с детской зоной" loading="lazy"><figcaption><b>Чаша с детской зоной</b><span>по расчёту</span></figcaption></figure>
+      </div>
+      <p class="note">Нестандартная форма — изготовим по вашему дизайн-проекту. Чаще всего такие бассейны ставят в бане или в доме, где форму определяют стены здания.</p>
+    </div>
+  </section>
+
+  <!-- ===== чем отличаемся ===== -->
+  <section class="sec why">
+    <div class="wrap">
+      <p class="eyebrow">Чаши из полипропилена</p>
+      <h2>Чем мы <em>отличаемся</em> от других</h2>
+      <div class="why-grid">
+        <div class="card"><img src="img/st-sheets.jpg" alt="Листы полипропилена" loading="lazy"><h3>Сертифицированный пищевой полипропилен</h3><p>Современный УФ-стойкий материал, устойчивый к низким и высоким температурам — эксплуатируется в любых климатических условиях. Срок службы — более 25 лет.</p></div>
+        <div class="card"><img src="img/st-weld.jpg" alt="Сварка экструдером" loading="lazy"><h3>Мы не используем фены для сварки швов</h3><p>Швы варим немецкими ручными экструдерами. Чаши, сваренные ручным феном, могут стоить дешевле, но надёжность швов в них в разы ниже.</p></div>
+        <div class="card"><img src="img/st-tech.jpg" alt="Техбокс с оборудованием" loading="lazy"><h3>Проверенное оборудование</h3><p>Готовые комплекты оборудования разного класса под разные нужды и кошелёк. Всё компактно размещается в пластиковом техбоксе — на улице с заглублением в грунт или в доме.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== подогрев и комплектация ===== -->
+  <section class="sec" id="equip">
+    <div class="wrap">
+      <p class="eyebrow">Что нужно бассейну для работы</p>
+      <h2>Подогрев и оборудование</h2>
+      <p class="sub">Рекомендуем делать бассейн с подогревом — так купальный сезон длится с мая по октябрь. Оптимальная температура для купания — 28 градусов.</p>
+      <div class="heat">
+        <div><b>Электрический нагреватель</b><span>от 55 000 ₽</span><p>Обязательно наличие 380 В. Подходит для небольшого бассейна в бане или сауне, где нет котла.</p></div>
+        <div><b>Теплообменник от газового котла</b><span>от 69 600 ₽</span><p>Если есть котёл — самый экономичный способ подогрева воды.</p></div>
+        <div><b>Инверторный теплонасос</b><span>от 200 000 ₽</span><p>Греет воду до +26 даже при прохладной погоде — проверено коротким летом под Петербургом.</p></div>
+      </div>
+      <div class="equip">
+        <figure><img src="img/st-filter.jpg" alt="Песочный фильтр и насос" loading="lazy"><figcaption><b>Система фильтрации</b>Песочный фильтр, насос, скиммер и форсунки возврата воды</figcaption></figure>
+        <figure><img src="img/st-led.jpg" alt="Светодиодный прожектор" loading="lazy"><figcaption><b>Освещение</b>Светодиодные и галогеновые прожекторы — без света бассейн похож на мрачный омут</figcaption></figure>
+        <figure><img src="img/st-steps.jpg" alt="Встроенные ступени" loading="lazy"><figcaption><b>Встроенные ступени</b>Классика, Рио, Бельэтаж, Стандарт</figcaption></figure>
+        <figure><img src="img/st-ladder.jpg" alt="Металлическая лестница" loading="lazy"><figcaption><b>Металлические лестницы</b>Простой и надёжный спуск в бассейн</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6 этапов ===== -->
+  <section class="sec stages" id="stages">
+    <div class="wrap">
+      <p class="eyebrow">Как будет строиться ваш бассейн</p>
+      <h2>6 этапов <em>строительства</em></h2>
+      <ol class="steps">
+        <li><img src="img/obj2.jpg" alt="" loading="lazy"><div><h3>Договор. Предоплата. Эскиз</h3><p>Согласование условий, цены и подписание договора — удалённо или в офисе. Внесение предоплаты, подготовка и согласование эскиза.</p></div></li>
+        <li><img src="img/st-pit.jpg" alt="Подготовка котлована" loading="lazy"><div><h3>Выезд и начало работ</h3><p>Подготовка котлована и заливка донной плиты.</p></div></li>
+        <li><img src="img/st-weld.jpg" alt="Изготовление чаши" loading="lazy"><div><h3>Изготовление чаши и комплекта оборудования</h3><p>Чаша изготавливается на нашем производстве по параметрам вашего заказа.</p></div></li>
+        <li><img src="img/st-bowl.jpg" alt="Установка чаши" loading="lazy"><div><h3>Доставка и установка чаши</h3><p>Установка чаши в котлован, подключение оборудования, подготовка внутренней опалубки и заливка стен чаши бетоном.</p></div></li>
+        <li><img src="img/st-round.jpg" alt="Запуск бассейна" loading="lazy"><div><h3>Запуск бассейна</h3><p>Демонтаж опалубки и тестовый запуск оборудования.</p></div></li>
+        <li><img src="img/obj1.jpg" alt="Отделка борта камнем" loading="lazy"><div><h3>Отделка верхнего борта камнем</h3><p>Производится, если этап согласован в договоре.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== гарантии ===== -->
+  <section class="sec guar">
+    <div class="wrap">
+      <h2>Вы получите на руки договор, в котором прописаны ваши гарантии и окончательная стоимость строительства</h2>
+      <div class="guar-row">
+        <div><b>Гарантия по договору</b>В договоре чётко фиксируется список работ, гарантия и ответственность сторон</div>
+        <div><b>Фиксированная стоимость в смете</b>Под каждый этап работ разрабатываем точную смету — видно, из чего складывается стоимость</div>
+        <div><b>Сроки строительства и оплаты прописаны</b>При подписании договора составляется план-график работ и их финансирования</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== отзывы ===== -->
+  <section class="sec" id="reviews">
+    <div class="wrap">
+      <p class="eyebrow">Переписка с заказчиками</p>
+      <h2>Отзывы наших <em>довольных</em> клиентов</h2>
+      <div class="reviews" id="reviewsRow">
+        <img src="img/r1.jpg" alt="Отзыв заказчика" loading="lazy"><img src="img/r2.jpg" alt="Отзыв заказчика" loading="lazy"><img src="img/r3.jpg" alt="Отзыв заказчика" loading="lazy">
+        <img src="img/r4.jpg" alt="Отзыв заказчика" loading="lazy"><img src="img/r5.jpg" alt="Отзыв заказчика" loading="lazy"><img src="img/r6.jpg" alt="Отзыв заказчика" loading="lazy">
+        <img src="img/r7.jpg" alt="Отзыв заказчика" loading="lazy"><img src="img/r8.jpg" alt="Отзыв заказчика" loading="lazy"><img src="img/r9.jpg" alt="Отзыв заказчика" loading="lazy">
+        <img src="img/r10.jpg" alt="Отзыв заказчика" loading="lazy"><img src="img/r11.jpg" alt="Отзыв заказчика" loading="lazy"><img src="img/r12.jpg" alt="Отзыв заказчика" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== вопросы ===== -->
+  <section class="sec" id="faq">
+    <div class="wrap narrow">
+      <h2>Вопросы и ответы</h2>
+      <div class="faq">
+        <details><summary>Какие бассейны вы строите?</summary><p>Мы строим бассейны из полипропилена. Чаши производим на собственном производстве в Краснодаре и Санкт-Петербурге. Такой бассейн можно построить как на улице, так и в помещении.</p></details>
+        <details><summary>Из чего складывается стоимость?</summary><p>Каждый проект рассчитывается индивидуально и во многом зависит не от размера самого бассейна, а от оборудования, комплектующих и объёмов строительных работ.</p></details>
+        <details><summary>В какое время года вы строите?</summary><p>Круглый год. Как правило, зимой строить выгоднее — цены на многие стройматериалы ниже, чем в сезон.</p></details>
+        <details><summary>Сколько времени занимает строительство?</summary><p>От согласования проекта до готового бассейна под ключ проходит в среднем 21–45 дней.</p></details>
+        <details><summary>Как сделать подогрев воды в бассейне?</summary><p>Три варианта: электрический (обязательно 380 В) — от 55 000 ₽; от газового котла через теплообменник — от 69 600 ₽; инверторный теплонасос — от 200 000 ₽.</p></details>
+        <details><summary>Почему у вас гарантия только 24 месяца?</summary><p>Мы более 5 лет строим бассейны из полипропилена и знаем: если проблема и бывает, она проявляется в первые 6 месяцев. Когда соблюдаются все технологии, проблем не возникает. Гарантия 5 лет и более у подрядчика — это всего лишь маркетинговый ход.</p></details>
+        <details><summary>Можете отремонтировать бассейн, который строили не вы?</summary><p>Мы не занимаемся восстановлением и ремонтом чужих изделий. При выборе подрядчика будьте внимательны: изучите историю компании, отзывы, посмотрите построенные объекты вживую.</p></details>
+        <details><summary>У меня есть бригада — могу установить бассейн сам?</summary><p>Да. Если у вас есть люди или ресурсы для самостоятельного монтажа, мы дадим все необходимые рекомендации — нам важно, чтобы чаша была установлена правильно и служила долгие годы.</p></details>
+        <details><summary>Какие бывают стандартные размеры?</summary><p>Стандартных размеров нет — сделаем бассейн любого размера. Самые популярные: 5×3, 6×3 и 7×3 метра.</p></details>
+        <details><summary>Как производится оплата? Есть рассрочка?</summary><p>На расчётный счёт, переводом на карту или наличными в офисе. Рассрочка возможна только на период строительства. Мы не работаем с НДС.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== контакты ===== -->
+  <section class="sec contact" id="contact">
+    <div class="wrap">
+      <h2>Остались вопросы? Давайте обсудим!</h2>
+      <div class="offices">
+        <div>
+          <h3>Краснодар и Краснодарский край</h3>
+          <p>г. Краснодар, ул. им. Гаврилова П.М., д. 105</p>
+          <p><a href="tel:+79675557205">+7 967 555-72-05</a></p>
+          <p><a href="mailto:8057819@mail.ru">8057819@mail.ru</a></p>
+          <p class="muted">Офис: будни 9:00–18:00, суббота 10:00–15:00, воскресенье — выходной</p>
+        </div>
+        <div>
+          <h3>Санкт-Петербург и Ленинградская область</h3>
+          <p>Приозерский р-н, Сосновское с/п, п. Платформа 69-й километр</p>
+          <p><a href="tel:+79581110609">+7 958 111-06-09</a></p>
+          <p class="muted">Пишите, мы онлайн — без выходных, 9:00–18:00</p>
+        </div>
+      </div>
+      <button class="cta cta-inline" data-open-lead>Перезвоните мне</button>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>© Бассейны-строим.рф — строительство бассейнов из полипропилена</span>
+  <span>Демо-версия нового сайта</span>
+</footer>
+
+<div class="modal" id="modal" hidden>
+  <form class="modal-card" id="leadForm">
+    <button type="button" class="x" id="closeModal" aria-label="Закрыть">×</button>
+    <h3 id="modalTitle">Расчёт стоимости бассейна</h3>
+    <p id="modalSummary"></p>
+    <input name="name" placeholder="Ваше имя" required>
+    <input name="phone" type="tel" placeholder="+7 (___) ___-__-__" required>
+    <button class="cta" type="submit">Получить расчёт</button>
+    <small>Нажимая на кнопку, вы соглашаетесь с политикой конфиденциальности</small>
+  </form>
+</div>
+<div class="lightbox" id="lightbox" hidden><img alt=""></div>
+
+<script src="js/pool3d.js?v=6"></script>
+<script src="js/app.js?v=6"></script>
+</body>
+</html>

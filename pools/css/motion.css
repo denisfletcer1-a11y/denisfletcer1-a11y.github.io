@@ -1,0 +1,80 @@
+/* ---------- шрифт заголовков и анимации ---------- */
+:root { --serif: 'Playfair Display', Georgia, 'Times New Roman', serif; }
+h1, h2, .logo, .price strong, .modal-card h3, .projects b, .dream-row span, .heat span, .steps li::before, .stat b { font-family: var(--serif) !important; letter-spacing: 0 !important; }
+h1 { font-weight: 700; font-size: clamp(36px, 4vw, 60px) !important; line-height: 1.04 !important; }
+h1 em { font-style: italic; }
+h2 { font-weight: 600; font-size: clamp(30px, 3.6vw, 50px) !important; line-height: 1.1 !important; }
+h2 em { font-style: italic; color: var(--aqua); }
+.logo { font-weight: 700; font-size: 21px !important; }
+.price strong { font-size: 30px !important; }
+.projects b { font-size: 21px !important; }
+.dream-row span { font-size: 40px !important; font-style: italic; }
+
+/* появление первого экрана */
+@keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@keyframes slideIn { from { opacity: 0; transform: translate(40px, -46%); } to { opacity: 1; transform: translate(0, -46%); } }
+.hero-copy > * { opacity: 0; animation: rise .9s cubic-bezier(.2, .8, .2, 1) forwards; }
+.hero-copy > *:nth-child(1) { animation-delay: .15s; }
+.hero-copy > *:nth-child(2) { animation-delay: .3s; }
+.hero-copy > *:nth-child(3) { animation-delay: .5s; }
+.hero-copy > *:nth-child(4) { animation-delay: .7s; }
+.facts li { opacity: 0; animation: rise .7s ease forwards; }
+.facts li:nth-child(1) { animation-delay: .9s; }
+.facts li:nth-child(2) { animation-delay: 1.05s; }
+.facts li:nth-child(3) { animation-delay: 1.2s; }
+@media (min-width: 961px) and (min-height: 801px) { .panel { animation: slideIn 1s .4s cubic-bezier(.2, .8, .2, 1) both; } }
+@media (min-width: 961px) and (max-height: 800px) { .panel { animation: rise 1s .4s cubic-bezier(.2, .8, .2, 1) both; } }
+
+/* блик по главным кнопкам */
+.cta { position: relative; overflow: hidden; }
+.cta::after { content: ""; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: linear-gradient(100deg, transparent, #ffffffb0, transparent); transform: skewX(-18deg); animation: shine 3.8s ease-in-out infinite; }
+@keyframes shine { 0%, 55% { left: -60%; } 85%, 100% { left: 130%; } }
+
+/* пульс у кнопки разборки */
+.explode::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; border: 1px solid var(--aqua); opacity: 0; animation: ping 2.6s ease-out infinite; pointer-events: none; }
+@keyframes ping { 0% { opacity: .7; transform: scale(1); } 100% { opacity: 0; transform: scale(1.18, 1.5); } }
+.explode.on::before { animation: none; }
+
+/* появление при прокрутке */
+.rv { opacity: 0; transform: translateY(34px); transition: opacity .8s cubic-bezier(.2, .8, .2, 1), transform .8s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--d, 0s); }
+.rv.in { opacity: 1; transform: none; }
+
+/* живые карточки и фото */
+.projects article, .card, .steps li, .bowls figure, .equip figure, .heat div, .guar-row div, .dream-row div, .offices > div { transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease; }
+.projects article:hover, .card:hover, .steps li:hover, .bowls figure:hover, .equip figure:hover, .heat div:hover, .guar-row div:hover, .dream-row div:hover { transform: translateY(-6px); border-color: #4fe0f266; box-shadow: 0 20px 50px #0007, 0 0 0 1px #4fe0f230; }
+.card img, .steps img, .equip img, .bowls img { transition: transform .8s ease; }
+.card:hover img, .steps li:hover img, .equip figure:hover img, .bowls figure:hover img { transform: scale(1.06); }
+.gallery { perspective: 1200px; }
+
+/* полоса с цифрами */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 40px; }
+.stat { padding: 22px 20px; border-radius: var(--r); background: #ffffff08; border: 1px solid var(--line); }
+.stat b { display: block; font-size: clamp(34px, 3.4vw, 48px); line-height: 1; background: linear-gradient(90deg, #b8f6ff, var(--aqua) 50%, #64a8ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stat span { display: block; margin-top: 8px; color: var(--mute); font-size: 14px; font-weight: 600; }
+@media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* волна-разделитель с бегущей водой */
+.wave { display: block; width: 100%; height: 60px; margin-bottom: -1px; }
+.wave path { animation: waveMove 9s linear infinite; }
+.wave path:nth-child(2) { animation-duration: 13s; animation-direction: reverse; opacity: .5; }
+@keyframes waveMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* мерцающие блики воды в блоке «Представьте» */
+.dream { overflow: hidden; }
+.dream::before { content: ""; position: absolute; inset: -20%; background: radial-gradient(circle at 20% 30%, #4fe0f222 0, transparent 30%), radial-gradient(circle at 80% 60%, #64a8ff22 0, transparent 28%), radial-gradient(circle at 50% 90%, #4fe0f21a 0, transparent 30%); animation: drift 14s ease-in-out infinite alternate; pointer-events: none; }
+@keyframes drift { from { transform: translate(-4%, -3%) rotate(0deg); } to { transform: translate(4%, 3%) rotate(6deg); } }
+.dream .wrap { position: relative; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .rv, .hero-copy > *, .facts li { opacity: 1 !important; transform: none !important; }
+}
+
+@media (max-width: 480px) {
+  .logo { font-size: 16px !important; }
+  .top-phone { font-size: 11px; padding: 6px 9px; }
+}
+@media (max-width: 360px) {
+  .logo span:last-child { font-size: 14px; }
+  .top-phone { font-size: 10px; padding: 5px 7px; }
+}
