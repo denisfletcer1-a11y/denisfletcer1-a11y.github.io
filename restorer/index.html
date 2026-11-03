@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Restorer — авторский детейлинг в Воронеже</title>
+  <meta name="description" content="Полировка, защитные покрытия NXTZEN, антигравийная плёнка, химчистка и реставрация кожи. Авторский детейлинг Restorer, Воронеж.">
+  <meta name="theme-color" content="#060606">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="frames/f1/0001.webp?v=2026-09-28-360b">
+  <link rel="stylesheet" href="css/styles.css?v=2026-10-03-resp2">
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">
+    <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="1.4"/><circle class="loader-dot" cx="27" cy="16" r="2.4"/></svg>
+    <span>RESTORER</span>
+  </div>
+  <div class="loader-bar"><i id="loaderBar"></i></div>
+</div>
+
+<header class="nav" id="nav">
+  <a class="logo" href="#top" aria-label="Restorer — на главную">
+    <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 27 9.8v12.4L16 28.5 5 22.2V9.8z" fill="none" stroke="var(--accent)" stroke-width="1.5"/><text x="16" y="21" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor" font-family="Inter Tight, Arial, sans-serif">R</text></svg>
+    <span class="logo-word">RESTORER</span>
+    <span class="logo-sub">авторский детейлинг</span>
+  </a>
+  <nav class="nav-links" aria-label="Разделы">
+    <a href="#diagnostics">Диагностика</a>
+    <a href="#polish">Полировка</a>
+    <a href="#ceramic">Покрытия</a>
+    <a href="#services">Услуги</a>
+    <a href="#works">Работы</a>
+    <a href="#prices">Цены</a>
+    <a href="#reviews">Отзывы</a>
+  </nav>
+  <a class="btn btn-primary btn-sm" href="#booking">Записаться</a>
+</header>
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+<main>
+
+  <!-- 1. Главный экран: машину крутят мышкой / пальцем -->
+  <section class="stage stage-hero" id="top" data-stage="orbit" tabindex="0" aria-label="Автомобиль: зажмите и потяните, чтобы повернуть">
+    <canvas class="scene-canvas" aria-hidden="true"></canvas>
+    <div class="overlay">
+      <div class="hero-copy intro">
+        <p class="kicker">Авторский детейлинг Restorer · Воронеж</p>
+        <h1>Как к&nbsp;своей<br><em>любимой.</em></h1>
+        <p class="lead">Премиальный уход и&nbsp;защита автомобиля. Вы общаетесь напрямую с&nbsp;мастером — от&nbsp;консультации до&nbsp;выдачи, без менеджеров и&nbsp;наценок.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#booking">Записаться на консультацию</a>
+          <a class="btn btn-ghost" href="#prices">Смотреть пакеты</a>
+        </div>
+        <ul class="hero-metrics">
+          <li><b><span data-countup="2014" data-from="2000">2014</span></b><span>работаем с&nbsp;этого года</span></li>
+          <li><b>5,0</b><span>рейтинг на&nbsp;Яндекс Картах</span></li>
+          <li><b>NXTZEN</b><span>сертифицированный установщик</span></li>
+        </ul>
+      </div>
+      <div class="drag-hint drag-hint-hero"><i aria-hidden="true"></i><span>Зажмите и вращайте</span></div>
+    </div>
+  </section>
+
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track"><span>Полировка</span><i>✦</i><span><em>NXTZEN</em></span><i>✦</i><span>Антигравийная плёнка</span><i>✦</i><span>Химчистка салона</span><i>✦</i><span><em>Реставрация кожи</em></span><i>✦</i><span>Тонировка</span><i>✦</i><span>Удаление вмятин</span><i>✦</i><span>Полировка</span><i>✦</i><span><em>NXTZEN</em></span><i>✦</i><span>Антигравийная плёнка</span><i>✦</i><span>Химчистка салона</span><i>✦</i><span><em>Реставрация кожи</em></span><i>✦</i><span>Тонировка</span><i>✦</i><span>Удаление вмятин</span><i>✦</i></div>
+  </div>
+
+  <!-- 2. Диагностика: лупа по кузову -->
+  <section class="section diag" id="diagnostics">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="kicker">Шаг 0 · Диагностика</p>
+        <h2>Сначала — <em>диагностика.</em></h2>
+        <p class="section-lead">Консультацию проводим бесплатно. Под лампой видно то, что прячет солнце: свирлы, голограммы и&nbsp;риски от&nbsp;моек. Толщиномер показывает, где машину уже красили, — там полируем бережнее. Наведите курсор на&nbsp;кузов.</p>
+      </div>
+
+      <div class="lens-wrap reveal">
+        <div class="lens-stage" id="lensStage">
+          <canvas id="lensCanvas" aria-label="Интерактивная лупа: дефекты лака и толщина покрытия"></canvas>
+          <div class="lens-hint" id="lensHint">Наведите курсор на кузов</div>
+        </div>
+        <div class="lens-panel">
+          <div class="seg" role="group" aria-label="Режим лупы">
+            <button type="button" class="active" data-lens-mode="inspect">Лампа</button>
+            <button type="button" data-lens-mode="scan">Толщиномер</button>
+          </div>
+          <div class="readout">
+            <span class="readout-label" id="readoutLabel">Дефекты лака</span>
+            <span class="readout-value" id="readoutValue">—</span>
+            <span class="readout-note" id="readoutNote">Наведите лупу на кузов</span>
+          </div>
+          <div class="scale" id="scanScale" hidden>
+            <i></i>
+            <div><span>70 мкм</span><span>завод</span><span>260 мкм</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Полировка -->
+  <section class="stage" id="polish" data-stage="polish" tabindex="0" aria-label="Полировка: зажмите и потяните вправо">
+    <canvas class="scene-canvas" aria-hidden="true"></canvas>
+    <div class="scrim scrim-bottom"></div>
+    <div class="overlay">
+      <div class="scene-copy pos-bottom-left reveal">
+        <p class="kicker">Этап 1 · Полировка</p>
+        <h2>До 90% царапин —<br><em>просто исчезают.</em></h2>
+        <p>Восстановительная полировка кузова, фар, лобового стекла и&nbsp;лакированного пластика салона. Убираем паутинку от&nbsp;моек, следы веток и&nbsp;лёгкие притёртости.</p>
+      </div>
+      <div class="gauge pos-bottom-right reveal">
+        <span class="gauge-label">Глянец</span>
+        <span class="gauge-value"><span data-count-range="0.05,0.95" data-from="58" data-to="94">58</span><small>GU</small></span>
+        <span class="gauge-bar"><i data-bar-range="0.05,0.95"></i></span>
+      </div>
+      <div class="drag-hint"><i aria-hidden="true"></i><span>Зажмите и ведите вправо</span></div>
+    </div>
+  </section>
+
+  <section class="section compare">
+    <div class="container">
+      <div class="compare-head reveal">
+        <p class="kicker">До и после</p>
+        <h3>Потяните ползунок</h3>
+      </div>
+      <div class="ba reveal" id="baPolish" style="--pos:66%">
+        <img src="img/polish_after.webp" alt="Капот после полировки: чистое зеркальное отражение лампы" loading="lazy">
+        <div class="ba-before"><img src="img/polish_before.webp" alt="Капот до полировки: круговые свирлы вокруг блика" loading="lazy"></div>
+        <div class="ba-line"><span></span></div>
+        <span class="ba-tag ba-tag-l">До</span>
+        <span class="ba-tag ba-tag-r">После</span>
+        <input type="range" min="0" max="100" value="66" aria-label="Сравнение до и после полировки">
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Керамика -->
+  <section class="stage" id="ceramic" data-stage="ceramic" tabindex="0" aria-label="Керамика: зажмите и потяните вправо">
+    <canvas class="scene-canvas" aria-hidden="true"></canvas>
+    <div class="scrim scrim-bottom"></div>
+    <div class="overlay">
+      <div class="scene-copy pos-bottom-left reveal">
+        <p class="kicker">Этап 2 · Защитные покрытия</p>
+        <h2>Вода уходит <em>сама.</em></h2>
+        <p>Наносим NXTZEN Elite, Graphene Serum и&nbsp;365&nbsp;Pro, OPTI-COAT, жидкое стекло и&nbsp;антидождь. Грязь не&nbsp;цепляется, вода собирается в&nbsp;шарики, а&nbsp;блеск после полировки сохраняется надолго.</p>
+      </div>
+      <div class="gauge pos-bottom-right reveal">
+        <span class="gauge-label">Краевой угол</span>
+        <span class="gauge-value"><span data-count-range="0.05,0.9" data-from="0" data-to="112">0</span><small>°</small></span>
+        <span class="gauge-bar"><i data-bar-range="0.05,0.9"></i></span>
+      </div>
+      <div class="drag-hint"><i aria-hidden="true"></i><span>Зажмите и ведите вправо — пойдёт дождь</span></div>
+    </div>
+  </section>
+
+  <!-- 5. До / после в студии -->
+  <section class="stage" id="result" data-stage="reveal" tabindex="0" aria-label="До и после: потяните шторку">
+    <canvas class="scene-canvas" aria-hidden="true"></canvas>
+    <div class="scrim scrim-bottom"></div>
+    <div class="overlay">
+      <div class="scene-copy pos-bottom-left reveal">
+        <p class="kicker">Результат</p>
+        <h2>Та же машина.<br><em>Через три дня.</em></h2>
+      </div>
+      <ul class="stats pos-bottom-right reveal">
+        <li><b data-countup="3">3</b><span>шага полировки</span></li>
+        <li><b data-countup="2">2</b><span>слоя NXTZEN Elite</span></li>
+        <li><b>1</b><span>мастер от&nbsp;начала до&nbsp;конца</span></li>
+      </ul>
+      <div class="drag-hint"><i aria-hidden="true"></i><span>Потяните шторку</span></div>
+    </div>
+  </section>
+
+  <!-- 6. Салон -->
+  <section class="stage stage-auto" id="cabin" data-stage="cabin">
+    <canvas class="scene-canvas" aria-hidden="true"></canvas>
+    <div class="scrim scrim-bottom"></div>
+    <div class="overlay">
+      <div class="scene-copy pos-bottom-left reveal">
+        <p class="kicker">Салон</p>
+        <h2>Внутри&nbsp;—<br><em>как в&nbsp;первый день.</em></h2>
+        <p>Химчистка без вредной химии — паром и&nbsp;деликатными составами. Реставрация кожи по&nbsp;технологии COLOURLOCK, перешив руля с&nbsp;подогревом и&nbsp;без.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Как мы работаем: лента шагов, листается мышкой -->
+  <section class="section process" id="process">
+    <div class="container">
+      <div class="process-head">
+        <div class="section-head reveal">
+          <p class="kicker">Процесс</p>
+          <h2>Как мы <em>работаем.</em></h2>
+          <p class="section-lead">Пять шагов от&nbsp;консультации до&nbsp;выдачи. Цену называем сразу — и&nbsp;она не&nbsp;меняется в&nbsp;процессе.</p>
+        </div>
+        <div class="rail-nav reveal">
+          <button type="button" class="rail-btn" data-rail-prev aria-label="Назад">←</button>
+          <button type="button" class="rail-btn" data-rail-next aria-label="Вперёд">→</button>
+        </div>
+      </div>
+    </div>
+    <div class="rail" id="processRail" tabindex="0" aria-label="Шаги работы: потяните мышкой или листайте">
+      <article class="step reveal">
+        <div class="step-img"><img src="img/inspect_lamp.webp" alt="Осмотр лака под инспекционной лампой" loading="lazy" draggable="false"></div>
+        <div class="step-body"><span class="step-num">01</span><h3>Консультация</h3><p>Бесплатно смотрим машину под лампой и&nbsp;толщиномером, предлагаем варианты и&nbsp;сразу называем цену.</p><span class="step-time">30 минут</span></div>
+      </article>
+      <article class="step reveal">
+        <div class="step-img"><img src="img/foam.webp" alt="Машина в пене во время мойки" loading="lazy" draggable="false"></div>
+        <div class="step-body"><span class="step-num">02</span><h3>Мойка</h3><p>Трёхфазная мойка, удаление битума, колодочной пыли и&nbsp;реагентов. В&nbsp;работу машина идёт идеально чистой.</p><span class="step-time">3 часа</span></div>
+      </article>
+      <article class="step reveal">
+        <div class="step-img"><img src="img/polish_before.webp" alt="Полировка кузова" loading="lazy" draggable="false"></div>
+        <div class="step-body"><span class="step-num">03</span><h3>Полировка</h3><p>Коррекция лака в 2–3 шага: убираем свирлы, голограммы и риски.</p><span class="step-time">1–2 дня</span></div>
+      </article>
+      <article class="step reveal">
+        <div class="step-img"><img src="img/ceramic_apply.webp" alt="Нанесение керамического покрытия" loading="lazy" draggable="false"></div>
+        <div class="step-body"><span class="step-num">04</span><h3>Защита</h3><p>Наносим выбранное покрытие NXTZEN или клеим антигравийную плёнку на&nbsp;зоны риска.</p><span class="step-time">1 день</span></div>
+      </article>
+      <article class="step reveal">
+        <div class="step-img"><img src="img/studio_after.webp" alt="Готовая машина в студии" loading="lazy" draggable="false"></div>
+        <div class="step-body"><span class="step-num">05</span><h3>Выдача</h3><p>Показываем результат под теми же лампами и отдаём машину с гарантией.</p><span class="step-time">В срок</span></div>
+      </article>
+    </div>
+    <div class="container"><div class="rail-progress"><i id="railProgress"></i></div></div>
+  </section>
+
+  <!-- 7. Глянец или сатин -->
+  <section class="section finish" id="ppf">
+    <div class="container finish-grid">
+      <div class="finish-copy reveal">
+        <p class="kicker">Оклейка полиуретаном</p>
+        <h2>Глянец или <em>сатин?</em></h2>
+        <p class="section-lead">Клеим глянцевый, матовый и&nbsp;цветной полиуретан. Глянцевая плёнка незаметна на&nbsp;кузове, матовый сатин превращает машину в&nbsp;скульптуру. Снимается без следов.</p>
+        <div class="seg" role="group" aria-label="Покрытие">
+          <button type="button" class="active" data-finish="gloss">Глянец</button>
+          <button type="button" data-finish="matte">Сатин</button>
+        </div>
+      </div>
+      <div class="finish-stage reveal" id="finishStage">
+        <img src="img/hero.webp" alt="Машина в глянцевом покрытии" loading="lazy" data-parallax="0.06" data-parallax-scale="1.1">
+        <img class="finish-matte" src="img/matte.webp" alt="Та же машина в сатиновой плёнке" loading="lazy" data-parallax="0.06" data-parallax-scale="1.1">
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Услуги -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="kicker">Услуги</p>
+        <h2>Всё, что нужно <em>кузову и&nbsp;салону.</em></h2>
+      </div>
+      <div class="cards">
+        <article class="card reveal">
+          <div class="card-img"><img src="img/polish_after.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Полировка</h3><p>Кузов, фары, лобовое стекло и&nbsp;пластик салона. Убираем до&nbsp;90% царапин.</p><span class="price">от 20&nbsp;000&nbsp;₽</span></div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="img/hood_beads.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Покрытия NXTZEN</h3><p>Elite, Graphene Serum, 365&nbsp;Pro: глубокий блеск, защита от&nbsp;реагентов и&nbsp;лёгкая мойка.</p><span class="price">от 25&nbsp;000&nbsp;₽</span></div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="img/matte.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Антигравийная плёнка</h3><p>Зоны риска или полная оклейка: глянец, матовый сатин или цветной полиуретан.</p><span class="price">от 45&nbsp;000&nbsp;₽</span></div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="img/interior.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Химчистка и&nbsp;кожа</h3><p>Химчистка паром, реставрация кожи COLOURLOCK, перешив руля.</p><span class="price">от 12&nbsp;000&nbsp;₽</span></div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="img/wheel.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Тонировка и&nbsp;вмятины</h3><p>Атермальная плёнка на&nbsp;стёкла и&nbsp;удаление вмятин без покраски.</p><span class="price">от 6&nbsp;000&nbsp;₽</span></div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="img/studio_after.webp" alt="" loading="lazy"></div>
+          <div class="card-body"><h3>Мойка «Премиум-комплекс»</h3><p>Трёхфазная мойка, битум, диски, уборка салона, уход за&nbsp;кожей и&nbsp;шинами.</p><span class="price">от 4&nbsp;000&nbsp;₽</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Наши работы -->
+  <section class="section works" id="works">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="kicker">Наши работы</p>
+        <h2>Машины, которые <em>уже блестят.</em></h2>
+      </div>
+      <div class="works-grid">
+        <figure class="work reveal">
+          <img src="img/work_suv.webp" alt="Чёрный внедорожник после полировки и керамики" loading="lazy">
+          <figcaption><b>Чёрный внедорожник</b><span>Полировка в 3 шага + NXTZEN Elite</span><i>4 дня</i></figcaption>
+        </figure>
+        <figure class="work reveal">
+          <img src="img/work_sedan.webp" alt="Белый седан после керамики" loading="lazy">
+          <figcaption><b>Белый седан</b><span>Покрытие + «Правильный выбор»</span><i>3 дня</i></figcaption>
+        </figure>
+        <figure class="work reveal">
+          <img src="img/work_sports.webp" alt="Красное купе в глянцевой плёнке" loading="lazy">
+          <figcaption><b>Красное купе</b><span>Полная оклейка антигравийной плёнкой</span><i>6 дней</i></figcaption>
+        </figure>
+        <figure class="work reveal">
+          <img src="img/work_matte.webp" alt="Серый кроссовер в сатиновой плёнке" loading="lazy">
+          <figcaption><b>Серый кроссовер</b><span>Матовый полиуретан + химчистка салона</span><i>5 дней</i></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Пакеты -->
+  <section class="section packages" id="prices">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="kicker">Цены</p>
+        <h2>Три пакета — <em>под любую задачу.</em></h2>
+        <p class="section-lead">Цены ориентировочные — точную стоимость мастер назовёт на&nbsp;бесплатной консультации.</p>
+      </div>
+      <div class="plans">
+        <article class="plan reveal">
+          <p class="plan-tag">Вернуть блеск</p>
+          <h3>Блеск</h3>
+          <p class="plan-price">от 29&nbsp;900&nbsp;₽</p>
+          <ul>
+            <li>Мойка «Премиум-комплекс»</li>
+            <li>Восстановительная полировка</li>
+            <li>Покрытие NXTZEN 365&nbsp;Pro</li>
+            <li>Антидождь на&nbsp;стёкла</li>
+          </ul>
+          <p class="plan-time">1–2 дня</p>
+          <a class="btn btn-ghost" href="#booking" data-plan="gloss">Выбрать</a>
+        </article>
+        <article class="plan plan-featured reveal">
+          <p class="plan-tag">Самый популярный</p>
+          <h3>Правильный выбор</h3>
+          <p class="plan-price">от 69&nbsp;900&nbsp;₽</p>
+          <ul>
+            <li>Антигравийная плёнка: капот, бампер, крылья, оптика</li>
+            <li>Стойки, полоса на&nbsp;крыше, зоны под ручками</li>
+            <li>Полка заднего бампера и&nbsp;пороги</li>
+            <li>Полировка и&nbsp;NXTZEN на&nbsp;остальной кузов</li>
+          </ul>
+          <p class="plan-time">3–4 дня</p>
+          <a class="btn btn-primary" href="#booking" data-plan="ceramic">Выбрать</a>
+        </article>
+        <article class="plan reveal">
+          <p class="plan-tag">Максимальная защита</p>
+          <h3>Полная оклейка</h3>
+          <p class="plan-price">от 249&nbsp;000&nbsp;₽</p>
+          <ul>
+            <li>Весь кузов и&nbsp;крыша — глянец, матовый сатин или цвет</li>
+            <li>Подготовка и&nbsp;коррекция ЛКП</li>
+            <li>Керамика поверх плёнки</li>
+            <li>Химчистка салона</li>
+          </ul>
+          <p class="plan-time">5–7 дней</p>
+          <a class="btn btn-ghost" href="#booking" data-plan="armor">Выбрать</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Студия -->
+  <section class="studio" id="studio">
+    <img class="studio-bg" data-parallax="0.1" data-parallax-scale="1.15" src="img/studio_wide.webp" alt="Детейлинг-бокс: потолок из светодиодных сот, автомобиль в центре" loading="lazy">
+    <div class="studio-shade"></div>
+    <div class="container studio-inner">
+      <div class="reveal">
+        <p class="kicker">Мастер, а&nbsp;не&nbsp;конвейер</p>
+        <h2>Общаетесь <em>напрямую с&nbsp;исполнителем.</em></h2>
+        <p class="section-lead">Без цепочки «менеджер — администратор — работник» и&nbsp;без наценок на&nbsp;лишний персонал. Дорогие расходники, сертифицированные составы NXTZEN, OPTI-COAT и&nbsp;COLOURLOCK — и&nbsp;нацеленность на&nbsp;качество, а&nbsp;не&nbsp;на&nbsp;скорость.</p>
+      </div>
+      <ul class="studio-stats reveal">
+        <li><b data-countup="2014" data-from="1990">2014</b><span>год основания</span></li>
+        <li><b>5,0</b><span>на Яндекс Картах</span></li>
+        <li><b data-countup="95">95</b><span>оценок клиентов</span></li>
+        <li><b data-countup="3">3</b><span>сертификата</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Отзывы -->
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="kicker">Отзывы · Яндекс Карты · 5,0</p>
+        <h2>Что говорят <em>клиенты.</em></h2>
+      </div>
+      <div class="cards">
+        <article class="card reveal"><div class="card-body"><h3>Михаил З.</h3><p>«Единственное место в&nbsp;городе, где к&nbsp;клиенту относятся как к&nbsp;давнему другу, а&nbsp;к&nbsp;машине — как к&nbsp;своей любимой».</p><span class="price">Мойка + защитное покрытие</span></div></article>
+        <article class="card reveal"><div class="card-body"><h3>Dmitry B.</h3><p>«Всё на&nbsp;высшем уровне — от&nbsp;консультации до&nbsp;результата. Общаешься напрямую с&nbsp;исполнителем, чувствуется нацеленность на&nbsp;качество».</p><span class="price">Комплексный уход</span></div></article>
+        <article class="card reveal"><div class="card-body"><h3>Андрей Сафонов</h3><p>«Сразу озвучили цену, всё выполнили в&nbsp;срок и&nbsp;за&nbsp;ранее озвученную цену. Результат поразил!»</p><span class="price">Консультация бесплатно</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Запись -->
+  <section class="section booking" id="booking">
+    <div class="container booking-grid">
+      <div class="booking-copy reveal">
+        <p class="kicker">Запись</p>
+        <h2>Запишитесь на <em>бесплатную консультацию.</em></h2>
+        <p class="section-lead">Посмотрим машину, предложим варианты и&nbsp;сразу назовём цену — она не&nbsp;изменится в&nbsp;процессе. Пн–Сб, 9:00–19:00.</p>
+        <div class="estimate">
+          <span class="estimate-label">Ориентировочно</span>
+          <span class="estimate-value" id="estimateValue">от 69&nbsp;900&nbsp;₽</span>
+          <span class="estimate-note">Точную стоимость назовём после осмотра.</span>
+        </div>
+      </div>
+
+      <form class="form reveal" id="bookingForm" novalidate>
+        <div class="field">
+          <span class="field-label">Кузов</span>
+          <div class="chips" data-group="body">
+            <button type="button" class="chip active" data-value="1">Седан / купе</button>
+            <button type="button" class="chip" data-value="1.15">Кроссовер</button>
+            <button type="button" class="chip" data-value="1.3">Внедорожник</button>
+          </div>
+        </div>
+        <label class="field">
+          <span class="field-label">Услуга</span>
+          <select id="serviceSelect">
+            <option value="4000">Мойка «Премиум-комплекс»</option>
+            <option value="20000">Полировка кузова</option>
+            <option value="25000">Покрытие NXTZEN</option>
+            <option value="29900" data-plan="gloss">Пакет «Блеск»</option>
+            <option value="69900" data-plan="ceramic" selected>Пакет «Правильный выбор»</option>
+            <option value="249000" data-plan="armor">Пакет «Полная оклейка»</option>
+            <option value="12000">Химчистка салона</option>
+            <option value="8000">Реставрация кожи</option>
+            <option value="6000">Тонировка</option>
+            <option value="5000">Удаление вмятин без покраски</option>
+          </select>
+        </label>
+        <div class="field">
+          <span class="field-label">День</span>
+          <div class="chips chips-days" id="dayChips"></div>
+        </div>
+        <div class="field">
+          <span class="field-label">Время</span>
+          <div class="chips" id="timeChips"></div>
+        </div>
+        <div class="field-row">
+          <label class="field"><span class="field-label">Имя</span><input type="text" id="nameInput" autocomplete="name" placeholder="Как к вам обращаться"></label>
+          <label class="field"><span class="field-label">Телефон</span><input type="tel" id="phoneInput" autocomplete="tel" placeholder="+7 (___) ___-__-__"></label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-wide">Записаться на консультацию</button>
+        <p class="form-note" id="formNote">Нажимая кнопку, вы соглашаетесь на обработку данных.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="logo" href="#top"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 27 9.8v12.4L16 28.5 5 22.2V9.8z" fill="none" stroke="var(--accent)" stroke-width="1.5"/><text x="16" y="21" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor" font-family="Inter Tight, Arial, sans-serif">R</text></svg><span class="logo-word">RESTORER</span></a>
+      <p class="footer-muted">Авторский детейлинг. Работаем с&nbsp;2014 года.</p>
+    </div>
+    <div>
+      <p>Воронеж, проспект Труда, 46В/3</p>
+      <p class="footer-muted">Пн–Сб 9:00–19:00, Вс — выходной</p>
+    </div>
+    <div>
+      <p><a href="tel:+79507650090">+7 (950) 765-00-90</a></p>
+      <p class="footer-muted">WhatsApp · Telegram</p>
+    </div>
+  </div>
+  <p class="container footer-demo">Концепт сайта для «Restorer», подготовлен бесплатно. Автомобиль и фото — демонстрационные, созданы с помощью ИИ; цены ориентировочные. Разработка: Денис, denisfletcer1-a11y.github.io</p>
+</footer>
+
+<script src="js/lens-data.js?v=2026-09-28-360b"></script>
+<script src="js/app.js?v=2026-10-03-resp"></script>
+</body>
+</html>
