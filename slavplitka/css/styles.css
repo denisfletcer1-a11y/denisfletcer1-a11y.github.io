@@ -246,6 +246,7 @@ legend em { font-style: normal; font-weight: 700; color: var(--c2); margin-left:
   .result .btn { width: 100%; }
   .cta .btn { flex: 1 1 100%; }
   .panel { padding: 16px; }
+  .badge-2 { display: none; }
   .badge { padding: 8px 11px; }
   .badge b { font-size: 15px; }
   .badge span { font-size: 11px; }
