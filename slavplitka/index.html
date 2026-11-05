@@ -6,9 +6,9 @@
 <title>Демо сайта — Славянский завод тротуарной плитки</title>
 <meta name="description" content="Демо-шаблон сайта завода тротуарной плитки с 3D-конструктором двора.">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#f4f1ea">
+<meta name="theme-color" content="#f5f6f4">
 <link rel="icon" href="img/logo.png">
-<link rel="stylesheet" href="css/styles.css?v=4">
+<link rel="stylesheet" href="css/styles.css?v=7">
 </head>
 <body>
 
@@ -19,7 +19,7 @@
 <header class="nav" id="nav">
   <div class="wrap nav-in">
     <a class="logo" href="#top" aria-label="На главную">
-      <img src="img/logo.png" alt="" width="48" height="48">
+      <span class="logo-3d" id="logo3d"><img src="img/logo.png" alt="" width="58" height="58"><canvas id="logoCanvas" aria-hidden="true"></canvas></span>
       <span>Славянский завод<br>тротуарной плитки</span>
     </a>
     <nav class="nav-links" id="navLinks" aria-label="Разделы">
@@ -101,17 +101,17 @@
     <div class="wrap">
       <div class="head">
         <p class="kicker">Продукция</p>
-        <h2>Покрутите изделие в&nbsp;3D</h2>
-        <p class="sub">Плитка, бордюры, блоки и элементы благоустройства собственного производства.</p>
+        <h2>Покрутите плитку на&nbsp;360°</h2>
+        <p class="sub">Формы и размеры — из прайса завода. Выберите изделие, цвет и лицевой слой, затем посмотрите его со всех сторон, даже снизу.</p>
       </div>
       <div class="viewer">
         <div class="v-list" id="itemList"></div>
-        <div class="v-stage"><canvas id="itemCanvas" aria-label="3D-модель изделия"></canvas><span class="stage-tag">Демо-модель</span></div>
+        <div class="v-stage"><canvas id="itemCanvas" aria-label="3D-модель изделия"></canvas><span class="stage-tag">Демо-модель</span><span class="stage-hint"><i aria-hidden="true"></i>Потяните — 360°</span></div>
         <div class="v-info">
           <h3 id="itemName"></h3>
           <p id="itemText"></p>
           <dl id="itemSpecs"></dl>
-          <div class="swatches small" id="itemColors"></div>
+          <div class="viewer-tools"><div class="swatches small" id="itemColors"></div><div class="chips" id="itemSurfaces"></div></div>
           <a class="btn btn-line" href="#contacts" id="itemLead">Узнать цену и наличие</a>
         </div>
       </div>
@@ -147,9 +147,13 @@
 
   <section class="section tone" id="why">
     <div class="wrap">
-      <div class="head">
-        <p class="kicker">Качество</p>
-        <h2>Почему выбирают завод</h2>
+      <div class="why-head">
+        <div class="head">
+          <p class="kicker">Качество</p>
+          <h2>Почему выбирают завод</h2>
+          <p class="sub">Собственное производство и контроль на каждом этапе — от сырья до готовой плитки.</p>
+        </div>
+        <div class="logo-big"><canvas id="logoBig" aria-label="Логотип завода в 3D"></canvas></div>
       </div>
       <div class="cards">
         <article><h3>Прочность выше нормы</h3><p>Прочность плитки превышает нормативы ГОСТ в&nbsp;2&nbsp;раза. Производство — по ГОСТ 17608-2017.</p></article>
@@ -212,7 +216,7 @@
   </div>
 </footer>
 
-<script src="js/yard3d.js?v=3"></script>
-<script src="js/app.js?v=5"></script>
+<script src="js/yard3d.js?v=5"></script>
+<script src="js/app.js?v=6"></script>
 </body>
 </html>

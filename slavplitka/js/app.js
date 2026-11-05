@@ -37,14 +37,22 @@
   ];
   const SURFACES = { smooth: 'Гладкий', granite: 'Гранит', marble: 'Мрамор' };
   const ITEMS = [
-    { id: 'bruschatka', name: 'Брусчатка', text: 'Классика для дорожек, дворов и парковок. Лицевой слой гладкий, гранит или мрамор.', specs: [['Размер', '200×100 мм'], ['Высота', '40, 60, 80 мм'], ['Цена', 'от 700 ₽/м²']] },
-    { id: 'kvadrat', name: 'Квадрат', text: 'Строгая геометрия: два размера можно сочетать в одном рисунке.', specs: [['Размер', '200×200, 100×100 мм'], ['Высота', '40, 60 мм'], ['Цена', 'от 700 ₽/м²']] },
+    { group: 'Тротуарная плитка' },
+    { id: 'bruschatka', name: 'Брусчатка', text: 'Классика для дорожек, дворов и парковок.', specs: [['Размер', '200×100 мм'], ['Высота', '40, 60, 80 мм'], ['Цена', 'от 700 ₽/м²']] },
+    { id: 'kvadrat', name: 'Квадрат', text: 'Строгая геометрия. Два размера можно сочетать в одном рисунке.', specs: [['Размер', '200×200, 100×100 мм'], ['Высота', '40, 60 мм'], ['Цена', 'от 700 ₽/м²']] },
+    { id: 'stary', name: 'Старый город', text: 'Комплект из трёх размеров: рисунок выглядит как старинная мостовая.', specs: [['Размер', '120×90, 120×120, 180×120 мм'], ['Высота', '40, 60 мм'], ['Цена', 'от 700 ₽/м²']] },
+    { id: 'novy', name: 'Новый город', text: 'Три размера в одном модуле для современных дворов.', specs: [['Размер', '210×140, 140×140, 70×140 мм'], ['Высота', '40, 60 мм'], ['Цена', 'от 700 ₽/м²']] },
+    { id: 'myunhen', name: 'Мюнхен', text: 'Крупноформатный набор из четырёх размеров.', specs: [['Размер', '278×208, 138×208, 138×138, 68×138 мм'], ['Высота', '40, 60 мм'], ['Цена', 'от 700 ₽/м²']] },
+    { id: 'antara', name: 'Антара', text: 'Самый крупный формат: четыре длины при ширине 298 мм.', specs: [['Размер', '148, 223, 298, 448 × 298 мм'], ['Высота', '60 мм'], ['Цена', 'от 850 ₽/м²']] },
+    { id: 'brook', name: 'Римский брук', text: 'Клиновидные камни для круговых и веерных рисунков.', specs: [['Размер', '120×90, 100×80, 90×60 мм'], ['Высота', '40 мм'], ['Цена', 'от 700 ₽/м²']] },
     { id: 'romb', name: 'Ромб', text: 'Три цвета складываются в объёмный рисунок из кубов.', specs: [['Размер', '141×141 мм'], ['Высота', '40 мм'], ['Цена', 'от 700 ₽/м²']] },
+    { id: 'trilistnik', name: 'Трилистник', text: 'Фигурный камень с плотным сцеплением.', specs: [['Размер', '197×197×197 мм'], ['Высота', '40 мм'], ['Цена', 'от 700 ₽/м²']] },
+    { group: 'Бордюры и блоки' },
     { id: 'bordyur', name: 'Бордюр тротуарный', text: 'Удерживает мощение и аккуратно отделяет его от газона.', specs: [['Назначение', 'дорожки и дворы'], ['Форма', 'демо-модель']] },
     { id: 'palisad', name: 'Бордюр Палисад', text: 'Столбики для ограждения клумб и перепадов высот.', specs: [['Назначение', 'клумбы и газоны'], ['Форма', 'демо-модель']] },
     { id: 'gazon', name: 'Газонная решётка', text: 'Парковка на газоне: трава растёт, а колёса не продавливают грунт.', specs: [['Назначение', 'газон и парковка'], ['Форма', 'демо-модель']] },
     { id: 'taktil', name: 'Тактильная плитка', text: 'Навигация для маломобильных пешеходов на тротуарах и у входов.', specs: [['Назначение', 'доступная среда'], ['Форма', 'демо-модель']] },
-    { id: 'blok', name: 'Стеновой блок', text: 'Блоки для стен и ограждений из завода-изготовителя.', specs: [['Назначение', 'стены и заборы'], ['Форма', 'демо-модель']] },
+    { id: 'blok', name: 'Стеновой блок', text: 'Блоки для стен и ограждений от завода-изготовителя.', specs: [['Назначение', 'стены и заборы'], ['Форма', 'демо-модель']] },
   ];
 
   const $ = id => document.getElementById(id);
@@ -127,6 +135,8 @@
       hero = Yard3D.mountYard($('heroCanvas'), { auto: true, az: 0.42, pol: 1.03, dist: 28, shift: wide() ? 0.42 : 0, design: { form: 'stary', pattern: 'rows', colors: COLORS[7].hex, curb: true } });
       addEventListener('resize', () => hero.setShift(wide() ? 0.42 : 0));
     } catch (e) { document.body.classList.add('no-3d'); return; }
+    try { Yard3D.mountLogo($('logoCanvas'), { period: 9 }); $('logo3d').classList.add('ready'); } catch (e) { /* остаётся картинка */ }
+    new IntersectionObserver((es, io) => { if (es[0].isIntersecting) { io.disconnect(); Yard3D.mountLogo($('logoBig'), { period: 10 }); } }, { rootMargin: '200px' }).observe($('logoBig'));
     let built = false;
     new IntersectionObserver((es, io) => {
       if (!es[0].isIntersecting || built) return;
@@ -139,36 +149,52 @@
     new IntersectionObserver((es, io) => {
       if (!es[0].isIntersecting) return;
       io.disconnect();
-      item = Yard3D.mountItem($('itemCanvas'), { item: ITEMS[0].id, color: COLORS[1].hex[0] });
+      item = Yard3D.mountItem($('itemCanvas'), { item: currentItem, colors: colorOf(itemColor).hex });
+      item.set({ surface: itemSurface });
     }, { rootMargin: '300px' }).observe($('itemCanvas'));
     pickItem.mount = () => item;
   }
 
   // ---------- изделия ----------
-  let itemColor = 'red';
+  let itemColor = 'orange', itemSurface = 'smooth', currentItem = 'stary';
+  const itemApi = () => pickItem.mount && pickItem.mount();
   function pickItem(id) {
     const it = ITEMS.find(i => i.id === id);
+    currentItem = id;
     document.querySelectorAll('#itemList button').forEach(b => { const on = b.dataset.id === id; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
     $('itemName').textContent = it.name;
     $('itemText').textContent = it.text;
     $('itemSpecs').innerHTML = it.specs.map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('');
-    const m = pickItem.mount && pickItem.mount();
+    const m = itemApi();
     if (m) m.setItem(id);
   }
   ITEMS.forEach(it => {
+    if (it.group) {
+      const h = document.createElement('p');
+      h.className = 'v-group'; h.textContent = it.group;
+      $('itemList').appendChild(h);
+      return;
+    }
     const b = document.createElement('button');
     b.type = 'button'; b.dataset.id = it.id; b.textContent = it.name;
     b.addEventListener('click', () => pickItem(it.id));
     $('itemList').appendChild(b);
   });
-  const paintItemColors = () => swatches($('itemColors'), itemColor, id => {
-    itemColor = id; paintItemColors();
-    const m = pickItem.mount && pickItem.mount();
-    if (m) m.setColor(colorOf(id).hex[0]);
-  }, COLORS.slice(0, 7));
-  paintItemColors();
-  pickItem(ITEMS[0].id);
-  $('itemLead').addEventListener('click', () => { $('leadTask').value = `Интересует: ${$('itemName').textContent}. Подскажите цену и наличие.`; });
+  const paintItemTools = () => {
+    swatches($('itemColors'), itemColor, id => {
+      itemColor = id; paintItemTools();
+      const m = itemApi();
+      if (m) m.set({ colors: colorOf(id).hex });
+    });
+    chips($('itemSurfaces'), SURFACES, itemSurface, id => {
+      itemSurface = id; paintItemTools();
+      const m = itemApi();
+      if (m) m.set({ surface: id });
+    });
+  };
+  paintItemTools();
+  pickItem(currentItem);
+  $('itemLead').addEventListener('click', () => { $('leadTask').value = `Интересует: ${$('itemName').textContent}, ${colorOf(itemColor).name.toLowerCase()}, лицевой слой: ${SURFACES[itemSurface].toLowerCase()}. Подскажите цену и наличие.`; });
 
   // ---------- меню и форма ----------
   const nav = $('nav'), burger = $('burger');
