@@ -5,7 +5,7 @@
   const BG = '#060606';
   const SHORT_LANDSCAPE = window.matchMedia('(orientation: landscape) and (max-height: 520px)');
   // Метка версии: меняется при обновлении кадров, чтобы браузер не брал старые из кэша.
-  const ASSET_V = '2026-09-28-360b';
+  const ASSET_V = '2026-11-05-black';
   const withV = src => src + '?v=' + ASSET_V;
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const lerp = (a, b, t) => a + (b - a) * t;
