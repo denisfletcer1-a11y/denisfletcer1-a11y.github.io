@@ -131,22 +131,16 @@
   // ---------- 3D ----------
   function start3D() {
     if (!window.Yard3D) return;
-    const wide = () => innerWidth > 980 && innerWidth / innerHeight > 1.15;
     const idle = fn => (window.requestIdleCallback ? requestIdleCallback(fn, { timeout: 1200 }) : setTimeout(fn, 200));
     const steps = [
       () => {
         const c = $('heroCanvas');
-        hero = Yard3D.mountYard(c, {
-          showcase: true, auto: true, az: 0.55, pol: 1.16, dist: 7.6, wave: false, bg: '#fbf8f2', shift: wide() ? 0.42 : 0,
-          design: { form: 'novy', pattern: 'diag', colors: ['#c8784a', '#d99a5c', '#b5623c', '#e2b277'], curb: false },
-          onReady: () => c.classList.add('ready'),
-        });
-        addEventListener('resize', () => hero.setShift(wide() ? 0.42 : 0));
+        hero = Yard3D.mountHero(c, { onReady: () => c.classList.add('ready') });
       },
       () => { Yard3D.mountLogo($('logoCanvas'), { period: 9 }); $('logo3d').classList.add('ready'); },
       () => { itemMount = Yard3D.mountItem($('itemCanvas'), { item: currentItem, colors: colorOf(itemColor).hex }); itemMount.set({ surface: itemSurface }); },
       () => {
-        yard = Yard3D.mountYard($('yardCanvas'), { az: 0.35, pol: 0.94, dist: 15, zoom: 0.85, wave: false, bg: '#eaf2f4', design: { form: state.form, pattern: state.pattern, colors: colorOf(state.color).hex, surface: state.surface, curb: state.curb } });
+        yard = Yard3D.mountYard($('yardCanvas'), { az: 0.35, pol: 0.94, dist: 15, zoom: 0.85, wave: false, bg: '#0a1c14', design: { form: state.form, pattern: state.pattern, colors: colorOf(state.color).hex, surface: state.surface, curb: state.curb } });
       },
       () => Yard3D.mountLogo($('logoBig'), { period: 10 }),
     ];
@@ -230,6 +224,12 @@
     note.textContent = 'Так будет работать форма на готовом сайте. В демо заявка никуда не отправляется.';
     note.className = 'note ok';
   });
+
+  // появление блоков при прокрутке
+  const rev = document.querySelectorAll('.head, .builder, .viewer, .gallery-cats figure, .showroom figure, .cards article, .reviews blockquote, .split > *, .why-head');
+  rev.forEach(e => e.classList.add('reveal'));
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  rev.forEach(e => io.observe(e));
 
   renderPanel();
   start3D();

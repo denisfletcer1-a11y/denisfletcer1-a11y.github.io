@@ -6,11 +6,12 @@
 <title>Демо сайта — Славянский завод тротуарной плитки</title>
 <meta name="description" content="Демо-шаблон сайта завода тротуарной плитки с 3D-конструктором двора.">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#fbf8f2">
+<meta name="theme-color" content="#06120d">
 <link rel="icon" href="img/logo.png">
-<link rel="stylesheet" href="css/styles.css?v=11">
+<link rel="stylesheet" href="css/styles.css?v=12">
 </head>
 <body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
 
 <div class="demo-bar" role="note">
   <b>Демо-шаблон.</b> Сайт ещё не доведён до идеального состояния. В готовой версии 3D-модели будут более реалистичными, чем в этой демоверсии.
@@ -38,32 +39,38 @@
 <main id="top">
 
   <section class="hero">
-    <canvas class="hero-canvas" id="heroCanvas" aria-label="3D-двор с плиткой: потяните, чтобы повернуть"></canvas>
-    <div class="hero-fade" aria-hidden="true"></div>
     <div class="wrap hero-in">
       <div class="hero-copy">
-        <p class="kicker">Завод-изготовитель · 30 лет на рынке</p>
-        <h1>Плитка, которая остаётся <em>надолго</em></h1>
-        <p class="lead">Соберите двор в&nbsp;3D, выберите форму, цвет и рисунок — и сразу увидите стоимость по прайсу завода.</p>
+        <p class="kicker">Завод-изготовитель · Славянск-на-Кубани</p>
+        <h1>Двор, который вы <em>увидите заранее.</em></h1>
+        <p class="lead">Покрутите плитку на&nbsp;360°, соберите свой двор в&nbsp;3D и&nbsp;сразу узнайте стоимость по&nbsp;прайсу завода.</p>
         <div class="cta">
           <a class="btn btn-main" href="#builder">Собрать свой двор</a>
           <a class="btn btn-line" href="#catalog">Смотреть продукцию</a>
         </div>
         <ul class="stats">
-          <li><b>30</b><span>лет на&nbsp;рынке</span></li>
-          <li><b>30</b><span>видов плитки</span></li>
+          <li><b>30 лет</b><span>на&nbsp;рынке</span></li>
+          <li><b>30 видов</b><span>плитки</span></li>
           <li><b>100%</b><span>гарантия качества</span></li>
         </ul>
       </div>
+      <div class="hero-3d">
+        <canvas class="hero-canvas" id="heroCanvas" aria-label="3D-ромб из плитки в цветах логотипа: потяните, чтобы повернуть"></canvas>
+        <p class="hero-hint"><i aria-hidden="true"></i>Потяните, чтобы повернуть</p>
+        <div class="badge badge-1"><b>360°</b><span>вращение пальцем</span></div>
+        <div class="badge badge-2"><b>ГОСТ ×2</b><span>прочность выше нормы</span></div>
+        <div class="badge badge-3"><b>3D</b><span>конструктор двора</span></div>
+      </div>
     </div>
-    <p class="hero-hint"><i aria-hidden="true"></i>Зажмите и потяните, чтобы повернуть</p>
   </section>
+
+  <div class="marquee" aria-hidden="true"><div class="marquee-track"><span>Брусчатка</span><i>◆</i><span>Старый город</span><i>◆</i><span>Новый город</span><i>◆</i><span>Мюнхен</span><i>◆</i><span>Антара</span><i>◆</i><span>Римский брук</span><i>◆</i><span>Ромб</span><i>◆</i><span>Трилистник</span><i>◆</i><span>Бордюры</span><i>◆</i><span>Брусчатка</span><i>◆</i><span>Старый город</span><i>◆</i><span>Новый город</span><i>◆</i><span>Мюнхен</span><i>◆</i><span>Антара</span><i>◆</i><span>Римский брук</span><i>◆</i><span>Ромб</span><i>◆</i><span>Трилистник</span><i>◆</i><span>Бордюры</span><i>◆</i></div></div>
 
   <section class="section" id="builder">
     <div class="wrap">
       <div class="head">
         <p class="kicker">3D-конструктор</p>
-        <h2>Ваш двор <em>до покупки</em></h2>
+        <h2>Ваш двор <em>до&nbsp;покупки.</em></h2>
         <p class="sub">Формы, размеры и цены — из прайса завода. Меняйте параметры и крутите двор со всех сторон.</p>
       </div>
       <div class="builder">
@@ -97,11 +104,11 @@
     </div>
   </section>
 
-  <section class="section light" id="catalog">
+  <section class="section" id="catalog">
     <div class="wrap">
       <div class="head">
         <p class="kicker">Продукция</p>
-        <h2>Рассмотрите камень <em>со всех сторон</em></h2>
+        <h2>Покрутите плитку <em>на&nbsp;360°</em></h2>
         <p class="sub">Формы и размеры — из прайса завода. Выберите изделие, цвет и лицевой слой, затем посмотрите его со всех сторон, даже снизу.</p>
       </div>
       <div class="viewer">
@@ -132,7 +139,7 @@
     <div class="wrap">
       <div class="head">
         <p class="kicker">Выставочная площадка</p>
-        <h2>Посмотрите плитку <em>вживую</em></h2>
+        <h2>Посмотрите <em>вживую.</em></h2>
         <p class="sub">Образцы и рисунки укладки — на территории завода: Славянск-на-Кубани, ул.&nbsp;Совхозная, 1.</p>
       </div>
       <div class="showroom">
@@ -145,12 +152,12 @@
     </div>
   </section>
 
-  <section class="section tone" id="why">
+  <section class="section" id="why">
     <div class="wrap">
       <div class="why-head">
         <div class="head">
           <p class="kicker">Качество</p>
-          <h2>Почему выбирают <em>завод</em></h2>
+          <h2>Почему выбирают <em>завод.</em></h2>
           <p class="sub">Собственное производство и контроль на каждом этапе — от сырья до готовой плитки.</p>
         </div>
         <div class="logo-big"><canvas id="logoBig" aria-label="Логотип завода в 3D"></canvas></div>
@@ -168,11 +175,11 @@
     </div>
   </section>
 
-  <section class="section light" id="delivery">
+  <section class="section" id="delivery">
     <div class="wrap split">
       <div>
         <p class="kicker">Доставка</p>
-        <h2>Привезём по&nbsp;всему <em>Краснодарскому краю</em></h2>
+        <h2>Привезём <em>по&nbsp;всему краю.</em></h2>
         <p class="sub">Манипуляторы и собственный склад. Возможна доставка в&nbsp;день заказа. Стоимость зависит от удалённости.</p>
         <ul class="ticks">
           <li>Залог за поддон при доставке манипулятором — 500 ₽, при возврате поддона возвращается</li>
@@ -188,7 +195,7 @@
     <div class="wrap split">
       <div>
         <p class="kicker">Контакты</p>
-        <h2>Рассчитаем <em>ваш заказ</em></h2>
+        <h2>Рассчитаем <em>ваш заказ.</em></h2>
         <ul class="c-list">
           <li><span>Отдел сбыта</span><a href="tel:+79883336400">+7 988 333-64-00</a></li>
           <li><span>Приёмная</span><a href="tel:+78614644484">8 (86146) 4-44-84</a></li>
@@ -216,7 +223,7 @@
   </div>
 </footer>
 
-<script src="js/yard3d.js?v=9"></script>
-<script src="js/app.js?v=9"></script>
+<script src="js/yard3d.js?v=12"></script>
+<script src="js/app.js?v=10"></script>
 </body>
 </html>
