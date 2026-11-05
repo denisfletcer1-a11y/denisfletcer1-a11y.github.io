@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Демо сайта — Славянский завод тротуарной плитки</title>
+<meta name="description" content="Демо-шаблон сайта завода тротуарной плитки с 3D-конструктором двора.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f4f1ea">
+<link rel="icon" href="img/logo.png">
+<link rel="stylesheet" href="css/styles.css?v=4">
+</head>
+<body>
+
+<div class="demo-bar" role="note">
+  <b>Демо-шаблон.</b> Сайт ещё не доведён до идеального состояния. В готовой версии 3D-модели будут более реалистичными, чем в этой демоверсии.
+</div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top" aria-label="На главную">
+      <img src="img/logo.png" alt="" width="48" height="48">
+      <span>Славянский завод<br>тротуарной плитки</span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Разделы">
+      <a href="#builder">3D-конструктор</a>
+      <a href="#catalog">Продукция</a>
+      <a href="#showroom">Выставка</a>
+      <a href="#why">Качество</a>
+      <a href="#delivery">Доставка</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <a class="nav-phone" href="tel:+79883336400">+7 988 333-64-00<small>Пн–Сб, 8:00–18:00</small></a>
+    <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false"><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <canvas class="hero-canvas" id="heroCanvas" aria-label="3D-двор с плиткой: потяните, чтобы повернуть"></canvas>
+    <div class="hero-fade" aria-hidden="true"></div>
+    <div class="wrap hero-in">
+      <div class="hero-copy">
+        <p class="kicker">Завод-изготовитель · Славянск-на-Кубани</p>
+        <h1>Соберите двор в&nbsp;3D, прежде чем заказать плитку</h1>
+        <p class="lead">Выберите форму, рисунок укладки и цвет — двор вымостится на экране, а калькулятор сразу покажет стоимость по прайсу завода.</p>
+        <div class="cta">
+          <a class="btn btn-main" href="#builder">Собрать свой двор</a>
+          <a class="btn btn-line" href="#catalog">Смотреть продукцию</a>
+        </div>
+        <ul class="stats">
+          <li><b>30</b><span>лет на&nbsp;рынке</span></li>
+          <li><b>30</b><span>видов плитки</span></li>
+          <li><b>100%</b><span>гарантия качества</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="hero-hint"><i aria-hidden="true"></i>Зажмите и потяните, чтобы повернуть</p>
+  </section>
+
+  <section class="section" id="builder">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">3D-конструктор</p>
+        <h2>Ваш двор до&nbsp;покупки</h2>
+        <p class="sub">Формы, размеры и цены — из прайса завода. Меняйте параметры и крутите двор со всех сторон.</p>
+      </div>
+      <div class="builder">
+        <div class="stage">
+          <canvas id="yardCanvas" aria-label="3D-конструктор двора"></canvas>
+          <span class="stage-tag">Демо-модель</span>
+          <div class="zoom"><button type="button" id="zoomIn" aria-label="Приблизить">+</button><button type="button" id="zoomOut" aria-label="Отдалить">−</button></div>
+          <span class="stage-hint"><i aria-hidden="true"></i>Потяните, чтобы повернуть</span>
+        </div>
+        <form class="panel" id="panel" onsubmit="return false">
+          <fieldset><legend>Форма плитки</legend><div class="chips" id="forms"></div></fieldset>
+          <fieldset><legend>Рисунок укладки</legend><div class="chips" id="patterns"></div></fieldset>
+          <fieldset><legend>Цвет <em id="colorName"></em></legend><div class="swatches" id="colors"></div></fieldset>
+          <fieldset><legend>Лицевой слой</legend><div class="chips" id="surfaces"></div></fieldset>
+          <div class="row2">
+            <fieldset><legend>Высота</legend><div class="chips" id="heights"></div></fieldset>
+            <label class="switch"><input type="checkbox" id="curb" checked><span>Бордюр</span></label>
+          </div>
+          <label class="area"><span>Площадь двора <b><output id="areaOut">80</output> м²</b></span>
+            <input type="range" id="area" min="10" max="500" step="5" value="80"></label>
+          <div class="result">
+            <div>
+              <span class="r-label"><span id="rPrice"></span> ₽ за м² · с запасом 5%: <span id="rArea"></span> м²</span>
+              <strong id="rTotal"></strong>
+            </div>
+            <a class="btn btn-main" id="toLead" href="#contacts">Запросить счёт</a>
+          </div>
+          <p class="note">Расчёт по прайсу от 01.06.2025, без доставки. Актуальные цены уточняйте в&nbsp;отделе сбыта.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tone" id="catalog">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Продукция</p>
+        <h2>Покрутите изделие в&nbsp;3D</h2>
+        <p class="sub">Плитка, бордюры, блоки и элементы благоустройства собственного производства.</p>
+      </div>
+      <div class="viewer">
+        <div class="v-list" id="itemList"></div>
+        <div class="v-stage"><canvas id="itemCanvas" aria-label="3D-модель изделия"></canvas><span class="stage-tag">Демо-модель</span></div>
+        <div class="v-info">
+          <h3 id="itemName"></h3>
+          <p id="itemText"></p>
+          <dl id="itemSpecs"></dl>
+          <div class="swatches small" id="itemColors"></div>
+          <a class="btn btn-line" href="#contacts" id="itemLead">Узнать цену и наличие</a>
+        </div>
+      </div>
+      <div class="gallery-cats">
+        <figure><img loading="lazy" src="img/origami.webp" alt="Плитка Оригами"><figcaption>Оригами</figcaption></figure>
+        <figure><img loading="lazy" src="img/myunhen.webp" alt="Плитка Мюнхен"><figcaption>Мюнхен</figcaption></figure>
+        <figure><img loading="lazy" src="img/romb.webp" alt="Плитка Ромб"><figcaption>Ромб</figcaption></figure>
+        <figure><img loading="lazy" src="img/novyj-gorod.webp" alt="Плитка Новый город"><figcaption>Новый город</figcaption></figure>
+        <figure><img loading="lazy" src="img/antik.webp" alt="Плитка Антик"><figcaption>Антик</figcaption></figure>
+        <figure><img loading="lazy" src="img/avstr-bruk.webp" alt="Плитка Австрийский брук"><figcaption>Австрийский брук</figcaption></figure>
+        <figure><img loading="lazy" src="img/trilistnik.webp" alt="Плитка Трилистник"><figcaption>Трилистник</figcaption></figure>
+        <figure><img loading="lazy" src="img/bordyur-dor.webp" alt="Бордюры"><figcaption>Бордюры</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="showroom">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Выставочная площадка</p>
+        <h2>Посмотрите плитку вживую</h2>
+        <p class="sub">Образцы и рисунки укладки — на территории завода: Славянск-на-Кубани, ул.&nbsp;Совхозная, 1.</p>
+      </div>
+      <div class="showroom">
+        <figure class="big"><img loading="lazy" src="img/vyst-2.webp" alt="Выставочная площадка завода"></figure>
+        <figure><img loading="lazy" src="img/vyst-10.webp" alt="Узор из плитки на площадке"></figure>
+        <figure><img loading="lazy" src="img/vyst-5.webp" alt="Образец укладки"></figure>
+        <figure><img loading="lazy" src="img/vyst-6.webp" alt="Круговая укладка"></figure>
+        <figure class="wide"><img loading="lazy" src="img/vyst-7.webp" alt="Вид на образцы укладки"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tone" id="why">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Качество</p>
+        <h2>Почему выбирают завод</h2>
+      </div>
+      <div class="cards">
+        <article><h3>Прочность выше нормы</h3><p>Прочность плитки превышает нормативы ГОСТ в&nbsp;2&nbsp;раза. Производство — по ГОСТ 17608-2017.</p></article>
+        <article><h3>Ежегодная сертификация</h3><p>Продукция проходит проверку в&nbsp;аккредитованной лаборатории «Стройэкспертэкология» Кубанского госуниверситета.</p></article>
+        <article><h3>Сырьё высшего класса</h3><p>Серый цемент М600 Д0 Новороссийского завода «Пролетарий», щебень и песок мелкой фракции с лабораторным контролем.</p></article>
+        <article><h3>Цены производителя</h3><p>Собственное производство, полусухое вибропрессование и система скидок в&nbsp;зависимости от объёма заказа.</p></article>
+      </div>
+      <div class="reviews">
+        <blockquote>«Огромное спасибо этой прекрасной фирме, менеджерам, водителю — за профессионализм, чёткое разъяснение, оформление, исполнение заказа».<cite>Эмма, отзыв с сайта завода</cite></blockquote>
+        <blockquote>«Хочу выразить благодарность за внимательный, профессиональный подход к покупателям. Рекомендую!»<cite>Раиса, отзыв с сайта завода</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="delivery">
+    <div class="wrap split">
+      <div>
+        <p class="kicker">Доставка</p>
+        <h2>Привезём по&nbsp;всему Краснодарскому краю</h2>
+        <p class="sub">Манипуляторы и собственный склад. Возможна доставка в&nbsp;день заказа. Стоимость зависит от удалённости.</p>
+        <ul class="ticks">
+          <li>Залог за поддон при доставке манипулятором — 500 ₽, при возврате поддона возвращается</li>
+          <li>Для застройщиков и частных заказчиков</li>
+          <li>Услуги экскаватора-погрузчика</li>
+        </ul>
+      </div>
+      <figure class="split-img"><img loading="lazy" src="img/vyst-1.webp" alt="Плитка на территории завода"></figure>
+    </div>
+  </section>
+
+  <section class="section contact" id="contacts">
+    <div class="wrap split">
+      <div>
+        <p class="kicker">Контакты</p>
+        <h2>Рассчитаем заказ</h2>
+        <ul class="c-list">
+          <li><span>Отдел сбыта</span><a href="tel:+79883336400">+7 988 333-64-00</a></li>
+          <li><span>Приёмная</span><a href="tel:+78614644484">8 (86146) 4-44-84</a></li>
+          <li><span>Почта</span><a href="mailto:kdb-fslav@yandex.ru">kdb-fslav@yandex.ru</a></li>
+          <li><span>Адрес</span>353840, Краснодарский край, г.&nbsp;Славянск-на-Кубани, ул.&nbsp;Совхозная,&nbsp;1</li>
+          <li><span>Приём звонков</span>Пн–Сб, 8:00–18:00</li>
+        </ul>
+      </div>
+      <form class="lead-form" id="lead" novalidate>
+        <label><span>Имя</span><input name="name" autocomplete="name" placeholder="Как к вам обращаться"></label>
+        <label><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__"></label>
+        <label><span>Заказ</span><textarea name="task" id="leadTask" rows="4" placeholder="Что нужно и в каком объёме"></textarea></label>
+        <button class="btn btn-main" type="submit">Запросить счёт</button>
+        <p class="note" id="leadNote">Это демо: заявка никуда не отправляется.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><b>Демонстрационная версия сайта для Славянского завода тротуарной плитки.</b> Это шаблон: он ещё не доведён до идеального состояния, а 3D-модели на готовом сайте будут более реалистичными, чем в этой демоверсии.</p>
+    <p class="muted">Тексты, фото и цены взяты с сайта slavplitka.ru и из прайса завода от 01.06.2025. Разработка: Денис, <a href="https://denisfletcer1-a11y.github.io/">работы разработчика</a>.</p>
+  </div>
+</footer>
+
+<script src="js/yard3d.js?v=3"></script>
+<script src="js/app.js?v=5"></script>
+</body>
+</html>
