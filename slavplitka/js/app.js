@@ -31,8 +31,8 @@
     { id: 'yellow', name: 'Жёлтый', hex: ['#c7a23f'], col: 2 },
     { id: 'orange', name: 'Оранжевый', hex: ['#c47636'], col: 2 },
     { id: 'white', name: 'Белый', hex: ['#d9d6cc'], col: 3 },
-    { id: 'mix1', name: 'Колормикс «Осень»', hex: ['#8f5238', '#ab7c46', '#6b4a38', '#9c6a40'], col: 4 },
-    { id: 'mix2', name: 'Колормикс «Туман»', hex: ['#b5ada0', '#8e8a82', '#cbc4b6', '#6f6c67'], col: 4 },
+    { id: 'mix1', name: 'Колормикс «Осень»', hex: ['#bb663d', '#d29c5a', '#94603f', '#c98349'], col: 4 },
+    { id: 'mix2', name: 'Колормикс «Туман»', hex: ['#c9c2b4', '#a5a198', '#ddd6c8', '#8c8981'], col: 4 },
     { id: 'mix3', name: 'Колормикс «Кубань»', hex: ['#94453a', '#c7a23f', '#8e8e8a', '#37373c'], col: 4 },
   ];
   const SURFACES = { smooth: 'Гладкий', granite: 'Гранит', marble: 'Мрамор' };
@@ -57,9 +57,10 @@
 
   const $ = id => document.getElementById(id);
   const money = n => new Intl.NumberFormat('ru-RU').format(Math.round(n)).replace(/\s/g, ' ');
-  const state = { form: 'stary', pattern: 'rows', color: 'mix1', surface: 'smooth', height: 60, curb: true, area: 80 };
+  const state = { form: 'novy', pattern: 'rows', color: 'mix1', surface: 'smooth', height: 60, curb: true, area: 80 };
   const colorOf = id => COLORS.find(c => c.id === id);
-  let yard = null, hero = null;
+  let yard = null, hero = null, itemMount = null;
+  let itemColor = 'mix1', itemSurface = 'smooth', currentItem = 'stary';
 
   function chips(host, options, active, onPick) {
     host.innerHTML = '';
@@ -131,33 +132,37 @@
   function start3D() {
     if (!window.Yard3D) return;
     const wide = () => innerWidth > 980 && innerWidth / innerHeight > 1.15;
-    try {
-      hero = Yard3D.mountYard($('heroCanvas'), { auto: true, az: 0.42, pol: 1.03, dist: 28, shift: wide() ? 0.42 : 0, design: { form: 'stary', pattern: 'rows', colors: COLORS[7].hex, curb: true } });
-      addEventListener('resize', () => hero.setShift(wide() ? 0.42 : 0));
-    } catch (e) { document.body.classList.add('no-3d'); return; }
-    try { Yard3D.mountLogo($('logoCanvas'), { period: 9 }); $('logo3d').classList.add('ready'); } catch (e) { /* остаётся картинка */ }
-    new IntersectionObserver((es, io) => { if (es[0].isIntersecting) { io.disconnect(); Yard3D.mountLogo($('logoBig'), { period: 10 }); } }, { rootMargin: '200px' }).observe($('logoBig'));
-    let built = false;
-    new IntersectionObserver((es, io) => {
-      if (!es[0].isIntersecting || built) return;
-      built = true; io.disconnect();
-      yard = Yard3D.mountYard($('yardCanvas'), { az: 0.35, pol: 0.92, dist: 20, zoom: 0.72, design: { form: state.form, pattern: state.pattern, colors: colorOf(state.color).hex, surface: state.surface, curb: state.curb } });
-    }, { rootMargin: '300px' }).observe($('yardCanvas'));
+    const idle = fn => (window.requestIdleCallback ? requestIdleCallback(fn, { timeout: 1200 }) : setTimeout(fn, 200));
+    const steps = [
+      () => {
+        const c = $('heroCanvas');
+        hero = Yard3D.mountYard(c, {
+          showcase: true, auto: true, az: 0.55, pol: 1.16, dist: 7.6, wave: false, bg: '#fbf8f2', shift: wide() ? 0.42 : 0,
+          design: { form: 'novy', pattern: 'diag', colors: ['#c8784a', '#d99a5c', '#b5623c', '#e2b277'], curb: false },
+          onReady: () => c.classList.add('ready'),
+        });
+        addEventListener('resize', () => hero.setShift(wide() ? 0.42 : 0));
+      },
+      () => { Yard3D.mountLogo($('logoCanvas'), { period: 9 }); $('logo3d').classList.add('ready'); },
+      () => { itemMount = Yard3D.mountItem($('itemCanvas'), { item: currentItem, colors: colorOf(itemColor).hex }); itemMount.set({ surface: itemSurface }); },
+      () => {
+        yard = Yard3D.mountYard($('yardCanvas'), { az: 0.35, pol: 0.94, dist: 15, zoom: 0.85, wave: false, bg: '#eaf2f4', design: { form: state.form, pattern: state.pattern, colors: colorOf(state.color).hex, surface: state.surface, curb: state.curb } });
+      },
+      () => Yard3D.mountLogo($('logoBig'), { period: 10 }),
+    ];
+    const next = () => {
+      const fn = steps.shift();
+      if (!fn) return;
+      try { fn(); } catch (e) { document.body.classList.add('no-3d'); }
+      idle(() => setTimeout(next, 120));
+    };
+    requestAnimationFrame(() => setTimeout(next, 30));
     $('zoomIn').addEventListener('click', () => yard && yard.zoomBy(0.72));
     $('zoomOut').addEventListener('click', () => yard && yard.zoomBy(1 / 0.72));
-    let item = null;
-    new IntersectionObserver((es, io) => {
-      if (!es[0].isIntersecting) return;
-      io.disconnect();
-      item = Yard3D.mountItem($('itemCanvas'), { item: currentItem, colors: colorOf(itemColor).hex });
-      item.set({ surface: itemSurface });
-    }, { rootMargin: '300px' }).observe($('itemCanvas'));
-    pickItem.mount = () => item;
   }
 
   // ---------- изделия ----------
-  let itemColor = 'orange', itemSurface = 'smooth', currentItem = 'stary';
-  const itemApi = () => pickItem.mount && pickItem.mount();
+  const itemApi = () => itemMount;
   function pickItem(id) {
     const it = ITEMS.find(i => i.id === id);
     currentItem = id;
