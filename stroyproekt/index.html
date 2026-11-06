@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Набросок сайта — СтройПроект, Калуга</title>
+<meta name="description" content="Набросок сайта строительной компании «СтройПроект» с 3D-домом, который собирается по этапам.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#121b2a">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="img/hero_night.webp" media="(min-aspect-ratio: 6/5)" fetchpriority="high">
+<link rel="preload" as="image" href="img/hero_night_m.webp" media="(max-aspect-ratio: 6/5)" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="fonts/jost-cyrillic-300-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/inter-cyrillic-400-normal.woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=1">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<p class="draft-strip"><b>Набросок для «СтройПроекта».</b> <span class="draft-more">Цены, фото объектов и контакты взяты с вашей карточки на Яндекс Картах.</span></p>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="СтройПроект — в начало">
+      <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V13L16 4l11 9v14z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12.5 27v-8h7v8" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      <span class="logo-text"><b>СТРОЙПРОЕКТ</b><small>дома под ключ · Калуга</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Разделы сайта">
+      <a href="#build">Дом в 3D</a>
+      <a href="#projects">Проекты и цены</a>
+      <a href="#gallery">Построенные дома</a>
+      <a href="#calc">Калькулятор</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a class="btn btn-primary btn-sm nav-cta" href="#calc">Рассчитать дом</a>
+    <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- 1. Первый экран: дом вечером -->
+  <section class="hero" id="top">
+    <div class="hero-layer" id="heroLayer">
+      <picture class="hero-media">
+        <source media="(max-aspect-ratio: 6/5)" srcset="img/hero_night_m.webp">
+        <img id="heroImg" src="img/hero_night.webp" alt="Загородный дом вечером: тёплый свет в больших окнах" width="2400" height="1340" fetchpriority="high">
+      </picture>
+      <div class="hero-shade" aria-hidden="true"></div>
+    </div>
+    <div class="wrap hero-content">
+      <div class="hero-copy reveal">
+        <p class="kicker">Строительство домов и коттеджей</p>
+        <h1>Строим дома под ключ <em>в Калуге</em></h1>
+        <p class="lead">Каменные дома, А-фреймы и бани.<span class="lead-more"> От свайно-ростверкового фундамента до кирпичного фасада: соберите свой дом в 3D и сразу увидите примерную цену.</span></p>
+        <div class="cta-row">
+          <a class="btn btn-light" href="#build">Собрать дом в 3D</a>
+          <a class="btn btn-ghost-light" href="#projects">Проекты и цены</a>
+        </div>
+      </div>
+      <ul class="hero-facts reveal">
+        <li><b>4,8</b><span>рейтинг на Яндекс Картах</span></li>
+        <li><b>30</b><span>оценок клиентов</span></li>
+        <li><b>5,8 млн ₽</b><span>дом 89 м², материал и работа</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. 3D-дом -->
+  <section class="section build" id="build">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Как строим</p>
+        <h2>Дом собирается <em>на глазах</em></h2>
+        <p class="lead">Покрутите дом мышкой или пальцем, нажмите на любой этап и выберите площадь, этажность, фасад и кровлю.</p>
+      </header>
+
+      <div class="player reveal" id="player">
+        <div class="player-frame viewer" id="viewer" data-cursor="hot">
+          <canvas id="houseCanvas" aria-label="3D-модель дома, можно вращать"></canvas>
+          <div class="player-top">
+            <span class="player-month" id="playerMonth">Этап 1 из 8</span>
+            <span class="player-stage" id="playerStage">Участок</span>
+          </div>
+          <span class="drag-hint" id="dragHint"><i aria-hidden="true"></i>Потяните, чтобы повернуть</span>
+          <button class="player-btn" id="playerBtn" type="button" aria-label="Собрать заново"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5a7 7 0 1 1-6.6 4.7l1.9.7A5 5 0 1 0 12 7v3L7.5 6 12 2z"/></svg></button>
+        </div>
+        <ol class="stages stages-8" id="stages"></ol>
+        <div class="stage-info" id="stageInfo" aria-live="polite">
+          <p class="stage-name"></p>
+          <p class="stage-text"></p>
+        </div>
+
+        <div class="v-controls">
+          <div class="v-ctl v-ctl-area">
+            <label class="calc-label" for="viewArea">Площадь <output id="viewAreaOut">125 м²</output></label>
+            <input class="range" id="viewArea" type="range" min="60" max="250" step="1" value="125">
+          </div>
+          <div class="v-ctl">
+            <p class="calc-label">Этажей</p>
+            <div class="seg seg-2" id="viewFloors"><button type="button" data-v="1" class="on">1 этаж</button><button type="button" data-v="2">2 этажа</button></div>
+          </div>
+          <div class="v-ctl">
+            <p class="calc-label">Фасад</p>
+            <div class="swatches" id="viewFacade" role="group" aria-label="Фасад">
+              <button type="button" data-v="oak" class="on" title="Кирпич «кора дуба», тёмный шов" aria-label="Кирпич «кора дуба», тёмный шов" style="--c:#40302b"></button>
+              <button type="button" data-v="grey" title="Кирпич серый" aria-label="Кирпич серый" style="--c:#8d8c88"></button>
+              <button type="button" data-v="light" title="Кирпич светлый" aria-label="Кирпич светлый" style="--c:#dcc9a6"></button>
+              <button type="button" data-v="plaster" title="Штукатурка" aria-label="Штукатурка" style="--c:#eadcc4"></button>
+            </div>
+            <p class="swatch-name" id="facadeName">Кирпич «кора дуба», тёмный шов</p>
+          </div>
+          <div class="v-ctl">
+            <p class="calc-label">Кровля</p>
+            <div class="swatches" id="viewRoof" role="group" aria-label="Кровля">
+              <button type="button" data-v="dark" class="on" title="Графит" aria-label="Кровля графит" style="--c:#34373b"></button>
+              <button type="button" data-v="brown" title="Коричневая" aria-label="Кровля коричневая" style="--c:#54392b"></button>
+              <button type="button" data-v="red" title="Красная" aria-label="Кровля красная" style="--c:#8c3b2c"></button>
+            </div>
+            <p class="swatch-name" id="roofName">Кровля графит</p>
+          </div>
+        </div>
+        <p class="v-price">При такой площади: <b id="viewPrice">—</b> <a href="#calc">Уточнить в калькуляторе</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Проекты -->
+  <section class="section projects" id="projects">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Проекты и цены</p>
+        <h2>Дома с готовой <em>ценой</em></h2>
+        <p class="lead">Нажмите «Показать в 3D», и модель выше примет площадь и фасад этого проекта.</p>
+      </header>
+      <div class="project-grid" id="projectGrid"></div>
+      <p class="fine-note">Цены с карточки на Яндекс Картах, там они отмечены как давно не обновлявшиеся. Перед запуском поставим актуальные.</p>
+    </div>
+  </section>
+
+  <!-- 4. Построенные дома -->
+  <section class="section gallery" id="gallery">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Построенные дома</p>
+        <h2>Реальные объекты, <em>а не картинки</em></h2>
+        <p class="lead">Фото с карточки компании. На готовом сайте здесь будут ваши объекты с адресом, площадью и сроком стройки.</p>
+      </header>
+      <div class="gallery-grid">
+        <img class="reveal" src="img/g1.webp" alt="Двухэтажный дом из светлого кирпича с высокими окнами" loading="lazy" width="1000" height="750">
+        <img class="reveal" src="img/g2.webp" alt="Одноэтажный дом из коричневого кирпича" loading="lazy" width="1000" height="750">
+        <img class="reveal" src="img/g3.webp" alt="Дом в штукатурке с мощёным двором" loading="lazy" width="1000" height="750">
+        <img class="reveal" src="img/g4.webp" alt="Одноэтажный дом с красной кровлей на участке с газоном" loading="lazy" width="1000" height="750">
+        <img class="reveal" src="img/g5.webp" alt="Двухэтажный дом из кирпича с забором" loading="lazy" width="1000" height="750">
+        <img class="reveal" src="img/g6.webp" alt="Двухэтажный дом со светлым фасадом и большими окнами" loading="lazy" width="1000" height="750">
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Калькулятор -->
+  <section class="section calc" id="calc">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Калькулятор</p>
+        <h2>Сколько стоит <em>ваш дом</em></h2>
+        <p class="lead">Формула построена по вашим домам площадью 89–132 м², поэтому расчёт начинается с ваших цен, а не с чужих.</p>
+      </header>
+      <div class="calc-grid reveal">
+        <form class="calc-form" id="calcForm" onsubmit="return false">
+          <div class="calc-group">
+            <label class="calc-label" for="calcArea">Площадь дома <output id="areaOut">125 м²</output></label>
+            <input class="range" id="calcArea" type="range" min="60" max="250" step="1" value="125">
+            <div class="range-scale" aria-hidden="true"><span>60</span><span>125</span><span>190</span><span>250 м²</span></div>
+          </div>
+          <fieldset class="calc-group">
+            <legend>Этажность</legend>
+            <div class="seg seg-2" id="calcFloors"><button type="button" data-v="1" class="on">1 этаж</button><button type="button" data-v="2">2 этажа</button></div>
+          </fieldset>
+          <fieldset class="calc-group">
+            <legend>Фундамент</legend>
+            <div class="seg seg-3" id="calcFound">
+              <button type="button" data-v="pile" class="on">Свайно-ростверковый</button>
+              <button type="button" data-v="slab">Плита</button>
+              <button type="button" data-v="strip">Ленточный</button>
+            </div>
+          </fieldset>
+          <fieldset class="calc-group">
+            <legend>Фасад</legend>
+            <div class="seg seg-2" id="calcFacade"><button type="button" data-v="brick" class="on">Облицовочный кирпич</button><button type="button" data-v="plaster">Штукатурка</button></div>
+          </fieldset>
+        </form>
+
+        <aside class="calc-result" aria-live="polite">
+          <p class="res-label">Ориентировочная стоимость</p>
+          <p class="res-price" id="resPrice">—</p>
+          <p class="res-range" id="resRange"></p>
+          <dl class="res-list">
+            <div><dt>Цена за м²</dt><dd id="resM2">—</dd></div>
+            <div><dt>Похожий ваш проект</dt><dd id="resNear">—</dd></div>
+            <div><dt>Оплата</dt><dd>Есть рассрочка</dd></div>
+          </dl>
+          <a class="btn btn-primary btn-wide" href="#contact" id="resCta">Получить точную смету</a>
+          <p class="res-note">Зависимость цены от площади посчитана по вашим ценам, а наценки за этажность, фундамент и фасад пока примерные. На готовом сайте поставим ваши расценки.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Услуги и отзывы -->
+  <section class="section steps" id="services">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Чем занимаемся</p>
+        <h2>От фундамента <em>до отделки</em></h2>
+      </header>
+      <ul class="service-list">
+        <li class="reveal"><h3>Каменные дома</h3><p>Газобетон 375 мм, облицовочный кирпич, работы под ключ.</p></li>
+        <li class="reveal"><h3>Дома А-фрейм</h3><p>Строительство домов треугольной формы.</p></li>
+        <li class="reveal"><h3>Бани</h3><p>Строительство бань на вашем участке.</p></li>
+        <li class="reveal"><h3>Фундаменты</h3><p>Свайно-ростверковые, плитные и ленточные.</p></li>
+        <li class="reveal"><h3>Фасады</h3><p>Облицовка и отделка фасада.</p></li>
+        <li class="reveal"><h3>Ремонт и отделка</h3><p>Стяжка, внутренняя отделка, ремонт домов и квартир.</p></li>
+      </ul>
+      <div class="perks perks-3">
+        <div class="perk reveal"><b>Рейтинг 4,8 на Картах</b><span>30 оценок и 22 отзыва. Клиенты часто отмечают работу в срок.</span></div>
+        <div class="perk reveal"><b>Помогают с проектом</b><span>В отзывах пишут, что здесь можно подобрать проект и получить ответы на вопросы.</span></div>
+        <div class="perk reveal"><b>Удобная оплата</b><span>Рассрочка, оплата картой, наличными и по безналичному расчёту.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Заявка -->
+  <section class="section contact" id="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-copy reveal">
+        <p class="kicker kicker-light">Контакты</p>
+        <h2>Обсудим ваш дом</h2>
+        <p class="lead">Расскажите про участок и какой дом хотите. Сразу получите примерный расчёт из калькулятора.</p>
+        <dl class="contact-list">
+          <div><dt>Офис</dt><dd>Калуга, Знаменская ул., 54, этаж 2</dd></div>
+          <div><dt>Часы</dt><dd>Ежедневно 8:00–22:00</dd></div>
+          <div><dt>Телефон</dt><dd><a href="tel:+79952500506">+7 (995) 250-05-06</a></dd></div>
+          <div><dt>ВКонтакте</dt><dd><a href="https://vk.ru/stroiproekt40" target="_blank" rel="noopener">vk.ru/stroiproekt40</a></dd></div>
+        </dl>
+      </div>
+      <form class="lead-form reveal" id="leadForm" novalidate>
+        <p class="form-title">Оставьте заявку</p>
+        <label class="field"><span>Ваше имя</span><input name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" required></label>
+        <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (900) 000-00-00" required></label>
+        <label class="field"><span>Комментарий</span><textarea name="comment" rows="3" placeholder="Например: участок 12 соток, хотим дом к следующему лету"></textarea></label>
+        <input type="hidden" name="estimate" id="estimateField">
+        <p class="form-estimate" id="formEstimate" hidden></p>
+        <button class="btn btn-primary btn-wide" type="submit">Отправить</button>
+        <p class="form-note" id="formNote" aria-live="polite">Это набросок: заявка пока никуда не отправляется.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <a class="logo" href="#top"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V13L16 4l11 9v14z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12.5 27v-8h7v8" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span class="logo-text"><b>СТРОЙПРОЕКТ</b><small>дома под ключ · Калуга</small></span></a>
+    </div>
+    <div>
+      <p>Знаменская ул., 54, этаж 2</p>
+      <p class="footer-muted">Ежедневно 8:00–22:00</p>
+    </div>
+    <div>
+      <p><a href="tel:+79952500506">+7 (995) 250-05-06</a></p>
+      <p class="footer-muted">info@skstroiproekt.ru</p>
+    </div>
+  </div>
+  <p class="wrap footer-demo">Набросок сайта для компании «СтройПроект», не официальный сайт. Дом на первом экране сгенерирован для примера, 3D-модель показывает принцип: на готовом сайте будут ваши проекты. Фото объектов, цены и контакты взяты с карточки компании на Яндекс Картах.</p>
+</footer>
+
+<script src="js/crosshair-cursor.js?v=1"></script>
+<script src="js/house3d.js?v=1"></script>
+<script src="js/app.js?v=1"></script>
+</body>
+</html>
