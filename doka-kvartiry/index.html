@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Набросок сайта: ремонт квартир в 3D — Дока Строй, Волгоград</title>
+<meta name="description" content="Набросок сайта для компании «Дока Строй»: 3D-квартира, в которой можно переключать планировки и пакеты ремонта и сразу видеть цену.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0e0b">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="preload" as="font" type="font/woff2" href="fonts/unbounded-cyrillic-500-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/manrope-cyrillic-400-normal.woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=2">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip" href="#packs">К содержанию</a>
+<p class="draft-strip"><b>Небольшой набросок, не финальная версия сайта.</b> <span class="draft-more">Цены, фото и тексты взяты с doka-stroi.ru.</span></p>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="Дока Строй — в начало"><img src="img/logo-light.png" alt="Дока Строй" width="300" height="160"></a>
+    <nav class="nav-links" id="navLinks" aria-label="Разделы сайта">
+      <a href="#calc">3D-квартира</a>
+      <a href="#packs">Пакеты и цены</a>
+      <a href="#works">Работы</a>
+      <a href="#how">Как работаем</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a class="nav-phone" href="tel:+78442515072">+7 (8442) 51-50-72<small>Пн–пт: 9:00–18:00</small></a>
+    <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- 1. Первый экран: 3D-квартира -->
+  <section class="hero" id="top">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">Ремонт квартир в Волгограде</p>
+        <h1>Увидьте свой ремонт <span class="grad">в&nbsp;3D</span> ещё до&nbsp;его начала</h1>
+        <p class="lead">Выберите планировку и пакет. Квартира пройдёт путь от голого бетона до готового интерьера, а цена посчитается сразу.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#calc">Посчитать свою квартиру</a>
+          <a class="btn btn-ghost" href="#works">Смотреть работы</a>
+        </div>
+        <ul class="hero-facts">
+          <li><b>с 2007</b><span>года в ремонте</span></li>
+          <li><b>3 000+</b><span>проектов</span></li>
+          <li><b>3 года</b><span>гарантии</span></li>
+        </ul>
+      </div>
+
+      <div class="viewer hero-viewer" id="viewer" style="--poster: url(../img/w3.webp)">
+        <canvas id="scene" aria-label="3D-модель квартиры, можно вращать"></canvas>
+        <div class="loader" aria-hidden="true">Готовим 3D</div>
+        <div class="room-labels" id="roomLabels" aria-hidden="true"></div>
+        <div class="badge-float badge-rating"><b>5,0</b><span>369 отзывов<i class="sub">Яндекс, 2ГИС, Google</i></span></div>
+        <div class="badge-float badge-price"><span id="floatName">Комфорт, 60 м²</span><b id="floatPrice">—</b></div>
+        <div class="view-tools">
+          <button class="icon-btn" id="btnMood" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span>Вечер</span></button>
+          <button class="icon-btn" id="btnPlan" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v18H3zM3 12h8M11 3v13M15 21v-6h6"/></svg><span>План</span></button>
+        </div>
+        <span class="drag-hint" id="dragHint"><i aria-hidden="true"></i>Потяните, чтобы повернуть</span>
+      </div>
+    </div>
+
+    <!-- Панель: планировка, пакет, цена, этапы -->
+    <div class="wrap">
+      <div class="console" id="calc">
+        <div class="console-grid">
+          <div>
+            <div class="ctl">
+              <p class="ctl-label">Планировка</p>
+              <div class="seg seg-4 seg-wrap" id="ctlLayout">
+                <button type="button" data-v="studio">Студия<small>30 м²</small></button>
+                <button type="button" data-v="one">1 комн.<small>42 м²</small></button>
+                <button type="button" data-v="two">2 комн.<small>60 м²</small></button>
+                <button type="button" data-v="three">3 комн.<small>82 м²</small></button>
+              </div>
+            </div>
+            <div class="ctl">
+              <label class="ctl-label" for="ctlArea">Ваша площадь <output id="areaOut">60 м²</output></label>
+              <input class="range" id="ctlArea" type="range" min="20" max="150" step="1" value="60">
+            </div>
+          </div>
+          <div>
+            <div class="ctl">
+              <p class="ctl-label">Пакет ремонта</p>
+              <div class="seg seg-4 seg-wrap" id="ctlPack"></div>
+            </div>
+            <div class="ctl ctl-note" id="packNow"></div>
+          </div>
+          <div class="result" aria-live="polite">
+            <p class="result-label">Ремонт по прайсу 2026 года</p>
+            <p class="result-price" id="resPrice">—</p>
+            <p class="result-note" id="resNote"></p>
+            <label class="check"><input type="checkbox" id="ctlDesign"> Дизайн-проект, от 1 950 ₽/м²</label>
+            <a class="btn btn-primary btn-wide" href="#contact" id="resCta">Получить точную смету</a>
+          </div>
+        </div>
+        <div class="stages-wrap">
+          <p class="ctl-label">Этапы ремонта <button class="link-btn" id="btnReplay" type="button">Показать с начала</button></p>
+          <ol class="stages" id="stages"></ol>
+          <p class="stage-info" id="stageInfo" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Пакеты -->
+  <section class="section" id="packs">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Пакеты и цены</p>
+        <h2>Цена за метр видна <span class="grad">сразу</span></h2>
+        <p class="lead">Состав работ и цены по прайс-листу 2026 года. Нажмите «Показать в 3D», и квартира выше переделается под этот пакет.</p>
+      </header>
+      <div class="packs" id="packCards"></div>
+      <p class="fine">Цены «от», за квадратный метр. Итог зависит от площади, состояния квартиры и состава работ, точная сумма фиксируется в смете до начала ремонта. Черновой ремонт отдельно: от 18 700 ₽/м².</p>
+    </div>
+  </section>
+
+  <!-- 3. Большая фотополоса -->
+  <section class="band" aria-label="Цифры компании">
+    <img class="band-img" src="img/band.webp" alt="Гостиная с круглым столом и светлой отделкой: работа компании" loading="lazy" width="2000" height="1250">
+    <div class="wrap band-copy">
+      <p class="kicker reveal">С 2007 года</p>
+      <h2 class="reveal">Премиальные интерьеры <span class="grad">от проекта до реализации</span></h2>
+      <ul class="stats reveal">
+        <li><b data-count="3000" data-suffix="+">3 000+</b><span>реализованных проектов</span></li>
+        <li><b>5,0</b><span>369 отзывов на картах</span></li>
+        <li><b>3 года</b><span>гарантия на работы</span></li>
+        <li><b data-count="55">55</b><span>специалистов в ремонте и отделке</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Работы -->
+  <section class="section" id="works">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Работы</p>
+        <h2>Так это выглядит <span class="grad">в&nbsp;жизни</span></h2>
+        <p class="lead">Квартиры в жилых комплексах Волгограда: от студий до трёхкомнатных.</p>
+      </header>
+      <div class="mosaic">
+        <figure class="tile w7 reveal"><img src="img/w4.webp" alt="Гостиная с диваном и кухней на Чуйкова, 55" loading="lazy" width="1400" height="1050"><figcaption><b>Чуйкова, 55</b><span>Современный интерьер с продуманным зонированием и скрытым хранением.</span><i>2 комнаты, 58 м²</i></figcaption></figure>
+        <figure class="tile w5 reveal"><img src="img/w1.webp" alt="Гостиная с телевизором в квартире в ЖК Арбат" loading="lazy" width="1000" height="750"><figcaption><b>ЖК Арбат</b><span>Комплексный ремонт со сложными архитектурными решениями и мебелью на заказ.</span><i>2 комнаты, 68 м²</i></figcaption></figure>
+        <figure class="tile reveal"><img src="img/w2.webp" alt="Кухня-гостиная с круглым столом в ЖК Бастион" loading="lazy" width="1000" height="750"><figcaption><b>ЖК Бастион</b><i>3 комнаты, 84 м²</i></figcaption></figure>
+        <figure class="tile reveal"><img src="img/w3.webp" alt="Светлая кухня-гостиная в ЖК Кокос" loading="lazy" width="1000" height="750"><figcaption><b>ЖК Кокос</b><i>1 комната, 46 м²</i></figcaption></figure>
+        <figure class="tile reveal"><img src="img/w5.webp" alt="Светлая гостиная с угловым диваном в ЖК Репников" loading="lazy" width="1000" height="750"><figcaption><b>ЖК Репников</b><i>3 комнаты, 92 м²</i></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Как работаем -->
+  <section class="section section-alt" id="how">
+    <div class="wrap split">
+      <header class="section-head reveal">
+        <p class="kicker">Как работаем</p>
+        <h2>Смета до начала работ, <span class="grad">оплата по этапам</span></h2>
+      </header>
+      <ul class="rows">
+        <li class="row reveal"><h3>Один ответственный за проект</h3><p>Руководитель проекта координирует работы на объекте. У вас одна точка связи по всем вопросам.</p></li>
+        <li class="row reveal"><h3>Прозрачный бюджет</h3><p>Смету согласуем до начала работ. Дополнительные работы и изменения обсуждаем заранее.</p></li>
+        <li class="row reveal"><h3>Контроль на каждом этапе</h3><p>Проверяем работы и соответствие согласованным решениям, замечания устраняем по ходу.</p></li>
+        <li class="row reveal"><h3>Оплата по факту</h3><p>Работаем по договору. Без предоплаты за весь объём: платите за выполненный и принятый этап.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6. Отзывы -->
+  <section class="section" id="reviews">
+    <div class="wrap split">
+      <header class="section-head reveal">
+        <p class="kicker">Отзывы</p>
+        <h2>369 отзывов <span class="grad">на картах</span></h2>
+        <p class="big-rate">5,0</p>
+        <p class="lead">Яндекс Карты, 2ГИС и Google Карты.</p>
+      </header>
+      <div class="quotes">
+        <blockquote class="quote reveal"><p>Сделали быстро и качественно. Я плакала от счастья, когда увидела свой дизайн-проект, а потом снова, когда сравнила его с реальной отделкой</p><footer>Юля Мейер</footer></blockquote>
+        <blockquote class="quote reveal"><p>Спасибо за ремонт! Всё качественно и в срок. Учли все наши пожелания исходя из нашего бюджета. Получилось даже лучше, чем планировали.</p><footer>Наталья</footer></blockquote>
+        <blockquote class="quote reveal"><p>Компания достойная, люди внимательные к пожеланиям заказчика, цены доступные. Проведенными работами остался доволен. Буду и далее обращаться к ним.</p><footer>Михаил</footer></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Заявка -->
+  <section class="section section-alt" id="contact">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <p class="kicker">Контакты</p>
+        <h2>Посчитаем вашу квартиру <span class="grad">точно</span></h2>
+        <p class="lead">Выезд специалиста и замеры, затем подробная смета. Параметры из 3D-расчёта придут вместе с заявкой.</p>
+        <dl class="contact-list">
+          <div><dt>Телефон</dt><dd><a href="tel:+78442515072">+7 (8442) 51-50-72</a></dd></div>
+          <div><dt>WhatsApp</dt><dd><a href="https://wa.me/79275115072" target="_blank" rel="noopener">+7 (927) 511-50-72</a></dd></div>
+          <div><dt>Почта</dt><dd><a href="mailto:info@doka-stroi.ru">info@doka-stroi.ru</a></dd></div>
+          <div><dt>Офис</dt><dd>Волгоград, ул. Ангарская, 71</dd></div>
+          <div><dt>Часы</dt><dd>Пн–пт: 9:00–18:00</dd></div>
+        </dl>
+      </div>
+      <form class="lead-form reveal" id="leadForm" novalidate>
+        <p class="form-title">Оставьте заявку</p>
+        <label class="field"><span>Ваше имя</span><input name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" required></label>
+        <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (900) 000-00-00" required></label>
+        <input type="hidden" name="estimate" id="estimateField">
+        <p class="form-estimate" id="formEstimate" hidden></p>
+        <button class="btn btn-primary btn-wide" type="submit">Получить смету</button>
+        <p class="form-note" id="formNote" aria-live="polite">Это набросок: заявка пока никуда не отправляется.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <a class="logo" href="#top"><img src="img/logo-light.png" alt="Дока Строй" width="300" height="160"></a>
+      <div><p>Волгоград, ул. Ангарская, 71</p><p class="footer-muted">Пн–пт: 9:00–18:00</p></div>
+      <div><p><a href="tel:+78442515072">+7 (8442) 51-50-72</a></p><p class="footer-muted"><a href="mailto:info@doka-stroi.ru">info@doka-stroi.ru</a></p></div>
+    </div>
+    <p class="footer-demo">Небольшой набросок для компании «Дока Строй», не финальная версия и не официальный сайт. 3D-модель показывает принцип: на готовом сайте планировки и интерьеры будут более реалистичными и по вашим объектам. Мебель в модели для примера. Цены, фото, отзывы и контакты взяты с doka-stroi.ru.</p>
+  </div>
+</footer>
+
+<script src="js/common.js?v=2"></script>
+<script src="js/apartment3d.js?v=2"></script>
+<script src="js/app.js?v=2"></script>
+</body>
+</html>

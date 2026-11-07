@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Набросок сайта: дома под ключ в Волгограде — Дока Строй</title>
+<meta name="description" content="Набросок нового сайта doka-building.ru: дом строится на экране по этапам, клиент выбирает стиль и площадь и сразу видит примерную цену.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0b0c">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="preload" as="font" type="font/woff2" href="fonts/unbounded-cyrillic-500-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/manrope-cyrillic-400-normal.woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=2">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip" href="#styles">К содержанию</a>
+<p class="draft-strip"><b>Небольшой набросок, не финальная версия сайта.</b> <span class="draft-more">Цены за м² условные, поставим ваши. Фото и тексты с ваших сайтов.</span></p>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="Дока Строй — в начало"><img src="img/logo-light.png" alt="Дока Строй" width="300" height="160"></a>
+    <nav class="nav-links" id="navLinks" aria-label="Разделы сайта">
+      <a href="#calc">Дом в 3D</a>
+      <a href="#styles">Проекты</a>
+      <a href="#services">Услуги</a>
+      <a href="#how">Как строим</a>
+      <a href="#clients">Клиенты</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a class="nav-phone" href="tel:+79044026285">+7 (904) 402-62-85<small>Пн–пт: 10:00–18:00</small></a>
+    <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- 1. Первый экран: большой 3D-дом -->
+  <section class="hero" id="top">
+    <div class="hero-stage">
+      <div class="viewer hero-viewer" id="viewer" style="--poster: url(../img/p1.webp)">
+        <canvas id="scene" aria-label="3D-модель дома, можно вращать"></canvas>
+        <div class="loader" aria-hidden="true">Готовим 3D</div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="badge-float badge-price"><span id="floatName">Эко-дом, 157 м²</span><b id="floatPrice">—</b></div>
+        <div class="view-tools">
+          <button class="icon-btn" id="btnMood" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span>Вечер</span></button>
+        </div>
+        <span class="drag-hint" id="dragHint"><i aria-hidden="true"></i>Потяните, чтобы повернуть</span>
+      </div>
+      <div class="wrap hero-wrap">
+        <div class="hero-head">
+          <p class="kicker">Волгоград · с 2007 года</p>
+          <h1>Дома под ключ <span class="grad">в&nbsp;Волгограде</span></h1>
+          <p class="lead">От проекта до сдачи по одному договору. Смотрите, как ваш дом строится на экране, выбирайте стиль и площадь и сразу видите примерную цену.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#calc">Собрать свой дом</a>
+            <a class="btn btn-ghost" href="#styles">Смотреть проекты</a>
+          </div>
+          <ul class="hero-facts">
+            <li><b>5,0</b><span>369 отзывов на картах</span></li>
+            <li><b>3 000+</b><span>проектов</span></li>
+            <li><b>55</b><span>сотрудников</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="console" id="calc">
+        <div class="console-grid">
+          <div>
+            <div class="ctl">
+              <p class="ctl-label">Стиль дома</p>
+              <div class="seg seg-3" id="ctlStyle">
+                <button type="button" data-v="eco">Эко-дом<small>2 этажа</small></button>
+                <button type="button" data-v="barn">Barn-House<small>1 этаж</small></button>
+                <button type="button" data-v="hitech">Hi-Tech<small>2 этажа</small></button>
+              </div>
+            </div>
+            <div class="ctl ctl-note" id="styleNow"></div>
+          </div>
+          <div>
+            <div class="ctl">
+              <label class="ctl-label" for="ctlArea">Площадь <output id="areaOut">157 м²</output></label>
+              <input class="range" id="ctlArea" type="range" min="90" max="320" step="1" value="157">
+            </div>
+            <div class="ctl">
+              <p class="ctl-label">Что входит</p>
+              <div class="seg seg-3" id="ctlLevel">
+                <button type="button" data-v="box">Коробка</button>
+                <button type="button" data-v="warm">Тёплый контур</button>
+                <button type="button" data-v="key">Под ключ</button>
+              </div>
+            </div>
+          </div>
+          <div class="result" aria-live="polite">
+            <p class="result-label">Примерная цена дома</p>
+            <p class="result-price" id="resPrice">—</p>
+            <p class="result-note" id="resNote"></p>
+            <a class="btn btn-primary btn-wide" href="#contact" id="resCta">Получить смету на мой дом</a>
+          </div>
+        </div>
+        <div class="stages-wrap">
+          <p class="ctl-label">Этапы стройки <button class="link-btn" id="btnReplay" type="button">Показать с начала</button></p>
+          <ol class="stages" id="stages"></ol>
+          <p class="stage-info" id="stageInfo" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Проекты: стили -->
+  <section class="section" id="styles">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Проекты</p>
+        <h2>Три подхода к дому, <span class="grad">один подрядчик</span></h2>
+        <p class="lead">Настоящие проекты из портфолио. У каждого будут площадь, срок и цена, а 3D-модель построим по его чертежам.</p>
+      </header>
+      <div class="style-cards" id="styleCards"></div>
+    </div>
+  </section>
+
+  <!-- 3. Большая фотополоса -->
+  <section class="band" aria-label="Один договор на весь проект">
+    <img class="band-img" src="img/band.webp" alt="Длинный белый дом с деревянными вставками среди деревьев" loading="lazy" width="2000" height="1100">
+    <div class="wrap band-copy">
+      <p class="kicker reveal">Как устроена стройка</p>
+      <h2 class="reveal">Один договор <span class="grad">на весь проект</span></h2>
+      <ul class="stats reveal">
+        <li><b data-count="3000" data-suffix="+">3 000+</b><span>реализованных проектов</span></li>
+        <li><b>5,0</b><span>369 отзывов на картах</span></li>
+        <li><b>с 2007</b><span>года на рынке</span></li>
+        <li><b data-count="157" data-suffix=" м²">157 м²</b><span>эко-дом на плите и металлокаркасе</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Услуги -->
+  <section class="section" id="services">
+    <div class="wrap split">
+      <header class="section-head reveal">
+        <p class="kicker">Услуги</p>
+        <h2>От проекта до <span class="grad">готового объекта</span></h2>
+      </header>
+      <ul class="rows">
+        <li class="row reveal"><h3>Дома под ключ</h3><p>Энергоэффективные индивидуальные дома: проект, закупка материалов, стройка и инженерные системы.</p></li>
+        <li class="row reveal"><h3>Архитектура и дизайн</h3><p>Архитектурный, конструктивный и инженерный проект, дизайн интерьера с 3D-визуализацией и авторский надзор.</p></li>
+        <li class="row reveal"><h3>Отделка и ремонт</h3><p>Выезд специалиста, смета, отделка любой сложности, вентиляция и кондиционирование, сдача готового объекта.</p></li>
+        <li class="row reveal"><h3>Мебель и интерьер</h3><p>Разработка и изготовление мебели и элементов интерьера для дома, офиса, ресторанов и отелей.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. Как строим -->
+  <section class="section section-alt" id="how">
+    <div class="wrap split">
+      <header class="section-head reveal">
+        <p class="kicker">Как строим</p>
+        <h2>Вы согласуете проект, <span class="grad">остальное делаем мы</span></h2>
+        <p class="lead">Изыскания, закупку и стройку команда ведёт сама, в заданные сроки и бюджет.</p>
+      </header>
+      <ul class="rows">
+        <li class="row reveal"><h3>Изыскания и согласования</h3><p>Изучаем участок, готовим экономическое обоснование и согласования.</p></li>
+        <li class="row reveal"><h3>Проект</h3><p>Выбираете стиль, мы проектируем дом и все инженерные системы.</p></li>
+        <li class="row reveal"><h3>Материалы и стройка</h3><p>Выбираем и закупаем материалы и комплектующие, выполняем все строительные работы.</p></li>
+        <li class="row reveal"><h3>Пуск и сдача</h3><p>Пусконаладка инженерных систем, сдача дома и гарантийное обслуживание.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6. Галерея -->
+  <section class="section" id="gallery">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Портфолио</p>
+        <h2>Дома и <span class="grad">интерьеры</span></h2>
+      </header>
+      <div class="mosaic">
+        <figure class="tile w7 reveal"><img src="img/g1.webp" alt="Двухэтажный дом с балконом и подсветкой вечером" loading="lazy" width="1357" height="848"></figure>
+        <figure class="tile w5 reveal"><img src="img/g2.webp" alt="Интерьер: гостиная в дереве с панорамным окном" loading="lazy" width="1400" height="1050"></figure>
+        <figure class="tile reveal"><img src="img/g3.webp" alt="Дом с серой кровлей и большими окнами" loading="lazy" width="1000" height="750"></figure>
+        <figure class="tile reveal"><img src="img/g4.webp" alt="Современный дом с навесом для машины" loading="lazy" width="1000" height="750"></figure>
+        <figure class="tile reveal"><img src="img/g5.webp" alt="Интерьер со стеклом и лестницей" loading="lazy" width="980" height="735"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Клиенты -->
+  <section class="section section-alt" id="clients">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Клиенты</p>
+        <h2>Нам доверяют <span class="grad">большие компании</span></h2>
+      </header>
+    </div>
+    <div class="marquee reveal" aria-label="Клиенты компании">
+      <div class="marquee-track">
+        <span>Газпром</span><span>Лукойл</span><span>EuroChem Group</span><span>Волжский Трубный Завод</span><span>Hilton Garden Inn</span><span>Inditex</span><span>Nike Store</span><span>Apple Store</span><span>L'Etoile</span><span>Магнит</span><span>LENTA</span><span>Себряков Цемент</span><span>Волгоград Нефтемаш</span><span>Мегамикс</span><span>Питер Авто</span>
+        <span aria-hidden="true">Газпром</span><span aria-hidden="true">Лукойл</span><span aria-hidden="true">EuroChem Group</span><span aria-hidden="true">Волжский Трубный Завод</span><span aria-hidden="true">Hilton Garden Inn</span><span aria-hidden="true">Inditex</span><span aria-hidden="true">Nike Store</span><span aria-hidden="true">Apple Store</span><span aria-hidden="true">L'Etoile</span><span aria-hidden="true">Магнит</span><span aria-hidden="true">LENTA</span><span aria-hidden="true">Себряков Цемент</span><span aria-hidden="true">Волгоград Нефтемаш</span><span aria-hidden="true">Мегамикс</span><span aria-hidden="true">Питер Авто</span>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="client-note reveal">В наброске список со страницы «О нас». На готовом сайте будут логотипы и что именно делали для каждого, после согласования.</p>
+      <div class="quotes one-quote">
+        <blockquote class="quote reveal"><p>Искал компанию с опытом для ремонта загородного коттеджа. Общая площадь дома составила 200 кв. м. … Уже на следующий день приехал специалист, сделал замеры, дал мне консультацию. … Через 2 месяца я уже заселился в свой дом, о чём я так долго мечтал.</p><footer>Владислав Колесниченко</footer></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Заявка -->
+  <section class="section" id="contact">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <p class="kicker">Контакты</p>
+        <h2>Обсудим <span class="grad">ваш дом</span></h2>
+        <p class="lead">Оставьте телефон и расскажите про участок. Параметры из 3D-расчёта придут вместе с заявкой.</p>
+        <dl class="contact-list">
+          <div><dt>Телефон</dt><dd><a href="tel:+79044026285">+7 (904) 402-62-85</a></dd></div>
+          <div><dt>Почта</dt><dd><a href="mailto:info@doka-building.ru">info@doka-building.ru</a></dd></div>
+          <div><dt>Офис</dt><dd>Волгоград, ул. Ангарская, 71</dd></div>
+          <div><dt>Часы</dt><dd>Пн–пт: 10:00–18:00</dd></div>
+        </dl>
+      </div>
+      <form class="lead-form reveal" id="leadForm" novalidate>
+        <p class="form-title">Оставьте заявку</p>
+        <label class="field"><span>Ваше имя</span><input name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" required></label>
+        <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (900) 000-00-00" required></label>
+        <input type="hidden" name="estimate" id="estimateField">
+        <p class="form-estimate" id="formEstimate" hidden></p>
+        <button class="btn btn-primary btn-wide" type="submit">Отправить</button>
+        <p class="form-note" id="formNote" aria-live="polite">Это набросок: заявка пока никуда не отправляется.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <a class="logo" href="#top"><img src="img/logo-light.png" alt="Дока Строй" width="300" height="160"></a>
+      <div><p>Волгоград, ул. Ангарская, 71</p><p class="footer-muted">Пн–пт: 10:00–18:00</p></div>
+      <div><p><a href="tel:+79044026285">+7 (904) 402-62-85</a></p><p class="footer-muted"><a href="mailto:info@doka-building.ru">info@doka-building.ru</a></p></div>
+    </div>
+    <p class="footer-demo">Небольшой набросок для компании «Дока Строй», не финальная версия и не официальный сайт. 3D-модели показывают принцип: на готовом сайте они будут более реалистичными и по вашим проектам. Цены за м² условные, поставим ваши расценки. Фото, клиенты и контакты взяты с doka-building.ru, рейтинг и цифры с doka-stroi.ru. На вашем сайте указаны два адреса и два года основания, перед запуском уточним верные.</p>
+  </div>
+</footer>
+
+<script src="js/common.js?v=2"></script>
+<script src="js/house3d.js?v=2"></script>
+<script src="js/app.js?v=2"></script>
+</body>
+</html>
