@@ -335,6 +335,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .hero-head { max-width: min(600px, 44vw); pointer-events: auto; }
 .hero h1 { font-size: clamp(30px, 4vw, 66px); }
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(24px, 2.6vw, 36px); }
+.cta-row .btn-ghost { background: rgba(10, 11, 12, .72); }   /* кнопка читается и поверх дома */
+.cta-row .btn-ghost:hover { background: rgba(30, 31, 33, .86); }
 .hero-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: clamp(26px, 3vw, 42px); padding-top: clamp(16px, 2vw, 22px); border-top: 1px solid var(--line-2); }
 .hero-facts b { display: block; font: 500 clamp(16px, 1.6vw, 24px)/1.1 var(--f-head); white-space: nowrap; }
 .hero-facts span { display: block; margin-top: 6px; font-size: 13px; line-height: 1.35; color: var(--muted); }
@@ -366,6 +368,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .one-quote { max-width: 980px; margin-top: clamp(30px, 4vw, 56px); }
 @media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; flex-wrap: wrap; width: auto; white-space: normal; } }
 
+/* планшеты горизонтально: тексту колонка уже, дому остаётся правая половина */
+@media (min-aspect-ratio: 11/10) and (max-aspect-ratio: 3/2) and (min-width: 560px) {
+  .hero-head { max-width: 41vw; }
+}
 @media (max-aspect-ratio: 11/10), (max-width: 559px) {
   .hero-stage { display: flex; flex-direction: column-reverse; min-height: 0; padding-bottom: 0; }
   .hero-wrap { pointer-events: auto; }

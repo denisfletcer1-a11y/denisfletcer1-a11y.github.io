@@ -126,8 +126,14 @@
     $('btnReplay').addEventListener('click', () => { started = true; moodTouched = false; if (evening) setMood(false); api.play(0); showViewer(viewer); });
     // Дом сдвинут вправо от текста, на узких экранах стоит по центру
     const wide = window.matchMedia('(min-aspect-ratio: 11/10) and (min-width: 560px)');
-    const applyShift = () => { api.view.shiftX = wide.matches ? .2 : 0; api.stage.dirty(); };
+    const applyShift = () => {
+      // Чем ближе экран к 4:3, тем правее стоит дом
+      const extra = .03 * Math.min(1, Math.max(0, (1.78 - innerWidth / innerHeight) / .38));
+      api.view.shiftX = wide.matches ? .2 + extra : 0;
+      api.stage.dirty();
+    };
     wide.addEventListener('change', applyShift);
+    addEventListener('resize', applyShift);
     applyShift();
   }
   requestAnimationFrame(() => setTimeout(start3d, 40));
