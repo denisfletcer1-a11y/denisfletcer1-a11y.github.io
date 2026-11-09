@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Примерка панелей Экосимпл на фото дома</title>
+<meta name="description" content="Загрузите фото дома и посмотрите его в фиброцементных панелях Экосимпл: перспектива, свет, цена за ваш фасад.">
+<link rel="preload" href="fonts/manrope-cyrillic-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/primerka.css?v=2">
+</head>
+<body>
+<p class="demo-note" id="demoNote">Демо-версия блока для сайта ecosimple.ru. В ней заявки никуда не отправляются.</p>
+
+<section class="eco" id="primerka" aria-labelledby="ecoTitle">
+  <header class="eco-head">
+    <p class="eco-kicker">Бесплатная примерка онлайн</p>
+    <h2 id="ecoTitle">Примерьте панели Экосимпл на&nbsp;свой дом</h2>
+    <p class="eco-lead">Загрузите фото фасада и&nbsp;отметьте стены и&nbsp;окна. По&nbsp;фото построится 3D-модель вашего дома в&nbsp;панелях Экосимпл: её&nbsp;можно повернуть, сменить панель и&nbsp;сразу увидеть цену.</p>
+    <ol class="eco-steps" id="steps">
+      <li data-step="1"><span>1</span>Фото</li>
+      <li data-step="2"><span>2</span>Стены</li>
+      <li data-step="3"><span>3</span>Панели</li>
+      <li data-step="4"><span>4</span>3D и расчёт</li>
+    </ol>
+  </header>
+
+  <div class="eco-body">
+    <div class="eco-stage-col">
+      <div class="eco-modes" role="tablist" aria-label="Вид">
+        <button type="button" class="mode on" id="m3d" role="tab" aria-selected="true">3D-модель дома</button>
+        <button type="button" class="mode" id="mPhoto" role="tab" aria-selected="false">На фото</button>
+      </div>
+      <div class="eco-stage" id="stage">
+        <canvas id="g3" class="eco-3d" aria-label="3D-модель дома в панелях"></canvas>
+        <canvas id="gl" aria-label="Фото дома с панелями"></canvas>
+        <svg id="ov" class="eco-ov" aria-hidden="true"></svg>
+        <div id="handles" class="eco-handles"></div>
+        <div class="eco-split" id="split" hidden><span class="eco-split-knob" aria-hidden="true"></span><em class="l">до</em><em class="r">после</em></div>
+        <canvas id="loupe" class="eco-loupe" width="160" height="160" hidden></canvas>
+        <div class="eco-drop" id="drop" hidden><span>Отпустите фото здесь</span></div>
+        <div class="eco-busy" id="busy" hidden><span></span></div>
+      </div>
+      <div class="eco-stagebar" id="bar3d">
+        <button type="button" class="chip" id="vFront">Спереди</button>
+        <button type="button" class="chip" id="v34">3/4</button>
+        <button type="button" class="chip" id="vSpin">Вращать</button>
+        <button type="button" class="chip sq" id="zIn" aria-label="Ближе">+</button>
+        <button type="button" class="chip sq" id="zOut" aria-label="Дальше">−</button>
+        <button type="button" class="chip" id="bDownload3"><i class="ic ic-down"></i>Скачать</button>
+      </div>
+      <div class="eco-stagebar" id="barPhoto" hidden>
+        <button type="button" class="chip" id="bCompare" aria-pressed="false"><i class="ic ic-split"></i>До / после</button>
+        <button type="button" class="chip on" id="bMarks" aria-pressed="true"><i class="ic ic-marks"></i>Разметка</button>
+        <button type="button" class="chip" id="bDownload"><i class="ic ic-down"></i>Скачать</button>
+      </div>
+      <p class="eco-hint" id="hint" role="status"></p>
+    </div>
+
+    <div class="eco-side">
+      <section class="eco-card" aria-labelledby="h1c">
+        <h3 id="h1c"><b>1</b>Фото дома</h3>
+        <div class="row">
+          <label class="btn primary file"><input type="file" accept="image/*" id="file"><i class="ic ic-up"></i>Загрузить фото</label>
+          <button type="button" class="btn ghost" id="bDemo">Пример дома</button>
+        </div>
+        <p class="small">Лучше всего — дом спереди, днём, фасад целиком в&nbsp;кадре. Фото остаётся на&nbsp;вашем устройстве.</p>
+      </section>
+
+      <section class="eco-card" aria-labelledby="h2c">
+        <h3 id="h2c"><b>2</b>Стены и окна</h3>
+        <div class="zones" id="zones" role="listbox" aria-label="Стены на фото"></div>
+        <div class="row tools">
+          <button type="button" class="btn small" id="bAddWall">+ Стена</button>
+          <button type="button" class="btn small" id="bAddHole">+ Окно / дверь</button>
+          <button type="button" class="btn small danger" id="bDel">Удалить</button>
+        </div>
+        <p class="small" id="wallHint">На фото потяните белые точки на&nbsp;углы стены. Оранжевые точки — углы окон и&nbsp;дверей.</p>
+        <div class="roofs"><span>Крыша</span>
+          <button type="button" class="seg on" data-roof="flat">Плоская</button>
+          <button type="button" class="seg" data-roof="gable">Двускатная</button>
+          <button type="button" class="seg" data-roof="hip">Вальмовая</button>
+        </div>
+        <label class="field inline" for="dDepth">Глубина дома, м <input id="dDepth" type="number" min="3" max="40" step="0.1" inputmode="decimal"></label>
+        <button type="button" class="btn navy" id="bBuild">Построить 3D-модель по фото</button>
+      </section>
+
+      <section class="eco-card" aria-labelledby="h3c">
+        <h3 id="h3c"><b>3</b>Панель для стены «<span id="zoneName"></span>»</h3>
+        <div class="cats" id="cats" role="tablist" aria-label="Фактура"></div>
+        <div class="plist" id="plist"></div>
+        <div class="pinfo" id="pinfo"></div>
+      </section>
+
+      <section class="eco-card calc" aria-labelledby="h4c">
+        <h3 id="h4c"><b>4</b>Расчёт</h3>
+        <label class="field" for="wWidth">Ширина стены «<span id="zoneName2"></span>», м
+          <input id="wWidth" type="number" min="1" max="80" step="0.1" inputmode="decimal">
+        </label>
+        <div id="calc" class="calc-out"></div>
+        <button type="button" class="btn primary big" id="bLead">Получить точный расчёт</button>
+        <p class="small">Пришлём бесплатный образец панели, чтобы вы оценили фактуру вживую.</p>
+      </section>
+    </div>
+  </div>
+</section>
+
+<dialog class="eco-dlg" id="lead" aria-labelledby="leadT">
+  <form method="dialog" id="leadForm" novalidate>
+    <button type="button" class="x" id="leadX" aria-label="Закрыть">×</button>
+    <div class="lead-main">
+      <h3 id="leadT">Точный расчёт фасада</h3>
+      <p class="small">Менеджер посчитает панели, крепёж и монтаж по вашему фото и перезвонит в течение 10 минут в рабочее время.</p>
+      <img id="leadImg" alt="Ваш дом в панелях Экосимпл">
+      <ul id="leadSum" class="lead-sum"></ul>
+      <label class="field">Имя<input name="name" autocomplete="name" required></label>
+      <label class="field">Телефон<input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required></label>
+      <label class="field">Город или посёлок<input name="city" autocomplete="address-level2"></label>
+      <label class="check"><input type="checkbox" name="agree" required> Согласен с&nbsp;<a href="https://ecosimple.ru/policy" target="_blank" rel="noopener">политикой обработки персональных данных</a></label>
+      <p class="err" id="leadErr" hidden></p>
+      <button type="submit" class="btn primary big" id="leadSend">Отправить заявку</button>
+    </div>
+    <div class="lead-done" hidden>
+      <h3>Спасибо, заявка принята!</h3>
+      <p>Менеджер Экосимпл свяжется с&nbsp;вами, уточнит размеры и&nbsp;пришлёт смету. Картинка вашего дома уже у&nbsp;него.</p>
+      <p class="small demo-only">Это демо-версия: в&nbsp;рабочей заявка с&nbsp;картинкой придёт вам в&nbsp;Telegram и&nbsp;на&nbsp;почту.</p>
+      <button type="button" class="btn ghost" id="leadOk">Вернуться к примерке</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="js/panels.js?v=1"></script>
+<script src="js/eco3d.js?v=2"></script>
+<script src="js/primerka.js?v=3"></script>
+</body>
+</html>
