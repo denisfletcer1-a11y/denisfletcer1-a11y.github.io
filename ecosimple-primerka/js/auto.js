@@ -9,9 +9,17 @@ let seg = null;
 export async function loadModel(onProgress) {
   if (seg) return seg;
   if (!T) T = await import(LIB);
-  T.env.allowRemoteModels = false;
-  T.env.allowLocalModels = true;
-  T.env.localModelPath = new URL('../ml/models/', import.meta.url).href;
+  // файлы модели лежат рядом с блоком под простыми именами (GitHub Pages не публикует .onnx) — подменяем их при загрузке
+  const FILES = { 'config.json': 'seg-config.json', 'preprocessor_config.json': 'seg-preprocessor.json', 'onnx/model_quantized.onnx': 'seg-model.bin' };
+  const base = new URL('../ml/', import.meta.url).href;
+  T.env.allowRemoteModels = true;
+  T.env.allowLocalModels = false;
+  T.env.useBrowserCache = false;
+  T.env.useCustomCache = true;
+  T.env.customCache = {
+    async match(key) { const u = String(key && key.url ? key.url : key); for (const k in FILES) if (u.endsWith('/' + k)) { const r = await fetch(base + FILES[k]); if (r.ok) return r; } return undefined; },
+    async put() {},
+  };
   seg = await T.pipeline('image-segmentation', 'Xenova/segformer-b0-finetuned-ade-512-512', {
     device: 'wasm', dtype: 'q8',
     progress_callback: (p) => { if (onProgress && p.status === 'progress' && p.total) onProgress(p.loaded / p.total); },
