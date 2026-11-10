@@ -359,7 +359,7 @@
       if (!src) { const im = new Image(); im.src = URL.createObjectURL(f); await im.decode(); src = im; w = im.naturalWidth; h = im.naturalHeight; }
       S.isDemo = false;
       await setPhoto(src, w, h);
-      const cur = S.zones[S.sel] ? S.zones[S.sel].panel.slice() : ['AA2', 0];
+      const cur = S.zones[S.sel] ? S.zones[S.sel].panel.slice() : ['AA1', 2];
       S.zones = [newZone('Стена 1', cur, [.2, .3, .8, .78])];
       S.sel = 0; S.hole = -1; S.compare = false; syncCompare();
       await loadPanel(PANELS.get(cur[0]).variants[cur[1]].id);
@@ -469,7 +469,7 @@
       <div class="ln"><span>Панели ${esc(p.label)}</span><b>≈ ${rub(a.net * RESERVE * p.price)}</b></div>
       ${S.zones.length > 1 ? `<div class="ln tot"><span>Все стены на фото, ${fmt(tA, 1)} м²</span><b>≈ ${rub(tP)}</b></div>` : `<div class="ln tot"><span>Итого за панели</span><b>≈ ${rub(tP)}</b></div>`}
       ${houseCalc()}
-      <div class="note">С запасом 7% на подрезку. Примерный расчёт по ценам каталога, без крепежа и монтажа.</div>`;
+      <div class="note">С запасом 7% на подрезку. Расчёт примерный, точную смету подготовит менеджер.</div>`;
   }
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -545,7 +545,7 @@
   $('#bDemo').onclick = () => { S.compare = false; syncCompare(); loadDemo(); };
   $('#bAddWall').onclick = () => {
     if (S.zones.length >= MAX_ZONES) return;
-    const cur = S.zones[S.sel] ? S.zones[S.sel].panel.slice() : ['AA2', 0];
+    const cur = S.zones[S.sel] ? S.zones[S.sel].panel.slice() : ['AA1', 2];
     const n = S.zones.length + 1, off = (n % 3) * .04;
     S.zones.push(newZone('Стена ' + n, cur, [.28 + off, .3 + off, .72 + off, .66 + off]));
     const z = S.zones[S.zones.length - 1]; z.stats = null;
