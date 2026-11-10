@@ -72,6 +72,9 @@ img, canvas { display: block; }
 .eco-split em.l { right: 30px; } .eco-split em.r { left: 30px; }
 .eco-drop { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(42, 55, 90, .72); color: #fff; font-weight: 700; font-size: 18px; border: 3px dashed rgba(255, 255, 255, .8); border-radius: var(--r); }
 .eco-busy { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(244, 246, 249, .6); }
+.eco-busy { align-content: center; gap: 12px; }
+.eco-busy em { font-style: normal; font-weight: 700; color: var(--navy); background: rgba(255,255,255,.85); padding: 6px 12px; border-radius: 99px; }
+.eco-busy em:empty { display: none; }
 .eco-busy span { width: 38px; height: 38px; border-radius: 50%; border: 4px solid #cfd6e3; border-top-color: var(--coral); animation: spin .8s linear infinite; }
 [hidden] { display: none !important; }
 @keyframes spin { to { transform: rotate(360deg); } }

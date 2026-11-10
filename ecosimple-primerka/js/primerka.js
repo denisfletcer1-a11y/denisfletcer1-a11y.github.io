@@ -261,6 +261,7 @@
     }
     const ringCnt = new Float32Array(K); for (const k of ring) ringCnt[lab2[k]]++;
     let wc = 0; for (let c = 1; c < K; c++) if (ringCnt[c] > ringCnt[wc]) wc = c;
+    if (z.hint) { const hd = (c) => Math.hypot((C[c][0] / wL - z.hint[0]) * .5, C[c][1] - z.hint[1], C[c][2] - z.hint[2]); for (let c = 0; c < K; c++) if (hd(c) < hd(wc)) wc = c; }   // цвет стены, найденный нейросетью по всему дому
     // та же стена в тени или под фонарём: близкий оттенок, другая яркость — тоже стена
     const isWall = new Uint8Array(K);
     for (let c = 0; c < K; c++) { const dAB = Math.hypot(C[c][1] - C[wc][1], C[c][2] - C[wc][2]), dL = (C[c][0] - C[wc][0]) / wL;
@@ -516,7 +517,8 @@
       S.nextPanel = cur; S.zones = []; S.sel = 0; S.hole = -1; S.compare = false; syncCompare();
       await loadPanel(PANELS.get(cur[0]).variants[cur[1]].id);
       exposure(); S.depth = 0; S.marks = true; $('#bMarks').classList.add('on');
-      setMode('photo'); startMarking(); refresh(); setStep(2); touch();
+      setMode('photo'); touch();
+      if (!(await autoDetect())) { startMarking(); refresh(); setStep(2); if (window.ECO_AI) hint('Нейросеть не нашла дом уверенно. Отметьте 4 угла стены: нажмите на каждый угол по очереди.'); }
     } catch (e) {
       hint('Не получилось открыть это фото. Попробуйте другое или сделайте снимок в формате JPG.');
     } finally { busy(false); }
@@ -524,6 +526,109 @@
   function newZone(name, panel, box) {
     const [x0, y0, x1, y1] = box;
     return { name, width: 8, panel, holes: [], pts: [[x0 * S.iw, y0 * S.ih], [x1 * S.iw, y0 * S.ih], [x1 * S.iw, y1 * S.ih], [x0 * S.iw, y1 * S.ih]] };
+  }
+
+  /* ---------- автопоиск стен по силуэту дома (версия с нейросетью) ---------- */
+  // m — маска дома w×h. Стена — самый частый цвет в нижней части дома; верх стены — где кончается этот цвет;
+  // низ — где дом стоит на земле. Излом линии земли = угол дома: слева и справа от него две стены.
+  function wallsFromMask(hm) {
+    const { m, w, h } = hm, k = S.iw / w;
+    const Lc = new Float32Array(w * h), Ac = new Float32Array(w * h), Bc = new Float32Array(w * h);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const i = y * w + x; if (!m[i]) continue; const c = lab(...sample((x + .5) * k, (y + .5) * k)); Lc[i] = c[0]; Ac[i] = c[1]; Bc[i] = c[2]; }
+    const top = new Int32Array(w).fill(-1), bot = new Int32Array(w).fill(-1);
+    for (let x = 0; x < w; x++) { let c = 0; for (let y = 0; y < h; y++) if (m[y * w + x]) { if (top[x] < 0) top[x] = y; bot[x] = y; c++; } if (c < h * .04) top[x] = bot[x] = -1; }
+    // цвет стены: группы цветов в нижней половине дома, самая большая — стена
+    const idx = [];
+    for (let x = 0; x < w; x++) { if (top[x] < 0) continue; const y0 = top[x] + (bot[x] - top[x]) * .45, y1 = bot[x] - (bot[x] - top[x]) * .08; for (let y = Math.ceil(y0); y < y1; y++) if (m[y * w + x]) idx.push(y * w + x); }
+    if (idx.length < 50) return null;
+    const K = 5, wL = .55, F = (i) => [Lc[i] * wL, Ac[i], Bc[i]];
+    const Ls = idx.map((i) => Lc[i]).sort((a, b) => a - b);
+    let C = []; for (let c = 0; c < K; c++) { const v = Ls[Math.floor((c + .5) / K * (Ls.length - 1))]; const i = idx.reduce((b, q) => (Math.abs(Lc[q] - v) < Math.abs(Lc[b] - v) ? q : b), idx[0]); C.push(F(i)); }
+    const d2 = (f, c) => (f[0] - c[0]) ** 2 + (f[1] - c[1]) ** 2 + (f[2] - c[2]) ** 2;
+    const lbl = new Uint8Array(w * h).fill(255);
+    for (let it = 0; it < 8; it++) {
+      const acc = Array.from({ length: K }, () => [0, 0, 0, 0]);
+      for (const i of idx) { const f = F(i); let bi = 0, bd = 1e18; for (let c = 0; c < K; c++) { const d = d2(f, C[c]); if (d < bd) { bd = d; bi = c; } } lbl[i] = bi; const a = acc[bi]; a[0] += f[0]; a[1] += f[1]; a[2] += f[2]; a[3]++; }
+      C = acc.map((a, c) => (a[3] ? [a[0] / a[3], a[1] / a[3], a[2] / a[3]] : C[c]));
+    }
+    const cnt = new Float32Array(K); for (const i of idx) cnt[lbl[i]]++;
+    let wc = 0; for (let c = 1; c < K; c++) if (cnt[c] > cnt[wc]) wc = c;
+    const isW = (i) => { const f = F(i), dW = d2(f, C[wc]); let other = 1e18; for (let c = 0; c < K; c++) if (c !== wc) { const dAB = Math.hypot(C[c][1] - C[wc][1], C[c][2] - C[wc][2]), dL = (C[c][0] - C[wc][0]) / wL; if (!(dAB < 9 && dL > -28 && dL < 35)) other = Math.min(other, d2(f, C[c])); } return dW < other * 1.2; };
+    // нижний край крыши в каждом столбце: цвет крыши берём сверху силуэта, идём вниз, пока цвет крыши
+    const topPix = []; for (let x = 0; x < w; x++) { if (top[x] < 0) continue; const y1 = top[x] + Math.max(2, (bot[x] - top[x]) * .1); for (let y = top[x]; y < y1; y++) if (m[y * w + x]) topPix.push(y * w + x); }
+    const rC = [med(topPix.map((i) => Lc[i])), med(topPix.map((i) => Ac[i])), med(topPix.map((i) => Bc[i]))];
+    const isRoof = (i) => Math.hypot((Lc[i] - rC[0]) * .7, Ac[i] - rC[1], Bc[i] - rC[2]) < 20;
+    const wtop = new Float32Array(w).fill(-1), wfrac = new Float32Array(w);
+    for (let x = 0; x < w; x++) {
+      if (top[x] < 0) continue;
+      let y = top[x], miss = 0;
+      while (y < bot[x]) { const i = y * w + x; if (m[i] && isRoof(i)) miss = 0; else if (++miss > 2) { y -= 2; break; } y++; }
+      wtop[x] = y; let c = 0; for (let q = y; q <= bot[x]; q++) if (isW(q * w + x)) c++; wfrac[x] = c;
+    }
+    // столбцы стены: высота от края крыши до земли не меньше половины обычной (свесы крыши и навесы отпадают)
+    const hs = []; for (let x = 0; x < w; x++) if (wtop[x] >= 0) hs.push(bot[x] - wtop[x]); hs.sort((p, q) => p - q);
+    const medH = hs.length ? hs[Math.floor(hs.length * .5)] : 0;
+    const xs = []; for (let x = 0; x < w; x++) if (wtop[x] >= 0 && bot[x] - wtop[x] >= medH * .5 && bot[x] - wtop[x] > h * .04 && wfrac[x] >= 1) xs.push(x);
+    if (xs.length < w * .08) return null;
+    // излом линии земли — угол дома
+    const fitA = (a, arr) => { const n = a.length; let sx = 0, sy = 0, sxx = 0, sxy = 0; for (const x of a) { sx += x; sy += arr[x]; sxx += x * x; sxy += x * arr[x]; } const kk = (n * sxy - sx * sy) / Math.max(1e-6, n * sxx - sx * sx), b = (sy - kk * sx) / n; let e = 0; for (const x of a) e += (arr[x] - (kk * x + b)) ** 2; return { k: kk, b, e }; };
+    // угол дома: сначала излом линии земли; если земля на фото ровная (снято снизу) — излом края крыши
+    const brk = (arr) => { const one = fitA(xs, arr); let best = null;
+      for (let q = Math.floor(xs.length * .12); q < Math.ceil(xs.length * .88); q++) { const l = fitA(xs.slice(0, q + 1), arr), r = fitA(xs.slice(q), arr), e = (l.e + r.e) / Math.max(1, one.e);
+        if (!best || e < best.e) best = { e, q, dk: Math.abs(l.k - r.k), conv: arr === bot ? l.k > r.k : l.k < r.k }; }
+      return best; };
+    let best = brk(bot);
+    if (!(best && best.e < .55 && best.dk > .06)) { const bt = brk(wtop); best = bt && bt.e < .5 && bt.dk > .12 && bt.conv ? { e: 0, q: bt.q, dk: 1 } : null; }
+    const segs = [];
+    const x0 = xs[0], x1 = xs[xs.length - 1];
+    if (best && best.e < .55 && best.dk > .06) { const xb = xs[best.q]; segs.push([x0, xb], [xb, x1]); }
+    else segs.push([x0, x1]);
+    // углы стены — по краям участка: верх по краю крыши, низ по земле
+    const medOf = (arr, a, b) => { const v = []; for (let x = Math.max(0, Math.round(a)); x <= Math.min(w - 1, Math.round(b)); x++) if (arr[x] >= 0 && xs.includes(x)) v.push(arr[x]); v.sort((p, q) => p - q); return v.length ? v[v.length >> 1] : -1; };
+    const quads = [];
+    for (const [a, b] of segs) {
+      const sw = b - a; if (sw < w * .06) continue;
+      const xa = a + sw * .015, xb = b - sw * .015, e = Math.max(3, sw * .06);
+      let tA = medOf(wtop, xa, xa + e), tB = medOf(wtop, xb - e, xb);
+      const bA = medOf(bot, xa, xa + e), bB = medOf(bot, xb - e, xb);
+      // если край крыши над стеной — прямая (а не фронтон), берём прямую по всей ширине: точнее у углов
+      { let pts = xs.filter((x) => x >= a && x <= b).map((x) => [x, wtop[x]]), kk = 0, bb = 0, rms = 1e9;
+        for (let it = 0; it < 4 && pts.length > 5; it++) { const n = pts.length; let sx = 0, sy = 0, sxx = 0, sxy = 0; for (const [x, y] of pts) { sx += x; sy += y; sxx += x * x; sxy += x * y; }
+          kk = (n * sxy - sx * sy) / Math.max(1e-6, n * sxx - sx * sx); bb = (sy - kk * sx) / n; const res = pts.map(([x, y]) => y - (kk * x + bb)); rms = Math.sqrt(res.reduce((q, r) => q + r * r, 0) / n);
+          pts = pts.filter((pt, i) => res[i] < 1.5 * rms + .5); }
+        if (rms < h * .025) { tA = kk * xa + bb; tB = kk * xb + bb; } }
+      if (tA < 0 || tB < 0 || !(bA > tA + 2 && bB > tB + 2)) continue;
+      quads.push({ w: sw, pts: [[xa * k, (tA + .5) * k], [xb * k, (tB + .5) * k], [xb * k, (bB + .5) * k], [xa * k, (bA + .5) * k]] });
+    }
+    const hint = [C[wc][0] / wL, C[wc][1], C[wc][2]];
+    quads.forEach((q) => { q.hint = hint; });
+    return quads.length ? quads : null;
+  }
+  async function autoDetect() {
+    if (!window.ECO_AI) return false;
+    const busyText = $('#busyText');
+    try {
+      if (busyText) busyText.textContent = 'Нейросеть ищет дом на фото…';
+      busy(true);
+      const mod = await import('./auto.js?v=1');
+      const hm = await mod.houseMask(photoCanvas, 384, (f) => { if (busyText) busyText.textContent = `Загружаю нейросеть… ${Math.round(f * 100)}%`; });
+      if (busyText) busyText.textContent = 'Ищу стены и окна…';
+      await new Promise((r) => setTimeout(r, 30));
+      const quads = wallsFromMask(hm);
+      if (!quads) return false;
+      quads.sort((a, b) => b.w - a.w);
+      const panel = S.nextPanel || ['AA1', 2];
+      S.zones = quads.slice(0, 2).map((q, i) => ({ name: 'Стена ' + (i + 1), width: i ? 8 : 10, panel: panel.slice(), holes: [], pts: q.pts, hint: q.hint }));
+      let wins = 0;
+      for (const z of S.zones) { wins += analyze(z, true) || 0; z.stats = zoneStats(z); }
+      exposure(); S.sel = 0; S.hole = -1; S.marking = null; showPill();
+      refresh(); setStep(3); rebuild3d();
+      hint(`Нейросеть нашла дом: стен — ${S.zones.length}${wins ? `, окон и дверей — ${wins}` : ''}. Проверьте белые точки по углам стен и при необходимости подвиньте. Затем «Построить 3D-модель по фото».`);
+      return true;
+    } catch (e) {
+      console.warn('auto', e);
+      return false;
+    } finally { busy(false); if (busyText) busyText.textContent = ''; }
   }
 
   /* ---------- разметка стены касаниями ---------- */
