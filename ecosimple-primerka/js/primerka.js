@@ -39,7 +39,7 @@
     o = vec4(s / w, 1.); }`;
   const FS_ZONE = `#version 300 es
   precision highp float;
-  uniform sampler2D uBlur, uTex; uniform vec2 uImg; uniform mat3 uH; uniform vec2 uQ[4]; uniform vec2 uHo[${MAX_HOLES * 4}]; uniform int uNH;
+  uniform sampler2D uBlur, uTex, uZ; uniform vec2 uImg; uniform mat3 uH; uniform vec2 uQ[4]; uniform vec2 uHo[${MAX_HOLES * 4}]; uniform int uNH;
   uniform vec2 uWall, uTile; uniform int uKind; uniform float uLavg, uExpo, uSplit; uniform vec3 uTint;
   out vec4 o;
   const vec3 LW = vec3(.2126, .7152, .0722);
@@ -54,8 +54,10 @@
     float cov = clamp(inside(p, uQ[0], uQ[1], uQ[2], uQ[3]) + .5, 0., 1.);
     for (int i = 0; i < ${MAX_HOLES}; i++) { if (i >= uNH) break;
       float h = clamp(inside(p, uHo[i*4], uHo[i*4+1], uHo[i*4+2], uHo[i*4+3]) + .5, 0., 1.); cov *= 1. - h; }
-    if (cov <= 0.) discard;
-    vec3 st = uH * vec3(p, 1.); vec2 w = st.xy / st.z;          // 0..1 по стене, t = 0 сверху
+    vec3 st = uH * vec3(p, 1.); vec2 w = st.xy / st.z;
+    vec4 zz = texture(uZ, clamp(w, 0., 1.));
+    cov *= smoothstep(.3, .7, zz.r);
+    if (cov <= 0.) discard;          // 0..1 по стене, t = 0 сверху
     float xm = w.x * uWall.x, ym = (1. - w.y) * uWall.y;        // метры от левого нижнего угла
     vec3 c;
     if (uKind == 0) {
@@ -78,8 +80,7 @@
     }
     float hgt = dot(c, LW); vec2 gr = vec2(dFdx(hgt), dFdy(hgt));
     c *= clamp(1. + (-gr.x + gr.y) * 3.2, .72, 1.3);                 // рельеф: свет сверху слева
-    vec3 bl = texture(uBlur, vec2(p.x / uImg.x, 1. - p.y / uImg.y)).rgb;
-    float shade = mix(1., clamp(dot(bl, LW) / uLavg, .72, 1.2), .55);
+    float shade = clamp(zz.g * 2., .55, 1.45);                       // свет и тени самой стены на фото
     float eave = 1. - .2 * exp(-(1. - ym / uWall.y) * uWall.y / .14);   // тень под карнизом/верхом стены
     vec3 lin = pow(c, vec3(2.2)) * pow(shade * uExpo * eave, 2.2);
     lin *= mix(vec3(1.), uTint, .3);
@@ -199,6 +200,143 @@
     return { L: Math.max(lum, .08), tint };
   }
 
+  /* ---------- анализ стены: где стена, где окна и двери, как падает свет ---------- */
+  let pix = null;
+  function lab(r, g, b) {
+    const f = (c) => { c /= 255; return c <= .04045 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); };
+    const R = f(r), G = f(g), B = f(b);
+    const h = (t) => (t > .008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116);
+    const X = h((R * .4124 + G * .3576 + B * .1805) / .95047), Y = h(R * .2126 + G * .7152 + B * .0722), Z = h((R * .0193 + G * .1192 + B * .9505) / 1.08883);
+    return [116 * Y - 16, 500 * (X - Y), 200 * (Y - Z)];
+  }
+  function sample(x, y) {
+    const { w, h, d } = pix; x = Math.min(w - 1.001, Math.max(0, x)); y = Math.min(h - 1.001, Math.max(0, y));
+    const x0 = x | 0, y0 = y | 0, fx = x - x0, fy = y - y0, i = (y0 * w + x0) * 4, j = i + w * 4, o = [0, 0, 0];
+    for (let c = 0; c < 3; c++) o[c] = (d[i + c] * (1 - fx) + d[i + 4 + c] * fx) * (1 - fy) + (d[j + c] * (1 - fx) + d[j + 4 + c] * fx) * fy;
+    return o;
+  }
+  const med = (a) => { const b = Float32Array.from(a).sort(); return b.length ? b[b.length >> 1] : 0; };
+  function box(src, N, M, r) {   // размытие квадратом, два прохода
+    const t = new Float32Array(N * M), o = new Float32Array(N * M);
+    for (let j = 0; j < M; j++) { let acc = 0; const row = j * N;
+      for (let i = -r; i <= r; i++) acc += src[row + Math.min(N - 1, Math.max(0, i))];
+      for (let i = 0; i < N; i++) { t[row + i] = acc / (2 * r + 1); acc += src[row + Math.min(N - 1, i + r + 1)] - src[row + Math.max(0, i - r)]; } }
+    for (let i = 0; i < N; i++) { let acc = 0;
+      for (let j = -r; j <= r; j++) acc += t[Math.min(M - 1, Math.max(0, j)) * N + i];
+      for (let j = 0; j < M; j++) { o[j * N + i] = acc / (2 * r + 1); acc += t[Math.min(M - 1, j + r + 1) * N + i] - t[Math.max(0, j - r) * N + i]; } }
+    return o;
+  }
+  function morph(m, N, M, grow) {   // расширение (grow) или сужение маски на 1 клетку
+    const o = new Uint8Array(N * M);
+    for (let j = 0; j < M; j++) for (let i = 0; i < N; i++) {
+      let v = grow ? 0 : 1;
+      for (let dj = -1; dj <= 1; dj++) for (let di = -1; di <= 1; di++) {
+        const x = Math.min(N - 1, Math.max(0, i + di)), y = Math.min(M - 1, Math.max(0, j + dj)), q = m[y * N + x];
+        if (grow) { if (q) v = 1; } else if (!q) v = 0;
+      }
+      o[j * N + i] = v;
+    }
+    return o;
+  }
+  function analyze(z, findHoles) {
+    if (!pix) return;
+    const N = 168, M = Math.max(48, Math.min(220, Math.round(N * zoneHeight(z) / Math.max(z.width, .1))));
+    const Hm = sq2quad(z.pts), n = N * M;
+    const L = new Float32Array(n), A = new Float32Array(n), B = new Float32Array(n);
+    for (let j = 0; j < M; j++) for (let i = 0; i < N; i++) {
+      const [x, y] = apply(Hm, (i + .5) / N, (j + .5) / M), c = lab(...sample(x, y)), k = j * N + i;
+      L[k] = c[0]; A[k] = c[1]; B[k] = c[2];
+    }
+    // цвета внутри рамки делим на группы (стена, стекло, дерево, тень); стена — группа, которой больше всего по краям рамки
+    const ring = []; for (let j = 0; j < M; j++) for (let i = 0; i < N; i++) if (i < N * .07 || i >= N * .93 || j < M * .1 || j >= M * .9) ring.push(j * N + i);
+    const K = 5, wL = .55, F = (k) => [L[k] * wL, A[k], B[k]];
+    const sortedL = Float32Array.from(L).sort();
+    let C = []; for (let c = 0; c < K; c++) { const v = sortedL[Math.floor((c + .5) / K * (n - 1))]; let best = 0, bd = 1e9; for (let k = 0; k < n; k += 7) { const d = Math.abs(L[k] - v); if (d < bd) { bd = d; best = k; } } C.push(F(best)); }
+    const lab2 = new Uint8Array(n);
+    const dist2 = (f, c) => (f[0] - c[0]) ** 2 + (f[1] - c[1]) ** 2 + (f[2] - c[2]) ** 2;
+    for (let it = 0; it < 8; it++) {
+      const acc = Array.from({ length: K }, () => [0, 0, 0, 0]);
+      for (let k = 0; k < n; k++) { const f = F(k); let bi = 0, bd = 1e18; for (let c = 0; c < K; c++) { const d = dist2(f, C[c]); if (d < bd) { bd = d; bi = c; } } lab2[k] = bi; const a = acc[bi]; a[0] += f[0]; a[1] += f[1]; a[2] += f[2]; a[3]++; }
+      C = acc.map((a, c) => (a[3] ? [a[0] / a[3], a[1] / a[3], a[2] / a[3]] : C[c]));
+    }
+    const ringCnt = new Float32Array(K); for (const k of ring) ringCnt[lab2[k]]++;
+    let wc = 0; for (let c = 1; c < K; c++) if (ringCnt[c] > ringCnt[wc]) wc = c;
+    // та же стена в тени или под фонарём: близкий оттенок, другая яркость — тоже стена
+    const isWall = new Uint8Array(K);
+    for (let c = 0; c < K; c++) { const dAB = Math.hypot(C[c][1] - C[wc][1], C[c][2] - C[wc][2]), dL = (C[c][0] - C[wc][0]) / wL;
+      isWall[c] = c === wc || (dAB < 9 && dL > -28 && dL < 35 && ringCnt[c] > ring.length * .05) ? 1 : 0; }
+    let m = new Uint8Array(n); for (let k = 0; k < n; k++) m[k] = isWall[lab2[k]];
+    const Lpk = C[wc][0] / wL, a0 = C[wc][1], b0 = C[wc][2], tc = 0;
+    let Lloc;
+    { const w = new Float32Array(n), wl = new Float32Array(n);
+      for (let k = 0; k < n; k++) { w[k] = m[k]; wl[k] = m[k] * L[k]; }
+      const r = Math.max(4, Math.round(N / 9)), bw = box(w, N, M, r), bl = box(wl, N, M, r);
+      Lloc = new Float32Array(n); for (let k = 0; k < n; k++) Lloc[k] = bw[k] > .02 ? bl[k] / bw[k] : Lpk; }
+    m = morph(morph(m, N, M, true), N, M, false);      // закрыть мелкие щели (швы сайдинга)
+    m = morph(morph(m, N, M, false), N, M, true);      // убрать одиночные точки
+    let wallFrac = 0; for (let k = 0; k < n; k++) wallFrac += m[k]; wallFrac /= n;
+    const ok = wallFrac > .12;
+    if (!ok) m.fill(1);
+    // проёмы: связные куски «не стены», похожие на прямоугольник и не касающиеся краёв рамки с трёх сторон
+    const holes = [];
+    if (findHoles && ok) {
+      // окна и двери: тёмные участки (стекло, дверь), не стена; переплёты рам замыкаем, куски одного окна склеиваем
+      let dk = new Uint8Array(n); for (let k = 0; k < n; k++) dk[k] = !m[k] && L[k] < Lpk - 22 && Math.hypot(A[k], B[k]) < 14 ? 1 : 0;   // стекло и двери тёмные и без цвета, дерево цветное
+      dk = morph(morph(dk, N, M, true), N, M, false); dk = morph(morph(dk, N, M, true), N, M, false);
+      // тёмные полосы во всю ширину (тень под карнизом, цоколь) и во всю высоту (угол, труба) — не окна
+      for (let j = 0; j < M; j++) { let c = 0; for (let i = 0; i < N; i++) c += dk[j * N + i]; if (c > N * .6) for (let i = 0; i < N; i++) dk[j * N + i] = 0; }
+      for (let i = 0; i < N; i++) { let c = 0; for (let j = 0; j < M; j++) c += dk[j * N + i]; if (c > M * .92) for (let j = 0; j < M; j++) dk[j * N + i] = 0; }
+      const seen = new Uint8Array(n), stack = [], boxes = [];
+      for (let k0 = 0; k0 < n; k0++) {
+        if (!dk[k0] || seen[k0]) continue;
+        let i0 = N, i1 = 0, j0 = M, j1 = 0, cnt = 0; stack.push(k0); seen[k0] = 1;
+        while (stack.length) {
+          const k = stack.pop(), i = k % N, j = (k / N) | 0; cnt++;
+          if (i < i0) i0 = i; if (i > i1) i1 = i; if (j < j0) j0 = j; if (j > j1) j1 = j;
+          for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+            const x = i + di, y = j + dj; if (x < 0 || y < 0 || x >= N || y >= M) continue;
+            const q = y * N + x; if (dk[q] && !seen[q]) { seen[q] = 1; stack.push(q); }
+          }
+        }
+        if (cnt >= 6) boxes.push([i0, j0, i1, j1, cnt]);
+      }
+      // склеиваем пересекающиеся и соседние куски
+      for (let changed = true; changed;) {
+        changed = false;
+        for (let x = 0; x < boxes.length && !changed; x++) for (let y = x + 1; y < boxes.length; y++) {
+          const A1 = boxes[x], B1 = boxes[y];
+          if (A1[0] <= B1[2] + 1 && B1[0] <= A1[2] + 1 && A1[1] <= B1[3] + 1 && B1[1] <= A1[3] + 1) {
+            boxes[x] = [Math.min(A1[0], B1[0]), Math.min(A1[1], B1[1]), Math.max(A1[2], B1[2]), Math.max(A1[3], B1[3]), A1[4] + B1[4]]; boxes.splice(y, 1); changed = true; break;
+          }
+        }
+      }
+      for (const [i0, j0, i1, j1, cnt] of boxes) {
+        const bw = i1 - i0 + 1, bh = j1 - j0 + 1, fill = cnt / (bw * bh);
+        const side = (i0 <= 0 || i1 >= N - 1) && bw > N * .3;
+        if (cnt < n * .003 || bw * bh > n * .4 || bw < 3 || bh < 4 || fill < .4 || side) continue;
+        holes.push([i0 / N, j0 / M, (i1 + 1) / N, (j1 + 1) / M]);
+      }
+      holes.sort((a, b) => (b[2] - b[0]) * (b[3] - b[1]) - (a[2] - a[0]) * (a[3] - a[1]));
+      z.holes = holes.slice(0, MAX_HOLES).map(([s0, t0, s1, t1]) => [[s0, t0], [s1, t0], [s1, t1], [s0, t1]].map(([u, v]) => apply(Hm, u, v)));
+      z.auto = true;
+    }
+    // свет: местная яркость стены относительно средней
+    const Lw = med(L.filter((v, k) => m[k])) || 50;
+    const ztx = new Uint8Array(n * 4), soft = box(Float32Array.from(m), N, M, 1);
+    for (let k = 0; k < n; k++) {
+      ztx[k * 4] = Math.round(Math.min(1, soft[k]) * 255);
+      ztx[k * 4 + 1] = Math.round(Math.min(255, Math.max(0, (ok ? Lloc[k] / Lw : 1) * 127.5)));
+      ztx[k * 4 + 3] = 255;
+    }
+    if (z.ztex) gl.deleteTexture(z.ztex);
+    const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, N, M, 0, gl.RGBA, gl.UNSIGNED_BYTE, ztx);
+    for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+    z.ztex = t; z.wallFrac = wallFrac;
+    return holes.length;
+  }
+
   /* ---------- отрисовка ---------- */
   let raf = 0;
   const redraw = () => { if (!raf) raf = requestAnimationFrame(draw); };
@@ -220,6 +358,8 @@
       const t = panelTex.get(id);
       if (!t) { loadPanel(id).then(redraw, () => {}); continue; }
       if (!z.stats) z.stats = zoneStats(z);
+      if (!z.ztex) analyze(z, false);
+      gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, z.ztex); gl.uniform1i(U.uZ, 3);
       gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, t); gl.uniform1i(U.uTex, 2);
       const H = inv3(sq2quad(z.pts));
       gl.uniformMatrix3fv(U.uH, true, new Float32Array(H));
@@ -275,6 +415,12 @@
       el('rect', { x: -tw / 2, y: -fs * 1.05, width: tw, height: fs * 1.75, rx: fs * .85 }, g);
       const tx = el('text', { x: 0, y: fs * .3, 'text-anchor': 'middle', style: `font-size:${fs}px` }, g); tx.textContent = z.name;
     });
+    if (S.marking) {
+      const ps = S.marking.pts;
+      if (ps.length > 1) el('polyline', { points: ps.map((p) => p.join(',')).join(' '), class: 'mk-line' }, ov);
+      ps.forEach((p) => el('circle', { cx: p[0], cy: p[1], r: 7 * S.scale, class: 'mk-dot' }, ov));
+      return;
+    }
     const z = S.zones[S.sel]; if (!z) return;
     const pos = (p) => `left:${(p[0] / S.iw) * 100}%;top:${(p[1] / S.ih) * 100}%`;
     z.pts.forEach((p, i) => handle(pos(p), '', (q) => { z.pts[i] = q; }));
@@ -293,7 +439,7 @@
         showLoupe(x, y, ev.clientX - r.left < r.width / 2);
         drawOverlayLines(); redraw(); renderCalc();
       };
-      const up = () => { d.classList.remove('drag'); loupe.hidden = true; rebuild3d(); d.removeEventListener('pointermove', move); d.removeEventListener('pointerup', up); d.removeEventListener('pointercancel', up); const z = S.zones[S.sel]; if (z) z.stats = null; drawOverlay(); redraw(); };
+      const up = () => { d.classList.remove('drag'); loupe.hidden = true; const zz = S.zones[S.sel]; if (zz) { if (cls === 'hole') zz.auto = false; analyze(zz, cls !== 'hole' && zz.auto !== false); refresh(); } rebuild3d(); d.removeEventListener('pointermove', move); d.removeEventListener('pointerup', up); d.removeEventListener('pointercancel', up); const z = S.zones[S.sel]; if (z) z.stats = null; drawOverlay(); redraw(); };
       d.addEventListener('pointermove', move); d.addEventListener('pointerup', up); d.addEventListener('pointercancel', up);
       move(e);
     });
@@ -328,6 +474,7 @@
     let L = 0; for (let i = 0; i < d.length; i += 4) L += .2126 * d[i] + .7152 * d[i + 1] + .0722 * d[i + 2];
     L /= (d.length / 4) * 255;
     S.globalL = L;
+    pix = { w: S.iw, h: S.ih, d: c.getImageData(0, 0, S.iw, S.ih).data };
     cv.width = S.iw; cv.height = S.ih;
     setPhotoGL(photoCanvas);
     layout();
@@ -336,36 +483,40 @@
     const z = S.zones[0]; const zl = z && z.stats ? z.stats.L : S.globalL;
     S.expo = Math.min(1.06, Math.max(.62, (.5 * (zl + S.globalL)) / .5));
   }
+  let loadId = 0;
   async function loadDemo() {
+    const my = ++loadId;
     busy(true);
     const im = new Image(); im.src = D.demo.src; await im.decode();
+    if (my !== loadId) return;
     S.isDemo = true;
     await setPhoto(im, im.naturalWidth, im.naturalHeight);
     const k = S.iw / D.demo.w;
     S.zones = D.demo.zones.map((z) => ({ name: z.name, width: z.width, pts: z.pts.map((p) => [p[0] * k, p[1] * k]), holes: z.holes.map((q) => q.map((p) => [p[0] * k, p[1] * k])), panel: z.panel.slice() }));
     S.sel = S.zones.length - 1; S.hole = -1;
     await Promise.all(S.zones.map((z) => loadPanel(PANELS.get(z.panel[0]).variants[z.panel[1]].id)));
-    S.zones.forEach((z) => { z.stats = zoneStats(z); }); exposure();
+    if (my !== loadId) return;
+    S.zones.forEach((z) => { z.stats = zoneStats(z); analyze(z, false); }); exposure(); S.marking = null;
     S.depth = 9.6; S.roof = 'flat';
     busy(false); refresh(); setStep(S.touched ? 3 : 1); rebuild3d();
     hint(S.mode === '3d' ? 'Пример: 3D-модель дома, построенная по фото объекта Экосимпл. Потяните, чтобы повернуть, и выберите панель в блоке «Панель».' : 'Это фото объекта Экосимпл. Загрузите своё фото или выберите другую панель в блоке «Панель».');
   }
   async function loadFile(f) {
     if (!f || !/^image\//.test(f.type)) { hint('Нужен файл с фотографией: JPG, PNG или HEIC с телефона.'); return; }
+    const my = ++loadId;
     busy(true);
     try {
       let src, w, h;
       if (window.createImageBitmap) { try { src = await createImageBitmap(f, { imageOrientation: 'from-image' }); w = src.width; h = src.height; } catch (e) { src = null; } }
       if (!src) { const im = new Image(); im.src = URL.createObjectURL(f); await im.decode(); src = im; w = im.naturalWidth; h = im.naturalHeight; }
+      if (my !== loadId) return;
       S.isDemo = false;
       await setPhoto(src, w, h);
       const cur = S.zones[S.sel] ? S.zones[S.sel].panel.slice() : ['AA1', 2];
-      S.zones = [newZone('Стена 1', cur, [.2, .3, .8, .78])];
-      S.sel = 0; S.hole = -1; S.compare = false; syncCompare();
+      S.nextPanel = cur; S.zones = []; S.sel = 0; S.hole = -1; S.compare = false; syncCompare();
       await loadPanel(PANELS.get(cur[0]).variants[cur[1]].id);
-      S.zones[0].stats = zoneStats(S.zones[0]); exposure();
-      S.depth = 0; refresh(); setStep(2); touch(); setMode('photo');
-      hint('Перетащите белые точки на углы стены, окна отметьте кнопкой «+ Окно / дверь», затем нажмите «Построить 3D-модель по фото».');
+      exposure(); S.depth = 0; S.marks = true; $('#bMarks').classList.add('on');
+      setMode('photo'); startMarking(); refresh(); setStep(2); touch();
     } catch (e) {
       hint('Не получилось открыть это фото. Попробуйте другое или сделайте снимок в формате JPG.');
     } finally { busy(false); }
@@ -374,6 +525,43 @@
     const [x0, y0, x1, y1] = box;
     return { name, width: 8, panel, holes: [], pts: [[x0 * S.iw, y0 * S.ih], [x1 * S.iw, y0 * S.ih], [x1 * S.iw, y1 * S.ih], [x0 * S.iw, y1 * S.ih]] };
   }
+
+  /* ---------- разметка стены касаниями ---------- */
+  const pill = document.createElement('div'); pill.className = 'eco-mark'; pill.hidden = true; stage.appendChild(pill);
+  const ORDER = ['левый верхний', 'правый верхний', 'правый нижний', 'левый нижний'];
+  function startMarking() {
+    S.marking = { pts: [] }; S.hole = -1;
+    showPill(); drawOverlay();
+    hint('Отметьте 4 угла стены, которую хотите облицевать: нажмите на каждый угол по очереди. Окна и двери блок найдёт сам.');
+  }
+  function showPill() {
+    const k = S.marking ? S.marking.pts.length : 4;
+    pill.hidden = !S.marking;
+    if (!S.marking) return;
+    pill.innerHTML = `<b>${k + 1} из 4</b> Нажмите на ${ORDER[k]} угол стены ${k ? '<button type="button" class="undo">Назад</button>' : ''}${S.zones.length ? '<button type="button" class="undo cancel">Отмена</button>' : ''}`;
+    const u = pill.querySelector('.undo:not(.cancel)'); if (u) u.onclick = (e) => { e.stopPropagation(); S.marking.pts.pop(); showPill(); drawOverlay(); };
+    const c = pill.querySelector('.cancel'); if (c) c.onclick = (e) => { e.stopPropagation(); S.marking = null; showPill(); refresh(); };
+  }
+  function orderQuad(ps) {   // любые 4 точки -> левый верх, правый верх, правый низ, левый низ
+    const cx = ps.reduce((s, p) => s + p[0], 0) / 4, cy = ps.reduce((s, p) => s + p[1], 0) / 4;
+    const q = ps.slice().sort((a, b) => Math.atan2(a[1] - cy, a[0] - cx) - Math.atan2(b[1] - cy, b[0] - cx));   // по кругу
+    let s = 0; for (let i = 1; i < 4; i++) if (q[i][0] + q[i][1] < q[s][0] + q[s][1]) s = i;
+    return [0, 1, 2, 3].map((i) => q[(s + i) % 4]);
+  }
+  stage.addEventListener('click', (e) => {
+    if (!S.marking || S.mode !== 'photo' || e.target.closest('.hnd, .eco-mark, .eco-split')) return;
+    const r = stage.getBoundingClientRect();
+    S.marking.pts.push([(e.clientX - r.left) * S.iw / r.width, (e.clientY - r.top) * S.ih / r.height]);
+    if (S.marking.pts.length < 4) { showPill(); drawOverlay(); return; }
+    const pts = orderQuad(S.marking.pts); S.marking = null; showPill();
+    const panel = S.nextPanel || ['AA1', 2], n = S.zones.length + 1;
+    const z = { name: 'Стена ' + n, width: n === 1 ? 10 : 8, panel: panel.slice(), holes: [], pts };
+    S.zones.push(z); S.sel = S.zones.length - 1; S.hole = -1;
+    const k = analyze(z, true); z.stats = zoneStats(z); if (S.zones.length === 1) exposure();
+    S.cat = PANELS.get(panel[0]).cat;
+    refresh(); setStep(3); rebuild3d();
+    hint(`Готово: стена в панелях${k ? `, окон и дверей найдено: ${k}` : ''}. Если что-то не так, потяните точки. Можно добавить ещё стену или нажать «Построить 3D-модель по фото».`);
+  });
 
   /* ---------- интерфейс ---------- */
   const busy = (on) => { $('#busy').hidden = !on; };
@@ -393,6 +581,7 @@
     const z = S.zones[S.sel];
     $('#bAddHole').disabled = !z || z.holes.length >= MAX_HOLES;
     $('#bDel').disabled = !z;
+    $('#bBuild').disabled = !S.zones.length;
     $('#bDel').textContent = S.hole >= 0 ? 'Удалить окно' : 'Удалить стену';
     document.querySelectorAll('.seg').forEach((b) => b.classList.toggle('on', b.dataset.roof === S.roof));
     const dd = $('#dDepth'); if (document.activeElement !== dd) dd.value = S.depth || '';
@@ -484,17 +673,36 @@
     const inv = inv3(sq2quad(ref.pts)), Wr = ref.width, Hr = zoneHeight(ref);
     const toM = (p) => { const [s, t] = apply(inv, p[0], p[1]); return [s * Wr, (1 - t) * Hr]; };
     const bb = (q) => { const m = q.map(toM), xs = m.map((v) => v[0]), ys = m.map((v) => v[1]); return { x0: Math.min(...xs), x1: Math.max(...xs), y0: Math.min(...ys), y1: Math.max(...ys) }; };
-    const bands = S.zones.map((z) => { const r = bb(z.pts), p = PANELS.get(z.panel[0]), v = p.variants[z.panel[1]]; return { ...r, mat: { id: v.id, kind: p.kind, size: p.size, cat: p.cat, swatch: v.swatch } }; });
-    const holes = S.zones.flatMap((z) => z.holes.map(bb));
+    const matOf = (z) => { const p = PANELS.get(z.panel[0]), v = p.variants[z.panel[1]]; return { id: v.id, kind: p.kind, size: p.size, cat: p.cat, swatch: v.swatch }; };
+    // стены в той же плоскости (этажи, полосы) и боковая стена (левее или правее фасада на фото)
+    const refCx = ref.pts.reduce((s, p) => s + p[0], 0) / 4;
+    const front = [], others = [];
+    for (const z of S.zones) {
+      if (z === ref) { front.push(z); continue; }
+      const c = [z.pts.reduce((s, p) => s + p[0], 0) / 4, z.pts.reduce((s, p) => s + p[1], 0) / 4], cm = toM(c);
+      if (cm[0] > -.15 * Wr && cm[0] < 1.15 * Wr && isFinite(cm[0])) front.push(z); else others.push(z);
+    }
+    const bands = front.map((z) => ({ ...bb(z.pts), mat: matOf(z) }));
+    const holes = front.flatMap((z) => z.holes.map(bb));
     const x0 = Math.min(...bands.map((b) => b.x0)), y0 = Math.min(...bands.map((b) => b.y0));
     const sh = (r) => { r.x0 -= x0; r.x1 -= x0; r.y0 -= y0; r.y1 -= y0; return r; };
     bands.forEach(sh); holes.forEach(sh);
     const W = Math.max(...bands.map((b) => b.x1)), H = Math.max(...bands.map((b) => b.y1));
-    // полосы во всю ширину фасада: дом одет целиком
     bands.forEach((b) => { if (b.x0 < W * .12) b.x0 = 0; if (b.x1 > W * .88) b.x1 = W; });
-    if (!S.depth) S.depth = Math.round(Math.max(4, Math.min(14, W * .78)) * 10) / 10;
     holes.forEach((h) => { h.x0 = Math.max(h.x0, .15); h.x1 = Math.min(h.x1, W - .15); h.y0 = Math.max(h.y0, 0); h.y1 = Math.min(h.y1, H - .2); });
-    return { W, H, D: S.depth, roof: S.roof, bands, holes: holes.filter((h) => h.x1 - h.x0 > .25 && h.y1 - h.y0 > .25) };
+    let side = null;
+    if (others.length) {
+      const z = others.reduce((a, q) => (zoneArea(q).gross > zoneArea(a).gross ? q : a));
+      const D = z.width, sinv = inv3(sq2quad(z.pts));
+      const where = z.pts.reduce((s, p) => s + p[0], 0) / 4 < refCx ? 'left' : 'right';
+      const sh2 = z.holes.map((q) => { const m = q.map((p) => apply(sinv, p[0], p[1])); const ss = m.map((v) => v[0]), tt = m.map((v) => v[1]);
+        return { x0: Math.max(.15, Math.min(...ss) * D), x1: Math.min(D - .15, Math.max(...ss) * D), y0: Math.max(0, (1 - Math.max(...tt)) * H), y1: Math.min(H - .2, (1 - Math.min(...tt)) * H) }; })
+        .filter((h) => h.x1 - h.x0 > .25 && h.y1 - h.y0 > .25);
+      side = { where, mat: matOf(z), holes: sh2 };
+      S.depth = Math.round(D * 10) / 10;
+    }
+    if (!S.depth) S.depth = Math.round(Math.max(4, Math.min(14, W * .78)) * 10) / 10;
+    return { W, H, D: S.depth, roof: S.roof, bands, side, holes: holes.filter((h) => h.x1 - h.x0 > .25 && h.y1 - h.y0 > .25) };
   }
   let rbT = 0;
   function rebuild3d() {
@@ -545,18 +753,15 @@
   $('#bDemo').onclick = () => { S.compare = false; syncCompare(); loadDemo(); };
   $('#bAddWall').onclick = () => {
     if (S.zones.length >= MAX_ZONES) return;
-    const cur = S.zones[S.sel] ? S.zones[S.sel].panel.slice() : ['AA1', 2];
-    const n = S.zones.length + 1, off = (n % 3) * .04;
-    S.zones.push(newZone('Стена ' + n, cur, [.28 + off, .3 + off, .72 + off, .66 + off]));
-    const z = S.zones[S.zones.length - 1]; z.stats = null;
-    select(S.zones.length - 1, -1); touch(); setStep(2);
-    hint('Новая стена: потяните её белые точки на углы.');
+    S.nextPanel = S.zones[S.sel] ? S.zones[S.sel].panel.slice() : ['AA1', 2];
+    if (S.mode !== 'photo') setMode('photo');
+    startMarking(); touch(); setStep(2);
   };
   $('#bAddHole').onclick = () => {
     const z = S.zones[S.sel]; if (!z || z.holes.length >= MAX_HOLES) return;
     const Hm = sq2quad(z.pts), k = z.holes.length, cx = .3 + (k % 4) * .13, cy = .32 + Math.floor(k / 4) * .3;
     z.holes.push([[cx, cy], [cx + .1, cy], [cx + .1, cy + .3], [cx, cy + .3]].map(([s, t]) => apply(Hm, s, t)));
-    z.stats = null; S.hole = z.holes.length - 1; touch(); refresh();
+    z.stats = null; z.auto = false; S.hole = z.holes.length - 1; touch(); refresh();
     hint('Потяните оранжевые точки на углы окна или двери.');
   };
   $('#bDel').onclick = () => {
