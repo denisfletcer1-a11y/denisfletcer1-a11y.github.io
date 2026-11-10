@@ -610,7 +610,7 @@
     try {
       if (busyText) busyText.textContent = 'Нейросеть ищет дом на фото…';
       busy(true);
-      const mod = await import('./auto.js?v=1');
+      const mod = await import('./auto.js?v=2');
       const hm = await mod.houseMask(photoCanvas, 384, (f) => { if (busyText) busyText.textContent = `Загружаю нейросеть… ${Math.round(f * 100)}%`; });
       if (busyText) busyText.textContent = 'Ищу стены и окна…';
       await new Promise((r) => setTimeout(r, 30));

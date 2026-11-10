@@ -1,16 +1,17 @@
 // Нейросеть для версии «с автораспознаванием»: находит дом на фото (SegFormer, ADE20K, работает в браузере).
-// Библиотека и модель лежат рядом с блоком (папка ml), внешние сервисы не нужны.
-import * as T from '../ml/transformers.min.js';
+// Модель лежит рядом с блоком (папка ml), движок — официальный пакет transformers.js с CDN jsDelivr (версия закреплена).
+const LIB = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.2/dist/transformers.min.js';
+let T = null;
 
 const HOUSE = new Set(['house', 'building', 'skyscraper', 'wall', 'hovel', 'tower', 'windowpane', 'door']);
 let seg = null;
 
 export async function loadModel(onProgress) {
   if (seg) return seg;
+  if (!T) T = await import(LIB);
   T.env.allowRemoteModels = false;
   T.env.allowLocalModels = true;
   T.env.localModelPath = new URL('../ml/models/', import.meta.url).href;
-  T.env.backends.onnx.wasm.wasmPaths = new URL('../ml/', import.meta.url).href;
   seg = await T.pipeline('image-segmentation', 'Xenova/segformer-b0-finetuned-ade-512-512', {
     device: 'wasm', dtype: 'q8',
     progress_callback: (p) => { if (onProgress && p.status === 'progress' && p.total) onProgress(p.loaded / p.total); },
