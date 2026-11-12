@@ -29,6 +29,13 @@ button.main { background: var(--accent); border-color: var(--accent); color: #ff
 button:disabled { opacity: .45; cursor: default; }
 .legend { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; color: var(--muted); font-size: 13px; }
 .legend i { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -2px; margin-right: 6px; }
+.pal { max-width: 900px; margin: 10px auto 0; }
+.row { margin: 10px 0; }
+.row b { display: block; font-size: 14px; margin-bottom: 8px; text-align: center; }
+.sws { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.sw { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px 7px 8px; font-size: 13px; }
+.sw i { width: 22px; height: 22px; border-radius: 6px; border: 1px solid rgba(0,0,0,.12); display: inline-block; }
+.sw.on { border-color: var(--navy); box-shadow: 0 0 0 2px var(--navy) inset; }
 .note { color: var(--muted); font-size: 13px; text-align: center; margin-top: 10px; }
 @media (max-width: 700px) { #view { height: 95vw; min-height: 300px; } .bar button { padding: 9px 12px; font-size: 13px; } }
 </style>
@@ -37,20 +44,20 @@ button:disabled { opacity: .45; cursor: default; }
 <div class="demo">Пример для «Экосимпл»: дом в 3D в ваших панелях. Демо-версия.</div>
 <main class="wrap">
   <h1>Дом в 3D в панелях Экосимпл</h1>
-  <p class="lead">Дом с вашей визуализации, собранный в 3D прямо в браузере. Его можно покрутить, поменять местами основной и акцентный цвет, а кнопкой «Фото-картинка» посчитать свет так же, как в профессиональных программах.</p>
+  <p class="lead">Дом с вашей визуализации, собранный в 3D прямо в браузере. Его можно покрутить, выбрать цвета основной панели и полос, а кнопкой «Фото-картинка» посчитать свет так же, как в профессиональных программах.</p>
   <div id="view"><canvas id="c" aria-label="3D-модель дома в панелях Экосимпл"></canvas><div class="wm" aria-hidden="true"><span>ДЕМО-ВЕРСИЯ</span></div><div id="info"></div></div>
   <div class="bar">
     <button id="rot" class="on" type="button">Вращать</button>
     <button class="view" data-v="front" type="button">Спереди</button>
     <button class="view" data-v="side" type="button">Сбоку</button>
     <button class="view" data-v="back" type="button">Сзади</button>
-    <button id="swap" type="button">Поменять цвета</button>
+    
     <button id="photo" class="main" type="button">Фото-картинка</button>
     <button id="dl" type="button">Скачать картинку</button>
   </div>
-  <div class="legend"><span><i style="background:#e8decb"></i>BB1, цвет 114: основная</span><span><i style="background:#4c2f28"></i>AA2, цвет 115: полосы и цоколь</span></div>
+  <div class="pal"><div class="row"><b>Основная панель (BB1, гладкая)</b><div id="pal-main" class="sws"></div></div><div class="row"><b>Полосы и цоколь (AA2, под камень)</b><div id="pal-acc" class="sws"></div></div><p class="note">Цвета 114 и 115 сняты с ваших визуализаций, остальные оттенки — для примера; в финальной версии будут цвета из вашего каталога.</p></div>
   <p class="note">Фото-картинка считается на видеокарте вашего компьютера: 10–30 секунд на компьютере, на телефоне дольше.</p>
 </main>
-<script type="module" src="js/dom3d.js?v=10"></script>
+<script type="module" src="js/dom3d.js?v=11"></script>
 </body>
 </html>
