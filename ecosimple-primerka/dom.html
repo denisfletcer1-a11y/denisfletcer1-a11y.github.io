@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Экосимпл: дом в 3D в панелях BB1 и AA2</title>
+<link rel="preload" href="fonts/manrope-cyrillic-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face { font-family: Manrope; font-weight: 700; src: url(fonts/manrope-cyrillic-700-normal.woff2) format('woff2'); font-display: swap; }
+:root { --navy: #1d2540; --accent: #ff6b4a; --bg: #f4f6fa; --muted: #5b6478; --card: #fff; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--navy); font: 400 15px/1.5 Manrope, system-ui, -apple-system, 'Segoe UI', sans-serif; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 20px 16px 40px; }
+.demo { background: var(--navy); color: #fff; text-align: center; font-size: 13px; padding: 6px 12px; }
+h1 { font-size: clamp(22px, 3.2vw, 34px); line-height: 1.2; margin: 14px 0 6px; }
+.lead { color: var(--muted); margin: 0 0 16px; max-width: 760px; }
+#view { position: relative; width: 100%; height: min(70vh, 680px); min-height: 360px; border-radius: 18px; overflow: hidden; background: #eef0ee; box-shadow: 0 10px 40px rgba(29,37,64,.08); }
+#c { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+#info { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: rgba(255,255,255,.92); padding: 7px 14px; border-radius: 99px; font-weight: 700; font-size: 13px; white-space: nowrap; max-width: calc(100% - 24px); overflow: hidden; text-overflow: ellipsis; }
+#info:empty { display: none; }
+.wm { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.wm span { font: 800 clamp(28px, 6vw, 70px)/1 Manrope, sans-serif; letter-spacing: .08em; color: rgba(255,255,255,.3); text-shadow: 0 1px 2px rgba(29,37,64,.3); transform: rotate(-18deg); }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 14px 0 6px; }
+button { font: 700 14px Manrope, system-ui, sans-serif; border: 1px solid #dfe3ec; background: var(--card); color: var(--navy); padding: 10px 16px; border-radius: 12px; cursor: pointer; }
+button:hover:not(:disabled) { border-color: var(--navy); }
+button.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+button.main { background: var(--accent); border-color: var(--accent); color: #fff; }
+button:disabled { opacity: .45; cursor: default; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; color: var(--muted); font-size: 13px; }
+.legend i { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -2px; margin-right: 6px; }
+.note { color: var(--muted); font-size: 13px; text-align: center; margin-top: 10px; }
+@media (max-width: 700px) { #view { height: 95vw; min-height: 300px; } .bar button { padding: 9px 12px; font-size: 13px; } }
+</style>
+</head>
+<body>
+<div class="demo">Пример для «Экосимпл»: дом в 3D в ваших панелях. Демо-версия.</div>
+<main class="wrap">
+  <h1>Дом в 3D в панелях Экосимпл</h1>
+  <p class="lead">Дом с вашей визуализации, собранный в 3D прямо в браузере. Его можно покрутить, поменять местами основной и акцентный цвет, а кнопкой «Фото-картинка» посчитать свет так же, как в профессиональных программах.</p>
+  <div id="view"><canvas id="c" aria-label="3D-модель дома в панелях Экосимпл"></canvas><div class="wm" aria-hidden="true"><span>ДЕМО-ВЕРСИЯ</span></div><div id="info"></div></div>
+  <div class="bar">
+    <button id="rot" class="on" type="button">Вращать</button>
+    <button class="view" data-v="front" type="button">Спереди</button>
+    <button class="view" data-v="side" type="button">Сбоку</button>
+    <button class="view" data-v="back" type="button">Сзади</button>
+    <button id="swap" type="button">Поменять цвета</button>
+    <button id="photo" class="main" type="button">Фото-картинка</button>
+    <button id="dl" type="button">Скачать картинку</button>
+  </div>
+  <div class="legend"><span><i style="background:#e8decb"></i>BB1, цвет 114: основная</span><span><i style="background:#5c372a"></i>AA2, цвет 115: полосы и цоколь</span></div>
+  <p class="note">Фото-картинка считается на видеокарте вашего компьютера: 10–30 секунд на компьютере, на телефоне дольше.</p>
+</main>
+<script type="module" src="js/dom3d.js?v=6"></script>
+</body>
+</html>
