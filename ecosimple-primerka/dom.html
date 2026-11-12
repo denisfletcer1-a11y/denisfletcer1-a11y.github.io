@@ -30,6 +30,24 @@ button:disabled { opacity: .45; cursor: default; }
 .legend { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; color: var(--muted); font-size: 13px; }
 .legend i { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -2px; margin-right: 6px; }
 .pal { max-width: 900px; margin: 10px auto 0; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 8px; }
+.box { background: var(--card); border-radius: 16px; padding: 14px 16px; box-shadow: 0 6px 24px rgba(29,37,64,.06); min-width: 0; }
+.bh { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.bh b { font-size: 16px; } .bh span { display: flex; gap: 6px; flex-wrap: wrap; }
+button.mini { padding: 6px 10px; font-size: 12px; border-radius: 10px; }
+.shape { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+.sl { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; font-size: 13px; color: var(--muted); }
+.sl output { font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; }
+.sl input { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); }
+.tg { display: flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 700; padding: 6px 0; cursor: pointer; }
+.tg input { width: 18px; height: 18px; accent-color: var(--accent); }
+.rows { display: grid; gap: 6px; }
+.li { display: flex; justify-content: space-between; gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--bg); font-size: 13px; }
+.li b { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.li.total { background: var(--navy); color: #fff; font-size: 14px; }
+.note.left { text-align: left; }
+@media (max-width: 860px) { .cols { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .shape { grid-template-columns: 1fr; } }
 .row { margin: 10px 0; }
 .row b { display: block; font-size: 14px; margin-bottom: 8px; text-align: center; }
 .sws { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
@@ -44,7 +62,7 @@ button:disabled { opacity: .45; cursor: default; }
 <div class="demo">Пример для «Экосимпл»: дом в 3D в ваших панелях. Демо-версия.</div>
 <main class="wrap">
   <h1>Дом в 3D в панелях Экосимпл</h1>
-  <p class="lead">Дом с вашей визуализации, собранный в 3D прямо в браузере. Его можно покрутить, выбрать цвета основной панели и полос, а кнопкой «Фото-картинка» посчитать свет так же, как в профессиональных программах.</p>
+  <p class="lead">Дом с вашей визуализации, собранный в 3D прямо в браузере. Его можно покрутить, поменять размеры и крышу, выбрать цвета и раскладку полос, сразу увидеть смету, а кнопкой «Фото-картинка» посчитать свет так же, как в профессиональных программах.</p>
   <div id="view"><canvas id="c" aria-label="3D-модель дома в панелях Экосимпл"></canvas><div class="wm" aria-hidden="true"><span>ДЕМО-ВЕРСИЯ</span></div><div id="info"></div></div>
   <div class="bar">
     <button id="rot" class="on" type="button">Вращать</button>
@@ -55,9 +73,13 @@ button:disabled { opacity: .45; cursor: default; }
     <button id="photo" class="main" type="button">Фото-картинка</button>
     <button id="dl" type="button">Скачать картинку</button>
   </div>
+  <div class="cols">
+    <section class="box"><div class="bh"><b>Форма дома</b><span><button id="undo" type="button" class="mini">Отменить</button><button id="resetShape" type="button" class="mini">Как на визуализации</button></span></div><div id="shape" class="shape"></div></section>
+    <section class="box"><div class="bh"><b>Смета облицовки</b><span><button id="csv" type="button" class="mini">Скачать CSV</button><button id="copy" type="button" class="mini">Скопировать текст</button></span></div><div id="smeta-rows" class="rows"></div><p id="smeta-note" class="note left"></p></section>
+  </div>
   <div class="pal"><div class="row"><b>Основная панель (BB1, гладкая)</b><div id="pal-main" class="sws"></div></div><div class="row"><b>Полосы и цоколь (AA2, под камень)</b><div id="pal-acc" class="sws"></div></div><p class="note">Цвета 114 и 115 сняты с ваших визуализаций, остальные оттенки — для примера; в финальной версии будут цвета из вашего каталога.</p></div>
   <p class="note">Фото-картинка считается на видеокарте вашего компьютера: 10–30 секунд на компьютере, на телефоне дольше.</p>
 </main>
-<script type="module" src="js/dom3d.js?v=16"></script>
+<script type="module" src="js/dom3d.js?v=17"></script>
 </body>
 </html>
