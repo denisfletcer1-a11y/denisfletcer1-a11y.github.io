@@ -55,6 +55,36 @@ button.mini { padding: 6px 10px; font-size: 12px; border-radius: 10px; }
 .sw i { width: 22px; height: 22px; border-radius: 6px; border: 1px solid rgba(0,0,0,.12); display: inline-block; }
 .sw.on { border-color: var(--navy); box-shadow: 0 0 0 2px var(--navy) inset; }
 .note { color: var(--muted); font-size: 13px; text-align: center; margin-top: 10px; }
+.phbox { margin: 0 0 16px; }
+.phwrap { display: flex; justify-content: center; background: #11151f; border-radius: 12px; overflow: hidden; margin: 8px 0; }
+#phC { display: block; touch-action: none; cursor: crosshair; max-width: 100%; }
+.phbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.phf { display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
+.phf select, .phf input { font: 600 13px Manrope, system-ui, sans-serif; padding: 6px 8px; border: 1px solid #dfe3ec; border-radius: 10px; background: #fff; color: var(--navy); }
+.phf input { width: 80px; }
+.leadbox { margin: 18px 0 8px; }
+.leadgrid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; }
+.leadgrid img { width: 100%; border-radius: 12px; display: block; background: #e9ecf2; min-height: 120px; }
+#leadForm { display: grid; gap: 10px; }
+#leadForm label:not(.tg) { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+#leadForm input:not([type=checkbox]), #leadForm textarea { font: 500 15px Manrope, system-ui, sans-serif; padding: 10px 12px; border: 1px solid #dfe3ec; border-radius: 10px; color: var(--navy); background: #fff; width: 100%; }
+#leadForm .tg { font-weight: 500; align-items: flex-start; }
+.bar.left { justify-content: flex-start; margin: 4px 0 0; }
+.demo-tag { font-size: 12px; color: var(--muted); }
+#leadList { margin-top: 12px; font-size: 13px; }
+#leadList summary { cursor: pointer; font-weight: 700; }
+.lead-it { align-items: center; justify-content: flex-start; }
+.lead-it img { width: 96px; border-radius: 8px; flex: none; }
+.lead-it div { display: grid; gap: 2px; min-width: 0; }
+.lead-it span { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+@media (max-width: 860px) { .leadgrid { grid-template-columns: 1fr; } }
+.studio { margin: 10px 0 0; }
+.strow { display: grid; grid-template-columns: 110px 1fr; gap: 10px; align-items: center; padding: 6px 0; }
+.strow > span { font-size: 13px; color: var(--muted); font-weight: 700; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button { padding: 7px 12px; font-size: 13px; border-radius: 10px; }
+.seg .tg { padding: 4px 8px 4px 0; }
+@media (max-width: 480px) { .strow { grid-template-columns: 1fr; gap: 4px; } }
 @media (max-width: 700px) { #view { height: 95vw; min-height: 300px; } .bar button { padding: 9px 12px; font-size: 13px; } }
 </style>
 </head>
@@ -63,6 +93,20 @@ button.mini { padding: 6px 10px; font-size: 12px; border-radius: 10px; }
 <main class="wrap">
   <h1>Дом в 3D в панелях Экосимпл</h1>
   <p class="lead">Дом с вашей визуализации, собранный в 3D прямо в браузере. Его можно покрутить, поменять размеры и крышу, выбрать цвета и раскладку полос, сразу увидеть смету, а кнопкой «Фото-картинка» посчитать свет так же, как в профессиональных программах.</p>
+  <section id="ph" class="box phbox">
+    <div class="bh"><b>Ваш дом по фото</b><span><button id="phLoad" type="button" class="mini main">Загрузить фото дома</button><button id="phDemo" type="button" class="mini">Пример фото</button></span></div>
+    <p id="phHint" class="note left">Загрузите фото фасада, снятое днём и по возможности спереди. Нейросеть найдёт стены, окна, дверь и крышу, вы поправите точки, и мы соберём 3D-модель именно вашего дома. Фото обрабатывается на вашем устройстве и никуда не отправляется.</p>
+    <input id="phFile" type="file" accept="image/*" hidden>
+    <div id="phEdit" hidden>
+      <div class="phwrap"><canvas id="phC" aria-label="Фото дома с разметкой фасада, окон и двери"></canvas></div>
+      <div class="phbar">
+        <button id="phAddWin" type="button" class="mini">+ Окно</button><button id="phAddDoor" type="button" class="mini">+ Дверь</button><button id="phDel" type="button" class="mini">Удалить выбранное</button>
+        <label class="phf">Крыша на фото <select id="phRoof"><option value="eave">скат вдоль фасада</option><option value="gable">фронтон (треугольник)</option><option value="flat">плоская</option></select></label>
+        <label class="phf">Ширина фасада, м <input id="phW" type="number" min="4" max="20" step="0.1" value="10"></label>
+        <button id="phBuild" type="button" class="main">Собрать 3D-дом</button>
+      </div>
+    </div>
+  </section>
   <div id="view"><canvas id="c" aria-label="3D-модель дома в панелях Экосимпл"></canvas><div class="wm" aria-hidden="true"><span>ДЕМО-ВЕРСИЯ</span></div><div id="info"></div></div>
   <div class="bar">
     <button id="rot" class="on" type="button">Вращать</button>
@@ -70,16 +114,42 @@ button.mini { padding: 6px 10px; font-size: 12px; border-radius: 10px; }
     <button class="view" data-v="side" type="button">Сбоку</button>
     <button class="view" data-v="back" type="button">Сзади</button>
     
+    <button id="clay" type="button">Белая модель</button>
     <button id="photo" class="main" type="button">Фото-картинка</button>
     <button id="dl" type="button">Скачать картинку</button>
   </div>
+  <section id="studio" class="box studio">
+    <div class="bh"><b>3D-студия: оживите картинку</b><span class="demo-tag">Время суток, сезон, участок и видео для клиента</span></div>
+    <div class="strow"><span>Время суток</span><div id="tod" class="seg"><button type="button" data-v="morning">Утро</button><button type="button" data-v="day">День</button><button type="button" data-v="sunset">Закат</button><button type="button" data-v="evening">Вечер</button></div></div>
+    <div class="strow"><span>Сезон</span><div id="season" class="seg"><button type="button" data-v="summer">Лето</button><button type="button" data-v="autumn">Осень</button><button type="button" data-v="winter">Зима</button></div></div>
+    <div class="strow"><span>Участок</span><div class="seg"><label class="tg"><input type="checkbox" id="stApron">Отмостка</label><label class="tg"><input type="checkbox" id="stPath">Дорожка</label><label class="tg"><input type="checkbox" id="stFence">Забор</label><label class="tg"><input type="checkbox" id="stWind">Ветер</label></div></div>
+    <div class="bar left"><button id="video" type="button" class="main">Записать видео-облёт</button></div>
+    <p class="note left">Видео (14 секунд) и картинка в высоком разрешении сохраняются в «Загрузки». Фото-картинка всегда считается при дневном свете.</p>
+  </section>
   <div class="cols">
     <section class="box"><div class="bh"><b>Форма дома</b><span><button id="undo" type="button" class="mini">Отменить</button><button id="resetShape" type="button" class="mini">Как на визуализации</button></span></div><div id="shape" class="shape"></div></section>
     <section class="box"><div class="bh"><b>Смета облицовки</b><span><button id="csv" type="button" class="mini">Скачать CSV</button><button id="copy" type="button" class="mini">Скопировать текст</button></span></div><div id="smeta-rows" class="rows"></div><p id="smeta-note" class="note left"></p></section>
   </div>
-  <div class="pal"><div class="row"><b>Основная панель (BB1, гладкая)</b><div id="pal-main" class="sws"></div></div><div class="row"><b>Полосы и цоколь (AA2, под камень)</b><div id="pal-acc" class="sws"></div></div><p class="note">Цвета 114 и 115 сняты с ваших визуализаций, остальные оттенки — для примера; в финальной версии будут цвета из вашего каталога.</p></div>
+  <div class="pal"><div class="row"><b>Основная панель (BB1, гладкая)</b><div id="pal-main" class="sws"></div></div><div class="row"><b>Полосы и цоколь (AA2, под камень)</b><div id="pal-acc" class="sws"></div></div><div class="row"><b>Крыша</b><div id="roof-type" class="sws"></div><div id="pal-roof" class="sws" style="margin-top:8px"></div></div><p class="note">Цвета 114 и 115 сняты с ваших визуализаций, остальные оттенки — для примера; в финальной версии будут цвета из вашего каталога.</p></div>
+  <section id="lead" class="box leadbox">
+    <div class="bh"><b>Заявка на расчёт</b><span class="demo-tag">Демо: заявка сохраняется в этом браузере</span></div>
+    <div class="leadgrid">
+      <div><img id="leadPic" alt="Ваш дом в панелях Экосимпл"><p id="leadSum" class="note left"></p><div class="bar left"><button id="leadRefresh" type="button" class="mini">Обновить картинку</button><button id="leadCard" type="button" class="mini">Скачать результат</button></div></div>
+      <form id="leadForm" novalidate>
+        <label>Имя<input name="name" autocomplete="name" required></label>
+        <label>Телефон<input name="phone" type="tel" autocomplete="tel" placeholder="+7 900 000-00-00" required></label>
+        <label>Город<input name="city" autocomplete="address-level2"></label>
+        <label>Комментарий<textarea name="msg" rows="3" placeholder="Например: пришлите образец панели"></textarea></label>
+        <label class="tg"><input type="checkbox" name="ok" required><span>Согласен на обработку персональных данных для связи по заявке</span></label>
+        <div class="bar left"><button type="submit" class="main">Отправить заявку</button></div>
+        <p id="leadMsg" class="note left" role="status"></p>
+      </form>
+    </div>
+    <details id="leadList"><summary>Сохранённые заявки (демо)<span id="leadCount"></span></summary><div id="leadItems" class="rows"></div><div class="bar left"><button id="leadClear" type="button" class="mini">Очистить</button></div></details>
+  </section>
   <p class="note">Фото-картинка считается на видеокарте вашего компьютера: 10–30 секунд на компьютере, на телефоне дольше.</p>
+  <p class="note" style="font-size:11px">Модели растений по лицензии CC BY 4.0 (Sketchfab): «Cay 1» — thangtacong, «Realistic Tree Vol.2» — aliyeredon, «Blue spruce» — RosticOstafi. Небо и газон: Poly Haven (CC0).</p>
 </main>
-<script type="module" src="js/dom3d.js?v=17"></script>
+<script type="module" src="js/dom3d.js?v=25"></script>
 </body>
 </html>

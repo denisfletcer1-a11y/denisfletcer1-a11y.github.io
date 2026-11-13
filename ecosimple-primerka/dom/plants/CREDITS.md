@@ -1,0 +1,3 @@
+- Cay 1: "Cay 1" by thangtacong (https://sketchfab.com/3d-models/3ea6833c5cfe464ea52ddbe2205030c9) is licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Optimized for the web by paprika3D.
+- Realistic Tree Vol.2: "Realistic Tree Vol.2" by aliyeredon (https://sketchfab.com/3d-models/736ac8ccedcb41288d81adafae44f4ad) is licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Optimized for the web by paprika3D.
+- Blue spruce: "Blue spruce" by RosticOstafi (https://sketchfab.com/3d-models/f2e8b0f630624e0ea0744057ea5ec560) is licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Optimized for the web by paprika3D.
