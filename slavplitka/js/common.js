@@ -248,13 +248,12 @@
 // 3D-логотип: плитки складываются при загрузке и при наведении
 (function () {
   const lg = document.querySelector('.lg3'); if (!lg) return;
-  let t = 0;
-  const play = () => { t = Date.now(); window.__lgPlays = (window.__lgPlays || 0) + 1; lg.classList.remove('play'); void lg.offsetWidth; lg.classList.add('play'); };
-  // первый раз — когда страница уже загрузилась и видна, потом каждые 10 секунд
-  const start = () => setTimeout(() => { if (!document.hidden) play(); }, 500);
-  if (document.readyState === 'complete') start(); else window.addEventListener('load', start, { once: true });
-  setInterval(() => { if (t && !document.hidden && Date.now() - t >= 10000 && !matchMedia('(prefers-reduced-motion: reduce)').matches) play(); }, 500);
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - t > 4000) setTimeout(play, 300); });
+  // цикл (сборка раз в 10 с) крутит сам CSS; здесь только перезапуск, чтобы сборку было видно
+  let t = Date.now();
+  const restart = () => { t = Date.now(); window.__lgPlays = (window.__lgPlays || 0) + 1; lg.classList.remove('run'); void lg.offsetWidth; lg.classList.add('run'); };
+  if (document.readyState !== 'complete') window.addEventListener('load', () => { if (!document.hidden) restart(); }, { once: true });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - t > 3000) restart(); });
+  window.addEventListener('pageshow', e => { if (e.persisted) restart(); });
   const a = lg.closest('a');
-  if (a) a.addEventListener('mouseenter', () => { if (Date.now() - t > 1800) play(); });
+  if (a) a.addEventListener('mouseenter', () => { if (Date.now() - t > 2000) restart(); });
 })();

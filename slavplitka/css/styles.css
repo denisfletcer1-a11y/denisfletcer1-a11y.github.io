@@ -1012,3 +1012,22 @@ p { margin: 0; }
 .hero-motto span { display: block; color: var(--ink); }
 .hero-motto::after { content: ""; display: block; width: 46px; height: 3px; border-radius: 2px; background: var(--acc); margin-top: 14px; }
 @media (max-width: 680px) { .hero-motto { font-size: 19px; margin-bottom: 14px; } }
+
+/* логотип: бесконечный цикл на чистом CSS — 10 с, сборка в первые 1,6 с (не зависит от таймеров браузера) */
+@keyframes lg3-drop-c {
+  0% { transform: translate3d(0, calc(var(--s) * -1.7), var(--z)); animation-timing-function: cubic-bezier(.3, .6, .35, 1); }
+  3.8% { transform: translate3d(0, 1px, var(--z)); }
+  5.1% { transform: translate3d(0, -3px, var(--z)); }
+  6.3%, 100% { transform: translate3d(0, 0, var(--z)); }
+}
+@keyframes lg3-fade-c { 0% { opacity: 0; } 3%, 100% { opacity: 1; } }
+@keyframes lg3-turn-c {
+  0%, 1% { transform: rotateX(-35.26deg) rotateY(-225deg); animation-timing-function: cubic-bezier(.45, 0, .2, 1); }
+  16%, 100% { transform: rotateX(-35.26deg) rotateY(-45deg); }
+}
+.lg3.run .lg3-b { animation: lg3-drop-c 10s .4s infinite both; }
+.lg3.run .lg3-b.b2 { animation-delay: .68s; }
+.lg3.run .lg3-b b { animation: lg3-fade-c 10s .4s infinite both; }
+.lg3.run .lg3-b.b2 b { animation-delay: .68s; }
+.lg3.run .lg3-s { animation: lg3-turn-c 10s .4s infinite both; }
+@media (prefers-reduced-motion: reduce) { .lg3.run .lg3-b, .lg3.run .lg3-b b, .lg3.run .lg3-s { animation: none; } }
