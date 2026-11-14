@@ -861,3 +861,8 @@ p { margin: 0; }
 .kb-stage:hover .kc-nav, .kc-nav:focus-visible { opacity: 1; }
 .kc-nav:hover { background: #fff; transform: scale(1.06); }
 @media (hover: none) { .kc-nav { opacity: .85; width: 38px; height: 38px; margin-top: -19px; } }
+/* узкие экраны: конструктор в одну колонку (перекрывает правило .kc выше) */
+@media (max-width: 1180px) { .kc { grid-template-columns: 1fr; } .kc-view { position: static; } }
+@media (max-width: 680px) { .kc-logo { font-size: 11px; padding: 4px 8px; left: 10px; top: 10px; } .kc-logo svg { width: 16px; height: 14px; } }
+@media (max-width: 1180px) { .kc-view .kb-stage { max-height: 70vh; min-height: 240px; width: 100%; } }
+@media (min-width: 681px) and (max-width: 1180px) { .kc-houses, .kc-colors { grid-template-columns: repeat(6, 1fr); } .kc-houses { max-height: none; overflow: visible; } }
