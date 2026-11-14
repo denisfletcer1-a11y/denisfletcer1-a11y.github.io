@@ -42,10 +42,40 @@
     c.animate([{ opacity: 1 }, { opacity: 0 }], { duration: ms, easing: 'ease-in-out', fill: 'forwards' }).onfinish = done;
     setTimeout(done, ms + 400);   // страховка, если вкладка не рисует кадры
   }
+  // укладка, как у образца: старая плитка «уходит» камень за камнем, новая ложится от переднего края к дому
+  function lay(c, ms) {
+    if (!c) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return fade(c, 1);
+    const g = c.getContext('2d'), W = c.width, H = c.height;
+    const sc = SCENES.find(x => x.id === st.scene) || SCENES[0];
+    const k = H / 894, hy = sc.cam.hy * k;            // горизонт в пикселях кадра
+    const cells = [];
+    let y = H, row = 0;
+    while (y > hy + 2) {
+      const h = Math.max(5, (y - hy) * 0.085);      // в перспективе ряды ближе к дому мельче
+      const w = h * 2.1, off = (row % 2) * w / 2;
+      const pr = 1 - (y - hy) / (H - hy);           // 0 у переднего края, 1 у дома
+      for (let x = -off; x < W; x += w) cells.push([x, y - h, w + 1, h + 1, pr * 0.72 + Math.random() * 0.28]);
+      y -= h; row++;
+    }
+    cells.sort((a, b) => a[4] - b[4]);
+    // всё, что выше горизонта (дом, небо), не меняется — убираем сразу
+    g.clearRect(0, 0, W, Math.ceil(hy) + 1);
+    let i = 0; const t0 = performance.now();
+    const tick = now => {
+      if (!c.isConnected) return;
+      const p = Math.min(1, (now - t0) / ms);
+      const e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      while (i < cells.length && cells[i][4] <= e) { const q = cells[i++]; g.clearRect(q[0], q[1], q[2], q[3]); }
+      if (p < 1) requestAnimationFrame(tick); else { c.remove(); if (snapEl === c) snapEl = null; }
+    };
+    requestAnimationFrame(tick);
+    setTimeout(() => { if (c.isConnected) { c.remove(); if (snapEl === c) snapEl = null; } }, ms + 600);
+  }
   function redraw() {
     const c = snap();
     if (!c) stage.classList.add('busy');
-    requestAnimationFrame(() => setTimeout(() => { kb.set(design()); stage.classList.remove('busy'); caption(); fade(c, 450); }, 16));
+    requestAnimationFrame(() => setTimeout(() => { kb.set(design()); stage.classList.remove('busy'); caption(); lay(c, 1100); }, 16));
   }
   const later = fn => Promise.all([sceneReady, texReady]).then(() => setTimeout(fn, 30));
 
