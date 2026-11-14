@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Конструктор двора онлайн — Славянская плитка</title>
-<meta name="description" content="Подберите тротуарную плитку для своего двора: выберите дом, форму, рисунок укладки и цвет — и сразу увидите результат и цену.">
+<title>3D-конструктор тротуарной плитки онлайн — Славянская плитка</title>
+<meta name="description" content="Подберите тротуарную плитку для двора: выберите дом, форму и цвет плитки — двор на фото сразу изменится. Цены по прайсу завода.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#f6f2ec">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/lora-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=1114030336">
+<link rel="stylesheet" href="css/styles.css?v=1114032942">
 </head>
 <body class="page-kon" data-nav="konstruktor">
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
@@ -74,33 +74,58 @@
 </header>
 <main id="main">
 <div class="wrap">
-  <nav class="crumbs" aria-label="Навигация"><a href="index.html">Главная</a><i>/</i><span>Конструктор двора</span></nav>
-  <div class="page-head"><h1>Подберите плитку в конструкторе</h1><p>Выберите дом, форму плитки, рисунок и цвет — двор на фото сразу изменится. Цена — по прайсу завода.</p></div>
-  <div class="kb">
-    <div class="kb-view">
+  <nav class="crumbs" aria-label="Навигация"><a href="index.html">Главная</a><i>/</i><span>Конструктор</span></nav>
+  <div class="page-head"><h1>Подберите тротуарную плитку в конструкторе — визуализация двора онлайн</h1></div>
+  <div class="kc">
+    <div class="kc-view">
       <div class="kb-stage" id="kbStage">
         <canvas id="kbCanvas" aria-label="Двор с выбранной плиткой"></canvas>
         <div class="loading"><span><i></i>Укладываем плитку…</span></div>
+        <span class="kc-logo" aria-hidden="true"><svg viewBox="0 0 64 54"><path d="M32 4 58 15 32 26 6 15z" fill="#c4825f"/><path d="M6 15 32 26v24L6 39z" fill="#9a5132"/><path d="M58 15 32 26v24l26-11z" fill="#7a3b22"/></svg>Славянская плитка</span>
       </div>
-      <div class="kb-cap" id="kbCap"></div>
-      <div class="kb-actions">
-        <a class="btn btn-main" id="toPhoto" href="primerka.html"><svg class="ic"><use href="#i-camera"/></svg>Посмотреть на моём участке</a>
-        <button class="btn btn-ghost" type="button" id="kbSave"><svg class="ic"><use href="#i-down"/></svg>Сохранить картинку</button>
-      </div>
+      <p class="kb-cap" id="kbCap"></p>
     </div>
-    <div class="kb-panel">
-      <div class="opt"><h4>Выберите тип дома</h4><div class="kb-houses" id="kbHouses"></div></div>
-      <div class="opt"><h4>Выберите форму плитки <em id="kbFormName"></em></h4><div class="kb-forms" id="kbForms"></div></div>
-      <div class="opt" id="kbPatWrap"><h4>Рисунок укладки</h4><div class="chips-row" id="kbPatterns"></div></div>
-      <div class="opt"><h4>Выберите цвет плитки <em id="kbColorName"></em></h4><div class="kb-colors" id="kbColors"></div></div>
-      <div class="opt"><h4>Фактура лицевого слоя</h4><div class="chips-row" id="kbSurfaces"></div></div>
-      <div class="kb-buy">
-        <div class="kb-prod"><div><b id="kbProd"></b><span id="kbProdSub"></span></div><button class="fav-btn" type="button" id="kbFav" aria-label="В избранное"><svg class="ic"><use href="#i-heart"/></svg></button></div>
+    <div class="kc-panel">
+      <div class="kc-block"><h4>Выберите тип дома</h4><div class="kc-houses" id="kbHouses"></div></div>
+      <div class="kc-block"><h4>Выберите форму плитки</h4>
+        <div class="kc-forms-wrap"><button class="kc-arrow" type="button" data-dir="-1" aria-label="Назад"><svg class="ic"><use href="#i-chev"/></svg></button><div class="kc-forms" id="kbForms"></div><button class="kc-arrow" type="button" data-dir="1" aria-label="Вперёд"><svg class="ic"><use href="#i-chev"/></svg></button></div>
+      </div>
+      <div class="kc-block"><h4>Выберите цвет плитки</h4><div class="kc-colors" id="kbColors"></div></div>
+      <div class="kc-block kc-more" id="kbPatWrap"><h4>Рисунок укладки</h4><div class="chips-row" id="kbPatterns"></div></div>
+      <div class="kc-block kc-more"><h4>Фактура лицевого слоя</h4><div class="chips-row" id="kbSurfaces"></div></div>
+      <div class="kc-prod">
+        <div><b id="kbProd"></b><span id="kbProdSub"></span></div>
+        <button class="fav-btn" type="button" id="kbFav" aria-label="В избранное"><svg class="ic"><use href="#i-heart"/></svg></button>
+      </div>
+      <div class="kc-actions">
+        <button class="btn btn-main" type="button" id="toPhoto">Посмотреть на моём участке</button>
+        <a class="btn btn-line" id="kbCard" href="catalog.html">Перейти к товару</a>
+      </div>
+      <details class="kc-calc">
+        <summary>Рассчитать стоимость и количество</summary>
         <div class="calc-row"><div class="qty"><button type="button" id="kbMinus" aria-label="Меньше">−</button><input id="kbArea" type="number" min="1" step="1" value="60" aria-label="Площадь, м²"><span>м²</span></div><label class="chk"><input type="checkbox" id="kbReserve" checked> запас 5% на подрезку</label></div>
         <div class="total"><span>Итого по прайсу</span><b id="kbTotal"></b></div>
-        <div class="buy-btns"><button class="btn btn-main" type="button" id="kbCart"><svg class="ic"><use href="#i-cart"/></svg>В корзину</button><a class="btn btn-line" id="kbCard" href="catalog.html">Карточка товара</a></div>
-        <button class="btn btn-ghost btn-block" type="button" id="kbLead" style="margin-top:10px">Отправить расчёт менеджеру</button>
-      </div>
+        <div class="buy-btns"><button class="btn btn-main" type="button" id="kbCart"><svg class="ic"><use href="#i-cart"/></svg>В корзину</button><button class="btn btn-ghost" type="button" id="kbLead">Отправить расчёт</button></div>
+        <button class="btn btn-ghost btn-sm btn-block" type="button" id="kbSave" style="margin-top:10px"><svg class="ic"><use href="#i-down"/></svg>Сохранить картинку двора</button>
+      </details>
+    </div>
+  </div>
+</div>
+<div class="modal" id="visModal" role="dialog" aria-modal="true" aria-labelledby="visTitle">
+  <div class="modal-box vis-box">
+    <button class="modal-x" type="button" data-close-vis aria-label="Закрыть"><svg class="ic"><use href="#i-x"/></svg></button>
+    <video class="vis-video" poster="video/poster.webp" autoplay muted loop playsinline preload="none"><source src="video/konstruktor.webm" type="video/webm"><source src="video/konstruktor.mp4" type="video/mp4"></video>
+    <div class="vis-body">
+      <h3 id="visTitle">Визуализация всех вариантов плитки в вашем дворе</h3>
+      <p>Это быстро, удобно и бесплатно. Пришлите фото двора — дизайнер завода уложит на него выбранную плитку и пришлёт картинку с расчётом.</p>
+      <form class="mform" data-lead novalidate>
+        <label class="fld"><svg class="ic"><use href="#i-user"/></svg><input name="name" autocomplete="name" placeholder="Ваше имя"></label>
+        <label class="fld"><svg class="ic"><use href="#i-phone"/></svg><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Телефон, MAX или Telegram"></label>
+        <label class="consent"><input type="checkbox" name="ok" checked> Я соглашаюсь с обработкой персональных данных</label>
+        <button class="btn btn-main btn-block" type="submit">Отправить заявку</button>
+        <p class="form-note"></p>
+      </form>
+      <a class="link-arrow" id="visSelf" href="primerka.html" style="margin-top:12px">Или примерьте плитку на своё фото сами <svg class="ic"><use href="#i-arrow"/></svg></a>
     </div>
   </div>
 </div>
@@ -188,10 +213,10 @@
 </div>
 <div class="lightbox" id="lightbox"><img alt=""></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="js/data.js?v=1114030336"></script>
-<script src="js/common.js?v=1114030336"></script>
-<script src="js/paving.js?v=1114030336"></script>
-<script src="js/scenes.js?v=1114030336"></script>
-<script src="js/konstruktor.js?v=1114030336"></script>
+<script src="js/data.js?v=1114032942"></script>
+<script src="js/common.js?v=1114032942"></script>
+<script src="js/paving.js?v=1114032942"></script>
+<script src="js/scenes.js?v=1114032942"></script>
+<script src="js/konstruktor.js?v=1114032942"></script>
 </body>
 </html>

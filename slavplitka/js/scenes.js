@@ -2,6 +2,42 @@
 // и область мощения на фото (mask, в пикселях фото). Плитка рисуется в перспективе этой камеры.
 window.SCENES = [
   {
+    id: 'house1', name: 'Дом из светлого кирпича с гаражом', img: 'img/scenes/house1.webp', thumb: 'img/scenes/house1.webp',
+    cam: { f: 1250, h: 1.7, hy: 450, cx: 800, yaw: -0.18 },
+    mask: [[[0, 700], [636, 604], [690, 560], [850, 556], [860, 584], [1600, 646], [1600, 894], [0, 894]]],
+    sun: [0.5, 0.7, -0.4], expo: 0.68, tintK: 0.3, shadeK: 0.75,
+  },
+  {
+    id: 'house2', name: 'Одноэтажный дом с деревом', img: 'img/scenes/house2.webp', thumb: 'img/scenes/house2.webp',
+    cam: { f: 1250, h: 1.7, hy: 470, cx: 800, yaw: 0.43 },
+    mask: [[[0, 664], [580, 584], [660, 560], [1280, 500], [1320, 504], [1096, 568], [1540, 600], [1380, 894], [0, 894]]],
+    sun: [0.5, 0.7, -0.4], expo: 0.68, tintK: 0.3, shadeK: 0.75,
+  },
+  {
+    id: 'house3', name: 'А-образный дом в лесу', img: 'img/scenes/house3.webp', thumb: 'img/scenes/house3.webp',
+    cam: { f: 1250, h: 1.7, hy: 470, cx: 800, yaw: 0 },
+    mask: [[[0, 644], [450, 566], [720, 580], [1120, 584], [1600, 610], [1600, 894], [0, 894]]],
+    sun: [0.5, 0.7, -0.4], expo: 0.68, tintK: 0.3, shadeK: 0.75,
+  },
+  {
+    id: 'house4', name: 'Современный дом с плоской кровлей', img: 'img/scenes/house4.webp', thumb: 'img/scenes/house4.webp',
+    cam: { f: 1250, h: 1.7, hy: 440, cx: 800, yaw: 0.1 },
+    mask: [[[0, 594], [500, 544], [1000, 524], [1220, 540], [1600, 564], [1600, 894], [0, 894]]],
+    sun: [0.5, 0.7, -0.4], expo: 0.68, tintK: 0.3, shadeK: 0.75,
+  },
+  {
+    id: 'house5', name: 'Кирпичный коттедж', img: 'img/scenes/house5.webp', thumb: 'img/scenes/house5.webp',
+    cam: { f: 1250, h: 1.7, hy: 430, cx: 800, yaw: -0.2 },
+    mask: [[[0, 650], [680, 574], [940, 560], [880, 576], [1600, 680], [1600, 894], [0, 894]]],
+    sun: [0.5, 0.7, -0.4], expo: 0.68, tintK: 0.3, shadeK: 0.75,
+  },
+  {
+    id: 'house6', name: 'Барнхаус со стеклом', img: 'img/scenes/house6.webp', thumb: 'img/scenes/house6.webp',
+    cam: { f: 1250, h: 1.7, hy: 500, cx: 800, yaw: 0.35 },
+    mask: [[[0, 676], [660, 592], [880, 586], [1300, 592], [1380, 564], [1540, 624], [1380, 894], [460, 894], [0, 730]]],
+    sun: [0.5, 0.7, -0.4], expo: 0.68, tintK: 0.3, shadeK: 0.75,
+  },
+  {
     id: 'modern', name: 'Современный дом', img: 'img/scenes/modern.webp', thumb: 'img/scenes/modern.webp',
     cam: { f: 1500, h: 0.85, hy: 300, cx: 916, yaw: 0.68 },
     mask: [[[0, 560], [180, 547], [330, 541], [776, 541], [1262, 588], [1832, 704], [1832, 846], [0, 846]]],
