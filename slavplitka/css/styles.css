@@ -1031,3 +1031,22 @@ p { margin: 0; }
 .lg3.run .lg3-b.b2 b { animation-delay: .68s; }
 .lg3.run .lg3-s { animation: lg3-turn-c 10s .4s infinite both; }
 @media (prefers-reduced-motion: reduce) { .lg3.run .lg3-b, .lg3.run .lg3-b b, .lg3.run .lg3-s { animation: none; } }
+
+/* логотип: цикл 4 с (сборка ~1,6 с, затем пауза) */
+@keyframes lg3-drop-4 {
+  0% { transform: translate3d(0, calc(var(--s) * -1.7), var(--z)); animation-timing-function: cubic-bezier(.3, .6, .35, 1); }
+  9.5% { transform: translate3d(0, 1px, var(--z)); }
+  12.75% { transform: translate3d(0, -3px, var(--z)); }
+  15.75%, 100% { transform: translate3d(0, 0, var(--z)); }
+}
+@keyframes lg3-fade-4 { 0% { opacity: 0; } 7.5%, 100% { opacity: 1; } }
+@keyframes lg3-turn-4 {
+  0%, 2.5% { transform: rotateX(-35.26deg) rotateY(-225deg); animation-timing-function: cubic-bezier(.45, 0, .2, 1); }
+  40%, 100% { transform: rotateX(-35.26deg) rotateY(-45deg); }
+}
+.lg3.run .lg3-b { animation: lg3-drop-4 4s .4s infinite both; }
+.lg3.run .lg3-b.b2 { animation-delay: .68s; }
+.lg3.run .lg3-b b { animation: lg3-fade-4 4s .4s infinite both; }
+.lg3.run .lg3-b.b2 b { animation-delay: .68s; }
+.lg3.run .lg3-s { animation: lg3-turn-4 4s .4s infinite both; }
+@media (prefers-reduced-motion: reduce) { .lg3.run .lg3-b, .lg3.run .lg3-b b, .lg3.run .lg3-s { animation: none; } }

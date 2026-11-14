@@ -255,5 +255,5 @@
   document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - t > 3000) restart(); });
   window.addEventListener('pageshow', e => { if (e.persisted) restart(); });
   const a = lg.closest('a');
-  if (a) a.addEventListener('mouseenter', () => { if (Date.now() - t > 2000) restart(); });
+  if (a) a.addEventListener('mouseenter', () => { if (Date.now() - t > 1800) restart(); });
 })();
