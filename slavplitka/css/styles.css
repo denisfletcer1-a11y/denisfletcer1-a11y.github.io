@@ -850,3 +850,14 @@ p { margin: 0; }
 .msgr .ic { width: 16px; height: 16px; }
 @media (max-width: 980px) { .lay-steps { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 680px) { .lay-steps { grid-template-columns: 1fr; } }
+
+/* плавная смена дома и плитки + стрелки на картинке (как у образца) */
+.kb-stage .kc-snap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 1; pointer-events: none; }
+.kc-view .kb-stage .kc-snap { object-fit: cover; object-position: 50% 62%; }
+.kc-nav { position: absolute; top: 50%; z-index: 3; width: 44px; height: 44px; margin-top: -22px; border: 0; border-radius: 50%; background: rgba(255,255,255,.88); color: var(--ink); display: grid; place-items: center; cursor: pointer; box-shadow: 0 4px 14px rgba(40,25,15,.18); opacity: 0; transition: opacity .25s, transform .2s, background .2s; }
+.kc-nav .ic { width: 20px; height: 20px; }
+.kc-prev { left: 14px; } .kc-prev .ic { transform: rotate(180deg); }
+.kc-next { right: 14px; }
+.kb-stage:hover .kc-nav, .kc-nav:focus-visible { opacity: 1; }
+.kc-nav:hover { background: #fff; transform: scale(1.06); }
+@media (hover: none) { .kc-nav { opacity: .85; width: 38px; height: 38px; margin-top: -19px; } }

@@ -23,7 +23,30 @@
     if (!SP.colorsOf(p).some(c => c.id === st.color)) st.color = SP.colorsOf(p)[0].id;
     return { form: p.model, pattern: st.pattern, ...SP.look(st.color), surface: st.surface };
   };
-  function redraw() { stage.classList.add('busy'); requestAnimationFrame(() => setTimeout(() => { kb.set(design()); stage.classList.remove('busy'); caption(); }, 16)); }
+  // ---------- плавная смена картинки, как у образца: старый кадр растворяется поверх нового ----------
+  const cv = $('#kbCanvas');
+  let snapEl = null;
+  function snap() {
+    if (!stage.classList.contains('ready') || !cv.width) return null;
+    const c = document.createElement('canvas');
+    c.className = 'kc-snap'; c.width = cv.width; c.height = cv.height;
+    try { c.getContext('2d').drawImage(cv, 0, 0); } catch (e) { return null; }
+    if (snapEl) snapEl.remove();
+    stage.insertBefore(c, cv.nextSibling); snapEl = c;
+    return c;
+  }
+  function fade(c, ms) {
+    if (!c) return;
+    const done = () => { c.remove(); if (snapEl === c) snapEl = null; };
+    if (!c.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return done();
+    c.animate([{ opacity: 1 }, { opacity: 0 }], { duration: ms, easing: 'ease-in-out', fill: 'forwards' }).onfinish = done;
+    setTimeout(done, ms + 400);   // страховка, если вкладка не рисует кадры
+  }
+  function redraw() {
+    const c = snap();
+    if (!c) stage.classList.add('busy');
+    requestAnimationFrame(() => setTimeout(() => { kb.set(design()); stage.classList.remove('busy'); caption(); fade(c, 450); }, 16));
+  }
   const later = fn => Promise.all([sceneReady, texReady]).then(() => setTimeout(fn, 30));
 
   // ---------- дома ----------
@@ -36,15 +59,40 @@
     hb.appendChild(b);
   });
   const paintHouses = () => hb.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.id === st.scene));
+  let loadN = 0;
   async function loadScene() {
-    stage.classList.add('busy');
+    const n = ++loadN, c = snap();
+    const slow = setTimeout(() => stage.classList.add('busy'), c ? 500 : 0);
     const s = SCENES.find(x => x.id === st.scene) || SCENES[0];
     await kb.setScene(JSON.parse(JSON.stringify(s)));
+    if (n !== loadN) { clearTimeout(slow); return; }   // пока грузилось, выбрали другой дом
     kb.set(design());
     if (q.get('calib')) kb.calib(true);
+    clearTimeout(slow);
     stage.classList.add('ready'); stage.classList.remove('busy');
+    fade(c, 600);
     caption(); sceneDone();
   }
+  // стрелки на картинке, свайп и клавиши ← →
+  function step(d) {
+    const i = SCENES.findIndex(x => x.id === st.scene);
+    st.scene = SCENES[(i + d + SCENES.length) % SCENES.length].id;
+    paintHouses(); loadScene();
+  }
+  stage.insertAdjacentHTML('beforeend', '<button class="kc-nav kc-prev" type="button" aria-label="Предыдущий дом"><svg class="ic"><use href="#i-chev"/></svg></button><button class="kc-nav kc-next" type="button" aria-label="Следующий дом"><svg class="ic"><use href="#i-chev"/></svg></button>');
+  stage.querySelector('.kc-prev').addEventListener('click', () => step(-1));
+  stage.querySelector('.kc-next').addEventListener('click', () => step(1));
+  let sx = null, sy = 0;
+  stage.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  stage.addEventListener('touchend', e => {
+    if (sx === null) return;
+    const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; sx = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+  });
+  document.addEventListener('keydown', e => {
+    if (/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) || document.querySelector('.modal.open, .vis-modal.open')) return;
+    if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1);
+  });
 
   // ---------- формы: камни в перспективе ----------
   const fb = $('#kbForms');
