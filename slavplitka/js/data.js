@@ -272,9 +272,28 @@
   const weightM2 = h => Math.round(h * 2.3);
   const money = n => new Intl.NumberFormat('ru-RU').format(Math.round(n)).replace(/\s/g, ' ');
 
-  window.SP = { COLORS, BASE_COLORS, look, SURFACES, PRODUCTS, CATS, PATTERNS, colorById, heightsOf, surfacesOf, colorsOf, priceOf, minPrice, weightM2, money,
+  // ---------- правки из админки (в демо хранятся в этом браузере, в рабочей версии — на сервере) ----------
+  const ORIGINAL = JSON.parse(JSON.stringify(PRODUCTS));
+  let ADM = null;
+  try { ADM = JSON.parse(localStorage.getItem('sp-admin') || 'null'); } catch (e) { ADM = null; }
+  ADM = ADM || {};
+  (ADM.added || []).forEach(p => PRODUCTS.push(p));
+  Object.entries(ADM.edits || {}).forEach(([id, patch]) => { const p = PRODUCTS.find(x => x.id === id); if (p) Object.assign(p, patch); });
+  PRODUCTS.forEach(p => { if (p.photos && p.photos.length) p.photo = p.photos[0]; });
+  const ALL_PRODUCTS = PRODUCTS.slice();
+  for (let i = PRODUCTS.length - 1; i >= 0; i--) if (PRODUCTS[i].hidden) PRODUCTS.splice(i, 1);
+  const SET = Object.assign({ PRICE_DATE: '01.06.2025', PHONE: '+7 988 333-64-00', EMAIL: 'kdb-fslav@yandex.ru', ADDRESS: 'ул. Совхозная, 1', HOURS: 'Пн–Сб с 8:00 до 18:00' }, ADM.settings || {});
+  if (ADM.settings && !document.body.classList.contains('adm-body')) {
+    // контакты в шапке и подвале берём из настроек
+    const raw = '+' + SET.PHONE.replace(/\D/g, '').replace(/^8/, '7');
+    document.querySelectorAll('a[href="tel:+79883336400"]').forEach(a => { a.href = 'tel:' + raw; a.childNodes.forEach(n => { if (n.nodeType === 3 && /\d/.test(n.textContent)) n.textContent = SET.PHONE; }); });
+    document.querySelectorAll('a[href^="mailto:kdb-fslav"]').forEach(a => { a.href = 'mailto:' + SET.EMAIL; a.textContent = SET.EMAIL; });
+    document.querySelectorAll('.ftr li').forEach(li => { if (/Совхозная/.test(li.textContent)) li.textContent = 'Славянск-на-Кубани, ' + SET.ADDRESS; if (/^Пн/.test(li.textContent.trim())) li.textContent = SET.HOURS; });
+  }
+
+  window.SP = { ORIGINAL, ALL_PRODUCTS, ADMIN: ADM, COLORS, BASE_COLORS, look, SURFACES, PRODUCTS, CATS, PATTERNS, colorById, heightsOf, surfacesOf, colorsOf, priceOf, minPrice, weightM2, money,
     byId: id => PRODUCTS.find(p => p.id === id),
-    PRICE_DATE: '01.06.2025',
-    PHONE: '+7 988 333-64-00', PHONE_RAW: '+79883336400', CITY: 'Славянск-на-Кубани', ADDRESS: 'ул. Совхозная, 1', HOURS: 'Пн–Сб с 8:00 до 18:00', EMAIL: 'kdb-fslav@yandex.ru',
+    PRICE_DATE: SET.PRICE_DATE,
+    PHONE: SET.PHONE, PHONE_RAW: '+' + SET.PHONE.replace(/\D/g, '').replace(/^8/, '7'), CITY: 'Славянск-на-Кубани', ADDRESS: SET.ADDRESS, HOURS: SET.HOURS, EMAIL: SET.EMAIL,
   };
 })();

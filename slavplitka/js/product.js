@@ -37,7 +37,7 @@
   const BAD = /Форма, размер|ширина \d+мм/i;   // мелкие чертежи с сайта завода заменены своими
   const colorPhoto = () => SPH.colors[st.c] || null;
   const GEN = { 'porebrik-trot': 1, 'bordyur-dor': 1, 'palisad-round': 1, 'palisad-sq': 1, gazon: 2, taktil: 1, 'porebrik-sharn': 1, vazon: 1, 'porebrik-prim': 1 };
-  const studio = GEN[p.id] ? ['img/gen/' + p.id + '.webp'].concat(GEN[p.id] > 1 ? ['img/gen/' + p.id + '-2.webp'] : []) : [];
+  const studio = (p.photos || []).concat(GEN[p.id] && !(p.photos || []).length ? ['img/gen/' + p.id + '.webp'].concat(GEN[p.id] > 1 ? ['img/gen/' + p.id + '-2.webp'] : []) : []);
   async function showScene(i) {
     st.view = 'scene'; st.scene = i; photo.classList.remove('on');
     if (!kb) {
