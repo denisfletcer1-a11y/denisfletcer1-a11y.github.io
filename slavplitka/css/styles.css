@@ -1003,3 +1003,4 @@ p { margin: 0; }
 .lg3.play .lg3-s { animation: lg3-turn 1.5s cubic-bezier(.45, 0, .2, 1) .1s both; }
 @media (max-width: 680px) { .lg3 { --s: 23px; } }
 @media (prefers-reduced-motion: reduce) { .lg3.play .lg3-b, .lg3.play .lg3-s { animation: none; } }
+.hero-note { padding: 18px 22px 16px; border-radius: 10px; background: rgba(32, 24, 18, .46); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); color: #fff; top: 22%; text-shadow: 0 1px 4px rgba(0, 0, 0, .35); }
