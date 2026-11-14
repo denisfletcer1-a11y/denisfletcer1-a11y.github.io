@@ -248,9 +248,13 @@
 // 3D-логотип: плитки складываются при загрузке и при наведении
 (function () {
   const lg = document.querySelector('.lg3'); if (!lg) return;
-  const play = () => { lg.classList.remove('play'); void lg.offsetWidth; lg.classList.add('play'); };
-  requestAnimationFrame(play);
-  const a = lg.closest('a');
   let t = 0;
-  if (a) a.addEventListener('mouseenter', () => { if (Date.now() - t > 1800) { t = Date.now(); play(); } });
+  const play = () => { t = Date.now(); window.__lgPlays = (window.__lgPlays || 0) + 1; lg.classList.remove('play'); void lg.offsetWidth; lg.classList.add('play'); };
+  // первый раз — когда страница уже загрузилась и видна, потом каждые 10 секунд
+  const start = () => setTimeout(() => { if (!document.hidden) play(); }, 500);
+  if (document.readyState === 'complete') start(); else window.addEventListener('load', start, { once: true });
+  setInterval(() => { if (t && !document.hidden && Date.now() - t >= 10000 && !matchMedia('(prefers-reduced-motion: reduce)').matches) play(); }, 500);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - t > 4000) setTimeout(play, 300); });
+  const a = lg.closest('a');
+  if (a) a.addEventListener('mouseenter', () => { if (Date.now() - t > 1800) play(); });
 })();
