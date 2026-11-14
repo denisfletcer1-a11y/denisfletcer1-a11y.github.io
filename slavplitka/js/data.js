@@ -215,7 +215,7 @@
     { id: 'triada', cat: 'plitka', form: 'Триада', name: 'Триада', unit: 'м²', onRequest: true, model: 'triada', patterns: ['rows', 'across'], site: 'triada', text: 'Фигурная плитка «Триада». Размеры, цвета и цену уточните у менеджера.' },
     { id: 'domino', cat: 'plitka', form: 'Домино', name: 'Домино', unit: 'м²', onRequest: true, model: 'domino', patterns: ['rows', 'across', 'diag'], site: 'domino', text: 'Плитка «Домино». Размеры, цвета и цену уточните у менеджера.' },
     { id: 'trapeciya', cat: 'plitka', form: 'Трапеция', name: 'Трапеция', unit: 'м²', onRequest: true, model: 'trapeciya', patterns: ['stars'], site: 'trapeciya', text: 'Плитка «Трапеция». Размеры, цвета и цену уточните у менеджера.' },
-    { id: 'vazon', cat: 'blag', form: 'Вазон', name: 'Вазон «Парковый»', unit: 'шт', onRequest: true, site: 'vazon', photo: 'img/site/vazon/00.webp', text: 'Бетонный вазон для цветов и кустарников на площадках, у входа и вдоль дорожек.' },
+    { id: 'vazon', cat: 'blag', form: 'Вазон', name: 'Вазон «Парковый»', unit: 'шт', onRequest: true, site: 'vazon', text: 'Бетонный вазон для цветов и кустарников на площадках, у входа и вдоль дорожек.' },
     { id: 'elementy', cat: 'blag', form: 'Элементы забора', name: 'Крышки забора и лотки водоотвода', unit: 'шт', onRequest: true, site: 'elementy', photo: 'img/site/elementy/00.webp', text: 'Крышки столба и стены забора, широкий и узкий лоток водоотвода.' },
     { id: 'dekor-blok', cat: 'blok', form: 'Декоративный блок', name: 'Декоративный блок', unit: 'шт', onRequest: true, site: 'dekor-blok', photo: 'img/site/dekor-blok/00.webp', text: 'Декоративные блоки для заборов, колонн и ограждений.' },
   ];

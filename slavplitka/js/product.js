@@ -36,6 +36,8 @@
   const drawUrl = window.DRAW ? DRAW.url(p) : null;
   const BAD = /Форма, размер|ширина \d+мм/i;   // мелкие чертежи с сайта завода заменены своими
   const colorPhoto = () => SPH.colors[st.c] || null;
+  const GEN = { 'porebrik-trot': 1, 'bordyur-dor': 1, 'palisad-round': 1, 'palisad-sq': 1, gazon: 2, taktil: 1, 'porebrik-sharn': 1, vazon: 1, 'porebrik-prim': 1 };
+  const studio = GEN[p.id] ? ['img/gen/' + p.id + '.webp'].concat(GEN[p.id] > 1 ? ['img/gen/' + p.id + '-2.webp'] : []) : [];
   async function showScene(i) {
     st.view = 'scene'; st.scene = i; photo.classList.remove('on');
     if (!kb) {
@@ -51,10 +53,11 @@
     stage.classList.add('ready');
     thumbs();
   }
-  function showPhoto(url) { st.view = 'photo'; photoUrl = url || colorPhoto() || drawUrl || SPH.gallery[0] || imgOf(p); photo.src = photoUrl; photo.alt = p.name; photo.classList.add('on'); stage.classList.add('ready'); stage.style.aspectRatio = '4 / 3'; photo.style.objectFit = photoUrl === drawUrl ? 'contain' : 'scale-down'; photo.style.background = photoUrl === drawUrl ? '#fbf9f6' : ''; thumbs(); }
+  function showPhoto(url) { st.view = 'photo'; photoUrl = url || studio[0] || colorPhoto() || drawUrl || SPH.gallery[0] || imgOf(p); photo.src = photoUrl; photo.alt = p.name; photo.classList.add('on'); stage.classList.add('ready'); stage.style.aspectRatio = '4 / 3'; photo.style.objectFit = photoUrl === drawUrl ? 'contain' : 'scale-down'; photo.style.background = photoUrl === drawUrl ? '#fbf9f6' : ''; thumbs(); }
   function thumbs() {
     const host = $('#pThumbs');
     const items = (tile ? SCENES.map((s, i) => ({ key: 's' + i, img: s.thumb, label: s.name, on: st.view === 'scene' && st.scene === i, go: () => showScene(i) })) : [])
+      .concat(studio.map(u => ({ key: u, img: u, label: 'Фото изделия', on: st.view === 'photo' && photoUrl === u, go: () => showPhoto(u) })))
       .concat(drawUrl ? [{ key: 'draw', img: drawUrl, label: 'Чертёж с размерами', on: st.view === 'photo' && photoUrl === drawUrl, go: () => showPhoto(drawUrl) }] : [])
       .concat((colorPhoto() ? [colorPhoto()] : []).concat(SPH.gallery.filter(u => !BAD.test(SPH.captions[u] || '')).slice(0, 6)).map(u => ({ key: u, img: u, label: SPH.captions[u] || 'Фото с сайта завода', on: st.view === 'photo' && photoUrl === u, go: () => showPhoto(u) })));
     host.innerHTML = '';
@@ -65,7 +68,7 @@
       b.addEventListener('click', it.go);
       host.appendChild(b);
     });
-    $('#pCap').textContent = st.view === 'scene' ? `${SCENES[st.scene].name}: ${p.name}, ${SP.PATTERNS[p.patterns[0]].toLowerCase()}, ${SP.colorById(st.c).name.toLowerCase()}. Плитка нарисована по фото поверхности с сайта завода.` : (photoUrl === drawUrl ? 'Чертёж с размерами из прайса завода, мм.' : SPH.captions[photoUrl] ? SPH.captions[photoUrl].replace(/^Фото \d+\.\s*/, '') + ' — фото с сайта завода.' : 'Фото с сайта завода.');
+    $('#pCap').textContent = st.view === 'scene' ? `${SCENES[st.scene].name}: ${p.name}, ${SP.PATTERNS[p.patterns[0]].toLowerCase()}, ${SP.colorById(st.c).name.toLowerCase()}. Плитка нарисована по фото поверхности с сайта завода.` : (studio.includes(photoUrl) ? p.name + ' — фото изделия.' : photoUrl === drawUrl ? 'Чертёж с размерами из прайса завода, мм.' : SPH.captions[photoUrl] ? SPH.captions[photoUrl].replace(/^Фото \d+\.\s*/, '') + ' — фото с сайта завода.' : 'Фото с сайта завода.');
   }
   $('#pToKon').hidden = !tile;
   $('#pToKon').href = `konstruktor.html?id=${p.id}`;
