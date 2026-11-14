@@ -643,3 +643,12 @@ p { margin: 0; }
 .kb > *, .prod > *, .pr > * { min-width: 0; }
 .yard-teaser .kb-stage { min-height: 0; align-self: center; }
 .yard-teaser { align-items: stretch; }
+
+.pr { align-items: start; }
+.pr-stage:has(.pr-wrap:not([hidden])) { align-self: start; display: block; }
+.pr-panel .buy-btns { grid-template-columns: 1fr; }
+.pr-panel .kb-buy .btn { white-space: normal; }
+.pr-tips { padding: 20px 24px 24px; color: var(--ink2); font-size: 14px; background: var(--card); }
+.pr-tips b { font: 500 18px var(--serif); display: block; margin-bottom: 8px; color: var(--ink); }
+.pr-tips ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.pr-tips[hidden] { display: none; }

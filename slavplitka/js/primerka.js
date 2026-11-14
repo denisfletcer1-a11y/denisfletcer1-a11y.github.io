@@ -38,7 +38,7 @@
     img = im;
     const W = im.naturalWidth, H = im.naturalHeight;
     pts = p0 || [[W * 0.08, H * 0.95], [W * 0.92, H * 0.95], [W * 0.72, H * 0.62], [W * 0.28, H * 0.62]];
-    $('#prDrop').hidden = true; wrap.hidden = false;
+    $('#prDrop').hidden = true; wrap.hidden = false; $('#prTips').hidden = false;
     wrap.style.aspectRatio = W + ' / ' + H;
     fit.setImage(im, pts.map(p => p.slice()));
     fit.set(design());
@@ -63,11 +63,6 @@
   ['dragenter', 'dragover'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('over'); }));
   ['dragleave', 'drop'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove('over'); }));
   drop.addEventListener('drop', e => fromFile(e.dataTransfer.files[0]));
-  $('#prDemo').addEventListener('click', () => {
-    const im = new Image();
-    im.onload = () => start(im, [[60, 846], [1500, 846], [1300, 600], [250, 585]]);
-    im.src = 'img/scenes/modern.webp';
-  });
   $('#prNew').addEventListener('click', () => $('#prFile').click());
 
   // ---------- выбор плитки ----------

@@ -10,7 +10,7 @@
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/lora-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=1114025528">
+<link rel="stylesheet" href="css/styles.css?v=1114030058">
 </head>
 <body class="page-primerka" data-nav="konstruktor">
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
@@ -75,7 +75,7 @@
 <main id="main">
 <div class="wrap">
   <nav class="crumbs" aria-label="Навигация"><a href="index.html">Главная</a><i>/</i><a href="konstruktor.html">Конструктор</a><i>/</i><span>Примерка на фото</span></nav>
-  <div class="page-head"><h1>Плитка на фото вашего двора</h1><p>Загрузите фото участка и передвиньте четыре точки на углы места под плитку. Плитка ляжет в перспективе, а тени с фото сохранятся.</p></div>
+  <div class="page-head"><h1>Плитка на фото вашего двора</h1><p>Загрузите фото своего участка и поставьте четыре точки на углы места под плитку. Плитка ляжет в перспективе, а тени с фото сохранятся. Посмотреть плитку на готовых фото домов можно в <a class="link-arrow" href="konstruktor.html">конструкторе</a>.</p></div>
   <div class="pr">
     <div class="pr-stage" id="prStage">
       <div class="pr-wrap" id="prWrap" hidden>
@@ -89,9 +89,13 @@
           <span>Снимите участок с высоты роста, чтобы место под плитку было видно целиком. Фото остаётся на вашем устройстве.</span>
           <div class="btns">
             <label class="btn btn-main"><input type="file" id="prFile" accept="image/*" hidden>Выбрать фото</label>
-            <button class="btn btn-line" type="button" id="prDemo" style="color:#fff">Попробовать на примере</button>
+            <a class="btn btn-line" href="konstruktor.html" style="color:#fff">Нет фото? Открыть конструктор</a>
           </div>
         </div>
+      </div>
+      <div class="pr-tips" id="prTips" hidden>
+        <b>Как получить точную картинку</b>
+        <ol><li>Поставьте точки на углы места под плитку: две ближние внизу, две дальние выше.</li><li>Укажите справа ширину участка по ближнему краю — от неё зависит размер камней.</li><li>Выберите форму, рисунок и цвет. Готовое фото можно сохранить или отправить менеджеру вместе с расчётом.</li></ol>
       </div>
       <p class="pr-help" id="prHelp">Тяните оранжевые точки на углы участка под плитку</p>
     </div>
@@ -192,10 +196,10 @@
 </div>
 <div class="lightbox" id="lightbox"><img alt=""></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="js/data.js?v=1114025528"></script>
-<script src="js/common.js?v=1114025528"></script>
-<script src="js/paving.js?v=1114025528"></script>
-<script src="js/scenes.js?v=1114025528"></script>
-<script src="js/primerka.js?v=1114025528"></script>
+<script src="js/data.js?v=1114030058"></script>
+<script src="js/common.js?v=1114030058"></script>
+<script src="js/paving.js?v=1114030058"></script>
+<script src="js/scenes.js?v=1114030058"></script>
+<script src="js/primerka.js?v=1114030058"></script>
 </body>
 </html>
