@@ -83,4 +83,6 @@
   $('#fOpen').addEventListener('click', () => document.body.classList.add('filters-open'));
   $('#fClose').addEventListener('click', () => document.body.classList.remove('filters-open'));
   head(); tabs(); filters(); render();
+  const t = document.getElementById('sizeTable');
+  if (t) t.innerHTML = '<thead><tr><th>Плитка</th><th>Размеры, мм</th><th>Толщина, мм</th><th>Цена от, ₽/м²</th></tr></thead><tbody>' + SP.PRODUCTS.filter(p => p.cat === 'plitka' && p.unit === 'м²' && !p.onRequest).map(p => `<tr><td><a href="product.html?id=${p.id}">${p.name}</a></td><td>${p.sizes.map(x => x.join('×')).join(', ')}</td><td>${SP.heightsOf(p).join(', ')}</td><td>${SP.money(SP.minPrice(p))}</td></tr>`).join('') + '</tbody>';
 })();

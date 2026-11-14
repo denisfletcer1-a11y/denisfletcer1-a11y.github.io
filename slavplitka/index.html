@@ -10,7 +10,7 @@
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/lora-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=1114032942">
+<link rel="stylesheet" href="css/styles.css?v=1114073652">
 </head>
 <body class="page-home" data-nav="home">
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
@@ -40,6 +40,8 @@
 <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4V20.5H6z"/><path d="M14 3.5v4h4M9 12h6M9 15.5h6"/></symbol>
 <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.7"/><path d="M4 4v4.5h4.5"/></symbol>
 <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 20.5 20.5"/></symbol>
+<symbol id="i-tg" viewBox="0 0 24 24"><path d="M21 4 3 11l6 2 2 6 3-4 5 4z" fill="currentColor" stroke="none"/></symbol>
 </svg>
 <div class="demo-bar" role="note"><b>Демоверсия сайта.</b> Цены — из прайса завода от 01.06.2025. Заказы и заявки в демо никуда не отправляются.</div>
 <header class="hdr" id="hdr">
@@ -53,19 +55,21 @@
         <path d="M19 20.6v24" stroke="#f6efe8" stroke-width="2.2"/>
         <path d="M45 20.5v24.2" stroke="#5e2c18" stroke-width="2.2" opacity=".55"/>
       </svg>
-      <span class="logo-t"><b>Славянская<br>плитка</b><small>Славянский завод<br>тротуарной плитки</small></span>
+      <span class="logo-t"><b>Славянская<br>плитка</b><small class="logo-roll" aria-hidden="true"><span>Славянский завод<br>тротуарной плитки</span><span>3D-конструктор<br>двора онлайн</span><span>Визуализация<br>бесплатно</span><span>Цены<br>производителя</span></small><span class="sr">Славянский завод тротуарной плитки</span></span>
     </a>
     <nav class="menu" id="menu" aria-label="Разделы сайта">
       <a href="catalog.html" data-nav="catalog">Продукция</a>
       <a href="konstruktor.html" data-nav="konstruktor" class="m-3d">3D-конструктор</a>
       <a href="about.html" data-nav="about">О компании</a>
-      <a href="gallery.html" data-nav="gallery">Галерея объектов</a>
+      <a href="gallery.html" data-nav="gallery">Галерея</a>
+      <a href="ukladka.html" data-nav="ukladka">Укладка</a>
       <a href="buyers.html" data-nav="buyers">Доставка</a>
       <a href="contacts.html" data-nav="contacts">Контакты</a>
     </nav>
     <div class="hdr-addr"><svg class="ic"><use href="#i-pin"/></svg><span>Славянск-на-Кубани<small>ул. Совхозная, 1</small></span></div>
     <a class="hdr-phone" href="tel:+79883336400"><svg class="ic"><use href="#i-phone"/></svg><span><b>+7 988 333-64-00</b><small>Пн–Сб с 8:00 до 18:00</small></span></a>
     <div class="hdr-icons">
+      <button class="ic-btn" type="button" id="searchBtn" aria-label="Поиск по товарам"><svg class="ic"><use href="#i-search"/></svg></button>
       <a class="ic-btn" href="favorites.html" aria-label="Избранное"><svg class="ic"><use href="#i-heart"/></svg><i class="cnt" data-count="fav"></i></a>
       <a class="ic-btn" href="cart.html" aria-label="Корзина"><svg class="ic"><use href="#i-cart"/></svg><i class="cnt" data-count="cart"></i></a>
     </div>
@@ -94,6 +98,17 @@
     <li><svg class="ic"><use href="#i-layers"/></svg><span>Широкий ассортимент<br>и цветовые решения</span></li>
     <li><svg class="ic"><use href="#i-shield"/></svg><span>Качество, проверенное<br>временем</span></li>
   </ul>
+</section>
+
+<section class="hits" aria-label="Хиты продаж">
+  <div class="wrap hits-in">
+    <div class="hits-track" id="hitsTrack"></div>
+    <a class="hit-lay" href="ukladka.html">
+      <video class="hit-lay-v" poster="video/poster.webp" autoplay muted loop playsinline preload="none"><source src="video/konstruktor.webm" type="video/webm"><source src="video/konstruktor.mp4" type="video/mp4"></video>
+      <span class="hit-lay-c"><b>Укладка тротуарной плитки под ключ</b><span>Замер бесплатно</span><em class="btn btn-main">Получить расчёт</em></span>
+    </a>
+  </div>
+  <div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker"></div></div>
 </section>
 
 <section class="section" id="products">
@@ -149,35 +164,26 @@
   </div>
 </section>
 
-<section class="section" id="gallery">
+<section class="section alt" id="gallery">
   <div class="wrap">
-    <div class="s-head"><div><h2>Галерея объектов</h2><p>Выставочная площадка завода и примеры укладки. Образцы можно посмотреть вживую на ул.&nbsp;Совхозной,&nbsp;1.</p></div><a class="link-arrow" href="gallery.html">Вся галерея <svg class="ic"><use href="#i-arrow"/></svg></a></div>
-    <div class="gal">
-      <figure class="w2 h2 rv" data-zoom><img loading="lazy" src="img/gal/vyst-2.webp" alt="Выставочная площадка завода"></figure>
-      <figure class="rv" data-zoom><img loading="lazy" src="img/gal/vyst-10.webp" alt="Узор из плитки"></figure>
-      <figure class="rv" data-zoom><img loading="lazy" src="img/gal/vyst-5.webp" alt="Образец укладки"></figure>
-      <figure class="rv" data-zoom><img loading="lazy" src="img/gal/vyst-6.webp" alt="Круговая укладка"></figure>
-      <figure class="rv" data-zoom><img loading="lazy" src="img/gal/vyst-7.webp" alt="Образцы укладки"></figure>
-    </div>
+    <div class="s-head"><div><h2>Галерея объектов</h2><p>Примеры укладки плитки завода. Нажмите на фото, чтобы увеличить, или откройте изделие.</p></div><a class="link-arrow" href="gallery.html">Вся галерея с фильтрами <svg class="ic"><use href="#i-arrow"/></svg></a></div>
+    <div class="objs" id="objs"></div>
+    <div style="text-align:center;margin-top:22px"><button class="btn btn-line" type="button" id="objsMore">Посмотреть ещё</button></div>
   </div>
 </section>
 
-<section class="section alt" id="about">
-  <div class="wrap about-grid">
-    <div class="rv">
-      <p class="s-kick">О заводе</p>
-      <h2>Один из трёх сертифицированных заводов края</h2>
-      <p>Производим стройматериалы из бетона для строительных компаний и частных заказчиков. Плитка ежегодно проходит сертификацию в лаборатории «Стройэкспертэкология» Кубанского госуниверситета.</p>
-      <p>Используем серый цемент М600 Д0 Новороссийского завода «Пролетарий», щебень и песок мелкой фракции с лабораторным контролем.</p>
-      <div class="nums">
-        <div><b>×2</b><span>прочность выше нормы ГОСТ</span></div>
-        <div><b>М600</b><span>марка цемента в составе</span></div>
-        <div><b>25+</b><span>изделий в прайсе завода</span></div>
-        <div><b>10</b><span>цветов, включая колормикс</span></div>
+<section class="section" id="about">
+  <div class="wrap">
+    <h2 class="about-title rv">Славянский завод тротуарной плитки — производитель брусчатки в Славянске-на-Кубани</h2>
+    <div class="about2">
+      <div class="about-points rv">
+        <div><h3><i>+</i>Один из трёх сертифицированных заводов</h3><p>Продукция ежегодно проходит сертификацию в испытательной лаборатории «Стройэкспертэкология» Кубанского госуниверситета. Прочность плитки превышает нормативы ГОСТ в 2 раза.</p></div>
+        <div><h3><i>+</i>Сырьё высшего класса</h3><p>Серый цемент марки М600 Д0 Новороссийского завода «Пролетарий», щебень и песок мелкой фракции с лабораторным контролем, правильная рецептура.</p></div>
+        <div><h3><i>+</i>Бесплатная визуализация двора</h3><p>Онлайн-конструктор с 16 формами и цветами завода и примерка плитки на фото вашего участка — до покупки видно, как будет выглядеть двор.</p></div>
+        <div><h3><i>+</i>Цены производителя и скидки</h3><p>Собственное производство без посредников, скидки в зависимости от объёма заказа и для постоянных клиентов, доставка манипулятором по краю.</p></div>
       </div>
-      <a class="link-arrow" href="about.html" style="margin-top:22px">Подробнее о заводе <svg class="ic"><use href="#i-arrow"/></svg></a>
+      <div class="about-video rv"><video poster="video/poster.webp" autoplay muted loop playsinline preload="none"><source src="video/konstruktor.webm" type="video/webm"><source src="video/konstruktor.mp4" type="video/mp4"></video></div>
     </div>
-    <div class="about-img rv"><img loading="lazy" src="img/gal/vyst-1.webp" alt="Готовая продукция на территории завода"></div>
   </div>
 </section>
 
@@ -231,6 +237,7 @@
         <li><a href="konstruktor.html">3D-конструктор двора</a></li>
         <li><a href="primerka.html">Примерка на фото двора</a></li>
         <li><a href="gallery.html">Галерея объектов</a></li>
+        <li><a href="ukladka.html">Укладка под ключ</a></li>
         <li><a href="about.html">О заводе</a></li>
       </ul>
     </div>
@@ -279,10 +286,17 @@
 </div>
 <div class="lightbox" id="lightbox"><img alt=""></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="js/data.js?v=1114032942"></script>
-<script src="js/common.js?v=1114032942"></script>
-<script src="js/paving.js?v=1114032942"></script>
-<script src="js/scenes.js?v=1114032942"></script>
-<script src="js/home.js?v=1114032942"></script>
+<div class="search-ov" id="searchOv" role="dialog" aria-modal="true" aria-label="Поиск по товарам">
+  <div class="search-box"><svg class="ic"><use href="#i-search"/></svg><input id="searchIn" type="search" placeholder="Поиск по товару: брусчатка, бордюр, листопад…" autocomplete="off"><button class="modal-x" type="button" id="searchX" aria-label="Закрыть"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div class="search-res" id="searchRes"></div>
+</div>
+<div class="cookie" id="cookie" hidden><p>Сайт использует файлы cookie и сервис Яндекс Метрика, чтобы улучшать работу сайта. Продолжая, вы соглашаетесь с этим.</p><button class="btn btn-main btn-sm" type="button" id="cookieOk">Понятно</button></div>
+<script src="js/data.js?v=1114073652"></script>
+<script src="js/common.js?v=1114073652"></script>
+<script src="js/sitephotos.js?v=1114073652"></script>
+<script src="js/objects.js?v=1114073652"></script>
+<script src="js/paving.js?v=1114073652"></script>
+<script src="js/scenes.js?v=1114073652"></script>
+<script src="js/home.js?v=1114073652"></script>
 </body>
 </html>

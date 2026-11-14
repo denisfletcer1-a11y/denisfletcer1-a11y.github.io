@@ -147,7 +147,7 @@
     lb.addEventListener('click', closeLight);
     document.addEventListener('click', e => {
       const f = e.target.closest('[data-zoom]');
-      if (!f) return;
+      if (!f || e.target.closest('a')) return;
       const img = f.querySelector('img');
       lb.querySelector('img').src = f.dataset.zoom || img.currentSrc || img.src;
       lb.querySelector('img').alt = img.alt;
@@ -205,4 +205,42 @@
   addEventListener('storage', () => counters(false));
 
   window.UI = { $, $$, store, cart, fav, toast, openModal, closeModal, maskPhone, phoneOk, fakeSend, cardHTML, imgOf, unitLabel, sizeLabel, swatchBg, counters };
+})();
+
+// ---------- как у образца: поиск по товарам, cookie, виджет «Спросите прямо сейчас» ----------
+(function () {
+  'use strict';
+  const { $, $$, store, fakeSend, imgOf, unitLabel } = window.UI, SP = window.SP;
+  const ov = $('#searchOv'), inp = $('#searchIn'), res = $('#searchRes');
+  const norm = s => s.toLowerCase().replace(/ё/g, 'е');
+  function find(q) {
+    q = norm(q.trim()); if (q.length < 2) return [];
+    return SP.PRODUCTS.filter(p => norm([p.name, p.form, SP.CATS[p.cat], p.text, ...SP.colorsOf(p).map(c => c.name)].join(' ')).includes(q)).slice(0, 8);
+  }
+  function show() {
+    const list = find(inp.value);
+    res.innerHTML = inp.value.trim().length < 2 ? '<p class="muted">Начните вводить название: «Новый город», «бордюр», «листопад»…</p>' :
+      list.length ? list.map(p => `<a class="sr-item" href="product.html?id=${p.id}"><img src="${imgOf(p)}" alt=""><span><b>${p.name}</b><small>${SP.CATS[p.cat]}</small></span><em>${p.onRequest ? 'по запросу' : 'от ' + SP.money(SP.minPrice(p)) + ' ' + unitLabel(p)}</em></a>`).join('') : '<p class="muted">Ничего не нашлось. Позвоните: +7 988 333-64-00 — подскажем.</p>';
+  }
+  if (ov) {
+    $('#searchBtn').addEventListener('click', () => { ov.classList.add('on'); show(); setTimeout(() => inp.focus(), 30); });
+    $('#searchX').addEventListener('click', () => ov.classList.remove('on'));
+    ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('on'); });
+    inp.addEventListener('input', show);
+    inp.addEventListener('keydown', e => { if (e.key === 'Escape') ov.classList.remove('on'); if (e.key === 'Enter') { const f = res.querySelector('a'); if (f) location.href = f.href; } });
+  }
+  const ck = $('#cookie');
+  if (ck && !store.get('cookie-ok', false)) { ck.hidden = false; $('#cookieOk').addEventListener('click', () => { store.set('cookie-ok', true); ck.hidden = true; }); }
+
+  // «Спросите прямо сейчас»: готовые вопросы складываются в сообщение
+  $$('[data-ask]').forEach(box => {
+    const Q = ['Замер бесплатно?', 'Какая стоимость доставки?', 'Какие сроки?', 'Что есть в наличии?', 'Скидка от объёма?', 'Есть ли гарантия?'];
+    box.innerHTML = `<div class="ask"><div class="ask-head"><b>Спросите прямо сейчас</b><span>Менеджер ответит в рабочее время, обычно за 15 минут</span></div>
+      <form class="ask-form" novalidate><div class="ask-msg">Здравствуйте! Мне необходимо <input name="m2" type="number" min="1" placeholder="…" aria-label="Площадь, м²"> м². Прошу ответить на этот номер <label class="fld" style="display:inline-block;min-width:210px"><input name="phone" type="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" aria-label="Телефон"></label></div>
+      <div class="chips-row ask-q">${Q.map(q => `<button class="chip" type="button">${q}</button>`).join('')}</div>
+      <button class="btn btn-main" type="submit">Отправить вопрос</button><p class="form-note"></p></form></div>`;
+    UI.maskPhone(box.querySelector('input[type=tel]'));
+    box.querySelectorAll('.ask-q .chip').forEach(c => c.addEventListener('click', () => { c.classList.toggle('on'); }));
+    box.querySelector('form').addEventListener('submit', e => { e.preventDefault(); fakeSend(e.target, box.querySelector('.form-note'), 'Вопрос отправлен! На готовом сайте он сразу придёт менеджеру в MAX и на почту. В демо он никуда не уходит.'); });
+  });
 })();

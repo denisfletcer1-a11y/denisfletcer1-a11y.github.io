@@ -39,8 +39,7 @@
   async function loadScene() {
     stage.classList.add('busy');
     const s = SCENES.find(x => x.id === st.scene) || SCENES[0];
-    const { w, h } = await kb.setScene(JSON.parse(JSON.stringify(s)));
-    stage.style.aspectRatio = w + ' / ' + h;
+    await kb.setScene(JSON.parse(JSON.stringify(s)));
     kb.set(design());
     if (q.get('calib')) kb.calib(true);
     stage.classList.add('ready'); stage.classList.remove('busy');
