@@ -968,3 +968,38 @@ p { margin: 0; }
 .adm[hidden], .adm-login[hidden] { display: none !important; }
 .adm { grid-template-columns: 240px minmax(0, 1fr); } .adm-row { grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); } .adm-colors, .adm-bp { grid-template-columns: repeat(auto-fill, minmax(min(190px, 100%), 1fr)); } .adm-card { min-width: 0; } @media (max-width: 900px) { .adm { grid-template-columns: minmax(0, 1fr); } .adm-card { padding: 14px; } }
 .adm-card { grid-template-columns: minmax(0, 1fr); } .adm-kind { max-width: 100%; } .adm-nav { scrollbar-width: none; } .adm-nav::-webkit-scrollbar { display: none; }
+
+/* ===== 3D-логотип: две плитки складываются в кубик ===== */
+.lg3 { --s: 30px; --d: calc(var(--s) / 2 - 0.7px); --z: calc(var(--s) / 4 + 0.35px); position: relative; display: block; }
+.lg3-s { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; transform: rotateX(-35.26deg) rotateY(-45deg); }
+.lg3-b { position: absolute; left: 0; top: 0; transform-style: preserve-3d; }
+.lg3-b.b1 { transform: translate3d(0, 0, var(--z)); }
+.lg3-b.b2 { --z: calc(var(--s) / -4 - 0.35px); transform: translate3d(0, 0, var(--z)); }
+.lg3-b b { position: absolute; display: block; }
+.lg3-b .ft, .lg3-b .fb { width: var(--s); height: var(--s); left: calc(var(--s) / -2); top: calc(var(--s) / -2); }
+.lg3-b .fl, .lg3-b .fr { width: var(--d); height: var(--s); left: calc(var(--d) / -2); top: calc(var(--s) / -2); }
+.lg3-b .fu, .lg3-b .fd { width: var(--s); height: var(--d); left: calc(var(--s) / -2); top: calc(var(--d) / -2); }
+.lg3-b .ft { transform: translateZ(calc(var(--d) / 2)); background: #9a5132; }
+.lg3-b .fb { transform: rotateY(180deg) translateZ(calc(var(--d) / 2)); background: #8a4529; }
+.lg3-b .fl { transform: rotateY(-90deg) translateZ(calc(var(--s) / 2)); background: #9a5132; }
+.lg3-b .fr { transform: rotateY(90deg) translateZ(calc(var(--s) / 2)); background: #7a3b22; }
+.lg3-b .fu { transform: rotateX(90deg) translateZ(calc(var(--s) / 2)); background: #c4825f; }
+.lg3-b .fd { transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); background: #5e2c18; }
+@keyframes lg3-drop {
+  0% { transform: translate3d(0, calc(var(--s) * -1.7), var(--z)); }
+  50% { transform: translate3d(0, 1px, var(--z)); }
+  68% { transform: translate3d(0, -3px, var(--z)); }
+  84%, 100% { transform: translate3d(0, 0, var(--z)); }
+}
+@keyframes lg3-turn {
+  from { transform: rotateX(-35.26deg) rotateY(-225deg); }
+  to { transform: rotateX(-35.26deg) rotateY(-45deg); }
+}
+.lg3.play .lg3-b { animation: lg3-drop .75s cubic-bezier(.3, .6, .35, 1) both; }
+.lg3.play .lg3-b.b2 { animation-delay: .28s; }
+@keyframes lg3-fade { from { opacity: 0; } to { opacity: 1; } }
+.lg3.play .lg3-b b { animation: lg3-fade .3s ease both; }
+.lg3.play .lg3-b.b2 b { animation-delay: .28s; }
+.lg3.play .lg3-s { animation: lg3-turn 1.5s cubic-bezier(.45, 0, .2, 1) .1s both; }
+@media (max-width: 680px) { .lg3 { --s: 23px; } }
+@media (prefers-reduced-motion: reduce) { .lg3.play .lg3-b, .lg3.play .lg3-s { animation: none; } }

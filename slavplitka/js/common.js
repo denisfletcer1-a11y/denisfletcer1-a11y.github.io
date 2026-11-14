@@ -244,3 +244,13 @@
     box.querySelector('form').addEventListener('submit', e => { e.preventDefault(); fakeSend(e.target, box.querySelector('.form-note'), 'Вопрос отправлен! На готовом сайте он сразу придёт менеджеру в MAX и на почту. В демо он никуда не уходит.'); });
   });
 })();
+
+// 3D-логотип: плитки складываются при загрузке и при наведении
+(function () {
+  const lg = document.querySelector('.lg3'); if (!lg) return;
+  const play = () => { lg.classList.remove('play'); void lg.offsetWidth; lg.classList.add('play'); };
+  requestAnimationFrame(play);
+  const a = lg.closest('a');
+  let t = 0;
+  if (a) a.addEventListener('mouseenter', () => { if (Date.now() - t > 1800) { t = Date.now(); play(); } });
+})();
