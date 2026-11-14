@@ -104,7 +104,7 @@
     paintColors();
     const h = SP.heightsOf(p)[0];
     $('#prProd').textContent = `${p.name} — ${SP.colorById(st.color).name.toLowerCase()}`;
-    $('#prSub').textContent = `${SP.money(SP.priceOf(p, h, st.surface, st.color))} ₽/м² · толщина ${h} мм`;
+    $('#prSub').textContent = p.onRequest ? 'Цена — по запросу' : `${SP.money(SP.priceOf(p, h, st.surface, st.color))} ₽/м² · толщина ${h} мм`;
   }
   const apply = () => { if (img) fit.set(design()); };
   const wIn = $('#prWidth');

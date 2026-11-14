@@ -82,7 +82,7 @@
     const b = document.createElement('button');
     b.type = 'button'; b.dataset.id = c.id; b.dataset.name = c.name; b.title = c.name; b.setAttribute('aria-label', c.name);
     b.innerHTML = tile ? '<img alt="">' : c.tex ? `<img alt="" src="${c.tex}">` : `<span style="display:block;aspect-ratio:1;background:${swatchBg(c)}"></span>`;
-    b.addEventListener('click', () => { st.c = c.id; paint(); if (kb && st.view === 'scene') { kb.set(design()); thumbs(); } else if (st.view === 'photo' && colorPhoto()) showPhoto(colorPhoto()); else thumbs(); });
+    b.addEventListener('click', () => { st.c = c.id; if (p.onRequest) { cb.querySelectorAll('button').forEach(x => x.classList.toggle('on', x.dataset.id === st.c)); $('#pCName').textContent = c.name; } else paint(); if (kb && st.view === 'scene') { kb.set(design()); thumbs(); } else if (st.view === 'photo' && colorPhoto()) showPhoto(colorPhoto()); else thumbs(); });
     cb.appendChild(b);
   });
   if (tile) {
@@ -185,11 +185,11 @@
 
   if (p.onRequest) {
     ['#optH', '#optS'].forEach(x => { $(x).hidden = true; });
-    $('#pColors').closest('.opt').hidden = true;
+    if (!tile) $('#pColors').closest('.opt').hidden = true;
     const buy = document.querySelector('.buy');
     buy.innerHTML = '<div class="buy-prices"><div class="now" style="font-size:24px">Цена по запросу</div></div><p class="muted" style="margin:10px 0 14px">Этого изделия нет в прайс-листе. Менеджер подскажет размеры, цвета, наличие и цену.</p><div class="buy-btns"><button class="btn btn-main" type="button" id="askPrice">Узнать цену и наличие</button><a class="btn btn-line" href="tel:+79883336400">Позвонить</a></div>';
     $('#askPrice').addEventListener('click', () => openModal({ title: 'Узнать цену', text: 'Менеджер перезвонит и расскажет о размерах, цветах и наличии.', summary: p.name, button: 'Отправить', comment: true }));
-    showPhoto();
+    if (tile) { cb.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.id === st.c)); $('#pCName').textContent = SP.colorById(st.c).name; showScene(0); } else showPhoto();
     return;
   }
   paint();

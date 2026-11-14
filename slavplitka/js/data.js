@@ -211,10 +211,10 @@
       sizes: [[390, 190]], heights: [190], blockPrice: { grey: 70, red: 80, yellow: 85, black: 80 },
     },
     // ---------- есть на сайте завода, цену уточняет менеджер ----------
-    { id: 'origami', cat: 'plitka', form: 'Оригами', name: 'Оригами', unit: 'м²', onRequest: true, site: 'origami', photo: 'img/site/origami/00.webp', text: 'Фигурная плитка с сайта завода. Размеры, цвета и цену уточните у менеджера.' },
-    { id: 'triada', cat: 'plitka', form: 'Триада', name: 'Триада', unit: 'м²', onRequest: true, site: 'triada', photo: 'img/site/triada/00.webp', text: 'Фигурная плитка «Триада». Размеры, цвета и цену уточните у менеджера.' },
-    { id: 'domino', cat: 'plitka', form: 'Домино', name: 'Домино', unit: 'м²', onRequest: true, site: 'domino', photo: 'img/site/domino/00.webp', text: 'Плитка «Домино». Размеры, цвета и цену уточните у менеджера.' },
-    { id: 'trapeciya', cat: 'plitka', form: 'Трапеция', name: 'Трапеция', unit: 'м²', onRequest: true, site: 'trapeciya', photo: 'img/site/trapeciya/00.webp', text: 'Плитка «Трапеция». Размеры, цвета и цену уточните у менеджера.' },
+    { id: 'origami', cat: 'plitka', form: 'Оригами', name: 'Оригами', unit: 'м²', onRequest: true, model: 'origami', patterns: ['rows', 'diag'], pcs: 25, site: 'origami', text: 'Фигурная плитка с сайта завода. Размеры, цвета и цену уточните у менеджера.' },
+    { id: 'triada', cat: 'plitka', form: 'Триада', name: 'Триада', unit: 'м²', onRequest: true, model: 'triada', patterns: ['rows', 'across'], site: 'triada', text: 'Фигурная плитка «Триада». Размеры, цвета и цену уточните у менеджера.' },
+    { id: 'domino', cat: 'plitka', form: 'Домино', name: 'Домино', unit: 'м²', onRequest: true, model: 'domino', patterns: ['rows', 'across', 'diag'], site: 'domino', text: 'Плитка «Домино». Размеры, цвета и цену уточните у менеджера.' },
+    { id: 'trapeciya', cat: 'plitka', form: 'Трапеция', name: 'Трапеция', unit: 'м²', onRequest: true, model: 'trapeciya', patterns: ['stars'], site: 'trapeciya', text: 'Плитка «Трапеция». Размеры, цвета и цену уточните у менеджера.' },
     { id: 'vazon', cat: 'blag', form: 'Вазон', name: 'Вазон «Парковый»', unit: 'шт', onRequest: true, site: 'vazon', photo: 'img/site/vazon/00.webp', text: 'Бетонный вазон для цветов и кустарников на площадках, у входа и вдоль дорожек.' },
     { id: 'elementy', cat: 'blag', form: 'Элементы забора', name: 'Крышки забора и лотки водоотвода', unit: 'шт', onRequest: true, site: 'elementy', photo: 'img/site/elementy/00.webp', text: 'Крышки столба и стены забора, широкий и узкий лоток водоотвода.' },
     { id: 'dekor-blok', cat: 'blok', form: 'Декоративный блок', name: 'Декоративный блок', unit: 'шт', onRequest: true, site: 'dekor-blok', photo: 'img/site/dekor-blok/00.webp', text: 'Декоративные блоки для заборов, колонн и ограждений.' },
@@ -230,7 +230,7 @@
   const PATTERNS = {
     run: 'Вразбежку', herring: 'Ёлочка', herring45: 'Ёлочка 45°', basket: 'Плетёнка',
     grid: 'Сетка', diag: 'По диагонали', mix: 'Два размера',
-    rows: 'Ряды', across: 'Поперёк', cubes: 'Объёмные кубы',
+    rows: 'Ряды', across: 'Поперёк', cubes: 'Объёмные кубы', stars: 'Звёзды',
   };
 
   const colorById = id => COLORS.find(c => c.id === id);
@@ -246,11 +246,12 @@
   function colorsOf(p) {
     if (p.onlyColor) return [colorById(p.onlyColor)];
     if (p.blockPrice) return Object.keys(p.blockPrice).map(colorById);
-    if (p.onRequest) return [];
+    if (p.onRequest && !p.patterns) return [];
     return (p.colors || BASE_COLORS).map(colorById);
   }
   // цена за единицу для выбранного варианта
   function priceOf(p, h, surface, colorId) {
+    if (p.onRequest) return 0;
     if (p.fixedPrice) return p.fixedPrice;
     if (p.blockPrice) return p.blockPrice[colorId] || p.blockPrice.grey;
     const row = p.prices[h] || p.prices[heightsOf(p)[0]];

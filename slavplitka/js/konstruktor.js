@@ -122,10 +122,11 @@
   const area = $('#kbArea');
   function price() {
     const p = prod(), h = SP.heightsOf(p)[0], pr = SP.priceOf(p, h, st.surface, st.color);
+    $('#kbCart').hidden = !!p.onRequest;
     const a = Math.max(1, +area.value || 1), qty = Math.ceil(a * ($('#kbReserve').checked ? 1.05 : 1));
     $('#kbProd').textContent = `${p.name} — ${SP.colorById(st.color).name.toLowerCase()}`;
-    $('#kbProdSub').textContent = `${SP.SURFACES[st.surface]} лицевой слой · толщина ${h} мм · ${SP.money(pr)} ₽/м²`;
-    $('#kbTotal').textContent = SP.money(pr * qty) + ' ₽';
+    $('#kbProdSub').textContent = p.onRequest ? 'Цена и размеры — по запросу, менеджер рассчитает' : `${SP.SURFACES[st.surface]} лицевой слой · толщина ${h} мм · ${SP.money(pr)} ₽/м²`;
+    $('#kbTotal').textContent = p.onRequest ? 'по запросу' : SP.money(pr * qty) + ' ₽';
     $('#kbCard').href = `product.html?id=${p.id}&color=${st.color}&surface=${st.surface}`;
     $('#toPhoto').href = `primerka.html?id=${p.id}&color=${st.color}&surface=${st.surface}&pattern=${st.pattern}`;
     const on = fav.has(p.id), fb2 = $('#kbFav');
@@ -148,7 +149,7 @@
   $('#kbLead').addEventListener('click', () => {
     const { p, h, pr, qty } = price();
     openModal({ title: 'Отправить расчёт', text: 'Менеджер проверит наличие, посчитает доставку и перезвонит.', button: 'Отправить расчёт', comment: true,
-      summary: `${p.name}, ${SP.PATTERNS[st.pattern] ? SP.PATTERNS[st.pattern].toLowerCase() + ', ' : ''}${SP.colorById(st.color).name.toLowerCase()}, ${SP.SURFACES[st.surface].toLowerCase()} слой, ${h} мм\n${qty} м² × ${SP.money(pr)} ₽ = ${SP.money(pr * qty)} ₽\nКартинка двора будет приложена к заявке.` });
+      summary: `${p.name}, ${SP.PATTERNS[st.pattern] ? SP.PATTERNS[st.pattern].toLowerCase() + ', ' : ''}${SP.colorById(st.color).name.toLowerCase()}${h ? ', ' + SP.SURFACES[st.surface].toLowerCase() + ' слой, ' + h + ' мм' : ''}\n${p.onRequest ? qty + ' м², цену рассчитает менеджер' : qty + ' м² × ' + SP.money(pr) + ' ₽ = ' + SP.money(pr * qty) + ' ₽'}\nКартинка двора будет приложена к заявке.` });
   });
   $('#kbSave').addEventListener('click', () => {
     const a = document.createElement('a');
