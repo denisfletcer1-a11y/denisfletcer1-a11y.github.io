@@ -10,7 +10,7 @@
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/lora-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=1114144636">
+<link rel="stylesheet" href="css/styles.css?v=1115185758">
 </head>
 <body class="page-primerka" data-nav="konstruktor">
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
@@ -86,7 +86,7 @@
           <span>Снимите участок с высоты роста, чтобы место под плитку было видно целиком. Фото остаётся на вашем устройстве.</span>
           <div class="btns">
             <label class="btn btn-main"><input type="file" id="prFile" accept="image/*" hidden>Выбрать фото</label>
-            <a class="btn btn-line" href="konstruktor.html" style="color:#fff">Нет фото? Открыть конструктор</a>
+            <a class="btn btn-line" href="konstruktor.html" style="color:#fff;max-width:100%;white-space:normal;text-align:center">Нет фото? Открыть конструктор</a>
           </div>
         </div>
       </div>
@@ -100,7 +100,7 @@
       <div class="opt"><h4>Форма плитки</h4><select class="inp" id="prForm" aria-label="Форма плитки"></select></div>
       <div class="opt" id="prPatWrap"><h4>Рисунок укладки</h4><div class="chips-row" id="prPatterns"></div></div>
       <div class="opt"><h4>Цвет <em id="prColorName"></em></h4><div class="kb-colors" id="prColors"></div></div>
-      <div class="opt"><h4>Ширина участка по ближнему краю <em id="prWidthOut"></em></h4><input class="range" type="range" id="prWidth" min="1.5" max="15" step="0.5" value="4"><p class="muted" style="font-size:12.5px;margin-top:6px">От ширины зависит размер камней на фото. Глубина участка считается по перспективе: <span id="prDepth"></span>.</p></div>
+      <div class="opt"><h4>Ширина участка по ближнему краю <em id="prWidthOut"></em></h4><input class="range" type="range" id="prWidth" min="1.5" max="15" step="0.5" value="4"><p class="muted" style="font-size:12.5px;margin-top:6px">От ширины зависит размер камней на фото. Глубина участка считается по перспективе: <span id="prDepth">появится после загрузки фото</span>.</p></div>
       <div class="kb-buy">
         <div class="kb-prod"><div><b id="prProd"></b><span id="prSub"></span></div></div>
         <div class="buy-btns" style="margin-top:12px"><button class="btn btn-main" type="button" id="prLead">Отправить менеджеру</button><button class="btn btn-ghost" type="button" id="prSave">Сохранить фото</button></div>
@@ -198,10 +198,10 @@
   <div class="search-res" id="searchRes"></div>
 </div>
 <div class="cookie" id="cookie" hidden><p>Сайт использует файлы cookie и сервис Яндекс Метрика, чтобы улучшать работу сайта. Продолжая, вы соглашаетесь с этим.</p><button class="btn btn-main btn-sm" type="button" id="cookieOk">Понятно</button></div>
-<script src="js/data.js?v=1114144636"></script>
-<script src="js/common.js?v=1114144636"></script>
-<script src="js/paving.js?v=1114144636"></script>
-<script src="js/scenes.js?v=1114144636"></script>
-<script src="js/primerka.js?v=1114144636"></script>
+<script src="js/data.js?v=1115185758"></script>
+<script src="js/common.js?v=1115185758"></script>
+<script src="js/paving.js?v=1115185758"></script>
+<script src="js/scenes.js?v=1115185758"></script>
+<script src="js/primerka.js?v=1115185758"></script>
 </body>
 </html>

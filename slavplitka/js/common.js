@@ -60,7 +60,7 @@
 
   // ---------- меню ----------
   const body = document.body, burger = $('#burger');
-  function setMenu(o) { body.classList.toggle('menu-open', o); if (burger) { burger.setAttribute('aria-expanded', o); burger.setAttribute('aria-label', o ? 'Закрыть меню' : 'Открыть меню'); } }
+  function setMenu(o) { if (o && typeof setH === 'function') setH(); body.classList.toggle('menu-open', o); if (burger) { burger.setAttribute('aria-expanded', o); burger.setAttribute('aria-label', o ? 'Закрыть меню' : 'Открыть меню'); } }
   if (burger) burger.addEventListener('click', () => setMenu(!body.classList.contains('menu-open')));
   const hdr = $('#hdr');
   const setH = () => { if (hdr) document.documentElement.style.setProperty('--hdr-h', hdr.getBoundingClientRect().bottom + 'px'); };
@@ -161,6 +161,11 @@
     const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -6% 0px' });
     rv.forEach(el => io.observe(el));
   } else rv.forEach(el => el.classList.add('in'));
+  // запасной вариант: если наблюдатель не сработал (старые и экономные браузеры), проявляем по прокрутке
+  let rvT = 0;
+  const rvCheck = () => { rvT = 0; const lim = innerHeight * 0.96; rv.forEach(el => { if (!el.classList.contains('in') && el.getBoundingClientRect().top < lim) el.classList.add('in'); }); };
+  addEventListener('scroll', () => { if (!rvT) rvT = setTimeout(rvCheck, 150); }, { passive: true });
+  addEventListener('load', () => setTimeout(rvCheck, 600));
 
   // ---------- карточки товаров (каталог, главная, похожие) ----------
   function imgOf(p) { return p.photo || 'img/products/' + p.id + '.webp'; }
