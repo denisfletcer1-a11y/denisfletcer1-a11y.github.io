@@ -30,7 +30,7 @@
   .hero .map { position: absolute; left: 0; right: 0; top: -184px; height: 747px; background: url(img/map.png) center / cover no-repeat; opacity: .9; }
   .hero .in { position: relative; max-width: 1200px; height: 100%; margin: 0 auto; }
   .hero .beam { position: absolute; left: -500px; top: -179px; width: 973px; height: 715px; background: url(img/panel.png) center / contain no-repeat; pointer-events: none; }
-  .hero .bz-bust { position: absolute; left: 0; top: 0; width: 549px; height: 640px; }
+  .hero .bz-bust { position: absolute; left: -40px; top: 0; width: 640px; height: 640px; }
   .rings { position: absolute; left: 490px; top: 48px; display: grid; gap: 21px; }
   .rings i { width: 37px; height: 37px; border-radius: 50%; border: 9px solid var(--gold); display: block; }
   .rings i:nth-child(n+4) { border-color: var(--dark); }
@@ -40,9 +40,11 @@
   .hero .btn { position: absolute; left: 878px; top: 595px; height: 38px; padding: 0 18px; display: inline-flex; align-items: center; border: 3px solid var(--gold); border-radius: 30px; font-size: 15px; font-weight: 300; }
   .hero .btn:hover { background: var(--gold); color: #000; }
 
-  .bz-bust { touch-action: pan-y; }
-  .bz-bust canvas { opacity: 0; transition: opacity .6s ease; }
-  .bz-bust.bz-ready canvas { opacity: 1; }
+  .bz-bust { touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .bz-bust video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; pointer-events: none; opacity: 0; transition: opacity .6s ease;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 9%, #000 96%, transparent 100%);
+    -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 9%, #000 96%, transparent 100%); mask-composite: intersect; }
+  .bz-bust.bz-ready video { opacity: 1; }
   .bz-hint { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); padding: 7px 14px; border-radius: 30px; background: rgba(0, 0, 0, .55); color: #fff; font: 500 13px/1 Montserrat, sans-serif; white-space: nowrap; pointer-events: none; transition: opacity .5s; }
   .bz-hint span { color: var(--gold); margin-right: 4px; }
   .bz-touched .bz-hint { opacity: 0; }
@@ -94,7 +96,7 @@
   <div class="in">
     <div class="beam" aria-hidden="true"></div>
     <!-- 3D-бюст: этот div + скрипт и есть блок для вставки в Тильду -->
-    <div class="bz-bust" data-src="bust/" data-frames="230" data-v="3"></div>
+    <div class="bz-bust" data-video="bust.mp4?v=4" data-poster="bust-poster.jpg?v=4"></div>
     <div class="rings" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <h1>Искусство<br>в каждой<br>стрижке</h1>
     <p class="sub"><b style="color:var(--orange)">//</b> <b>BARBER</b><b style="color:var(--gold2)">ZZ-</b> твой путь к индивидуальности</p>
@@ -119,6 +121,6 @@
     fit(); addEventListener('resize', fit);
   })();
 </script>
-<script src="bust.js?v=3" defer></script>
+<script src="bust.js?v=4" defer></script>
 </body>
 </html>

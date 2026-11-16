@@ -1,99 +1,75 @@
-/* Barberzz — 3D-бюст (360°) для вставки в Тильду.
-   Использование: <div class="bz-bust" data-src="https://…/bust/" data-frames="120"></div>
-   + <script src="https://…/bust.js" defer></script>
-   Крутится сам; тянешь мышкой или пальцем — поворачивается за рукой, отпустил — плавно продолжает. */
+/* Barberzz — бюст 360° для вставки в Тильду (видео: плавно, аппаратно, без подвисаний).
+   <div class="bz-bust" data-video="https://…/bust.mp4" data-poster="https://…/bust-poster.jpg"></div>
+   <script src="https://…/bust.js" defer></script>
+   Крутится сам; тянешь мышкой или пальцем — поворачивается за рукой, отпустил — продолжает. */
 (function () {
   'use strict';
   function init(el) {
     if (el.__bz) return; el.__bz = true;
-    var base = el.getAttribute('data-src') || 'bust/';
-    var N = +el.getAttribute('data-frames') || 120;
-    var auto = +(el.getAttribute('data-speed') || 0.3);           // кадров за 1/60 с в покое (один оборот ≈ 13 с)
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var cv = document.createElement('canvas');
-    cv.setAttribute('aria-label', 'Бюст Barberzz — можно повернуть');
-    cv.style.cssText = 'width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab';
-    el.appendChild(cv);
+    var v = document.createElement('video');
+    v.src = el.getAttribute('data-video');
+    if (el.getAttribute('data-poster')) v.poster = el.getAttribute('data-poster');
+    v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true; v.preload = 'auto';
+    v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
+    v.setAttribute('aria-label', 'Бюст Barberzz — можно повернуть');
+    v.disablePictureInPicture = true;
+    el.appendChild(v);
     var hint = document.createElement('div');
     hint.className = 'bz-hint';
     hint.innerHTML = '<span>⟲</span> Покрутите бюст';
     el.appendChild(hint);
-    var ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
-    var imgs = new Array(N), loaded = 0, ready = false;
-    var pos = 0, vel = auto, drag = false, lastX = 0, lastT = 0, moved = 0, shown = -1, idle = 0;
 
-    function fit() {
-      var r = el.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
-      cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.max(1, Math.round(r.height * d)); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
-      shown = -1;
+    var rate = +(el.getAttribute('data-rate') || 1);          // 1 = один оборот за длину видео (~9,6 с)
+    var drag = false, lastX = 0, lastT = 0, vel = 0, inertia = 0, seeking = false, pending = null;
+    function dur() { return v.duration && isFinite(v.duration) ? v.duration : 9.6; }
+    function wrap(t) { var d = dur(); return ((t % d) + d) % d; }
+    function play() { if (reduce) return; v.playbackRate = rate; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    function seek(t) {                                           // перемотка без очереди: новое время ставим, когда прошлое применилось
+      if (seeking) { pending = t; return; }
+      seeking = true; v.currentTime = wrap(t);
     }
-    function draw() {
-      var p = ((pos % N) + N) % N, i0 = Math.floor(p), fr = p - i0, i1 = (i0 + 1) % N;
-      var ok = function (k) { return imgs[k] && imgs[k].naturalWidth; };
-      if (!ok(i0) || !ok(i1)) {                                  // кадр ещё не загрузился — берём ближайший готовый, без перехода
-        var n = -1;
-        for (var k = 0; k < N; k++) { if (ok((i0 - k + N) % N)) { n = (i0 - k + N) % N; break; } if (ok((i0 + k) % N)) { n = (i0 + k) % N; break; } }
-        if (n < 0) return;
-        i0 = i1 = n; fr = 0;
-      }
-      var key = i0 * 100 + Math.round(fr * 20);                 // перерисовываем, только когда картинка реально меняется
-      if (key === shown) return;
-      shown = key;
-      var a = imgs[i0], cw = cv.width, ch = cv.height, s = Math.min(cw / a.naturalWidth, ch / a.naturalHeight);
-      var w = a.naturalWidth * s, h = a.naturalHeight * s, x = (cw - w) / 2, y = ch - h;
-      ctx.clearRect(0, 0, cw, ch);
-      ctx.globalAlpha = 1;
-      ctx.drawImage(a, x, y, w, h);
-      if (fr > 0.04 && i1 !== i0) {                              // плавный переход к следующему кадру
-        ctx.globalAlpha = fr;
-        ctx.drawImage(imgs[i1], x, y, w, h);
-        ctx.globalAlpha = 1;
-      }
-    }
-    function load(i) {
-      var im = new Image(); im.decoding = 'async';
-      im.onload = function () { loaded++; if (i === 0) { ready = true; el.classList.add('bz-ready'); shown = -1; draw(); } };
-      im.src = base + ('00' + i).slice(-3) + '.webp' + (el.getAttribute('data-v') ? '?v=' + el.getAttribute('data-v') : '');
-      imgs[i] = im;
-    }
-    // сначала каждый 8-й кадр (быстро видно вращение), потом остальные
-    var order = [];
-    for (var st = 8; st >= 1; st = st >> 1) for (var j = 0; j < N; j += st) if (order.indexOf(j) < 0) order.push(j);
-    var started = false;
-    function start() { if (started) return; started = true; order.forEach(load); requestAnimationFrame(tick); }
+    v.addEventListener('seeked', function () { seeking = false; if (pending !== null) { var t = pending; pending = null; seek(t); } });
+    v.addEventListener('loadeddata', function () { el.classList.add('bz-ready'); });
+    v.addEventListener('canplay', function () { if (!drag && !inertia && v.paused) play(); });
 
-    var prev = 0;
-    function tick(t) {
-      var dt = prev ? Math.min(50, t - prev) / 16.67 : 1; prev = t;
-      if (!drag && !reduce) {
-        vel += (auto - vel) * 0.03 * dt;                       // после броска плавно возвращаемся к спокойному вращению
-        pos += vel * dt;
-      }
-      draw();
-      requestAnimationFrame(tick);
+    function down(x) {
+      drag = true; inertia = 0; vel = 0; lastX = x; lastT = performance.now();
+      v.pause(); el.classList.add('bz-touched'); el.style.cursor = 'grabbing';
     }
-    function down(x) { drag = true; lastX = x; lastT = performance.now(); moved = 0; vel = 0; cv.style.cursor = 'grabbing'; el.classList.add('bz-touched'); }
     function move(x) {
       if (!drag) return;
       var dx = x - lastX, now = performance.now(), w = el.clientWidth || 300;
-      var df = -dx / w * N * 0.9;                                // протянуть на ширину блока ≈ 0,9 оборота
-      pos += df; moved += Math.abs(dx);
-      vel = df / Math.max(1, (now - lastT) / 16.67) * 0.8;
+      var dt = -dx / w * dur() * 0.9;                            // протянуть на ширину блока ≈ 0,9 оборота
+      seek((pending !== null ? pending : v.currentTime) + dt);
+      vel = dt / Math.max(8, now - lastT) * 1000;                // секунд видео в секунду
       lastX = x; lastT = now;
     }
-    function up() { if (!drag) return; drag = false; cv.style.cursor = 'grab'; if (Math.abs(vel) > 6) vel = 6 * Math.sign(vel); }
-    cv.addEventListener('pointerdown', function (e) { down(e.clientX); cv.setPointerCapture && cv.setPointerCapture(e.pointerId); });
-    cv.addEventListener('pointermove', function (e) { move(e.clientX); });
-    cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up); cv.addEventListener('lostpointercapture', up);
-
-    fit();
-    window.addEventListener('resize', fit);
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { o.disconnect(); start(); } }, { rootMargin: '400px' }).observe(el);
-    } else start();
+    function up() {
+      if (!drag) return;
+      drag = false; el.style.cursor = 'grab';
+      if (Math.abs(vel) > 1.5) { inertia = Math.max(-6, Math.min(6, vel)); prevT = 0; requestAnimationFrame(coast); } else play();
+    }
+    var prevT = 0;
+    function coast(t) {                                          // после броска: докрутка с затуханием, потом обычное вращение
+      if (drag || !inertia) return;
+      var dt = prevT ? Math.min(0.05, (t - prevT) / 1000) : 0.016; prevT = t;
+      seek((pending !== null ? pending : v.currentTime) + inertia * dt);
+      inertia *= Math.pow(0.12, dt);
+      if (Math.abs(inertia) < 1.1) { inertia = 0; play(); return; }
+      requestAnimationFrame(coast);
+    }
+    el.style.cursor = 'grab';
+    el.addEventListener('pointerdown', function (e) { down(e.clientX); if (el.setPointerCapture) el.setPointerCapture(e.pointerId); });
+    el.addEventListener('pointermove', function (e) { move(e.clientX); });
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up); el.addEventListener('lostpointercapture', up);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden && !drag) play(); });
+    if ('IntersectionObserver' in window) {                     // вне экрана не крутим — бережём батарею
+      new IntersectionObserver(function (es) { if (es[0].isIntersecting) { if (!drag) play(); } else v.pause(); }).observe(el);
+    }
+    play();
   }
   function all() { var l = document.querySelectorAll('.bz-bust'); for (var i = 0; i < l.length; i++) init(l[i]); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', all); else all();
-  // Тильда может дорисовать блок позже
-  setTimeout(all, 1500); setTimeout(all, 4000);
+  setTimeout(all, 1500); setTimeout(all, 4000);              // Тильда может дорисовать блок позже
 })();
