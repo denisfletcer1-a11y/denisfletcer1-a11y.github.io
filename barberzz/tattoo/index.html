@@ -15,7 +15,7 @@
   body { background: var(--bg); color: #fff; font-family: 'TildaSans', 'Montserrat', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
   a { color: inherit; text-decoration: none; }
   .hdr { position: relative; z-index: 5; max-width: 1200px; margin: 0 auto; height: 120px; display: flex; align-items: center; gap: 46px; padding: 0 16px; }
-  .hdr img { width: 82px; height: 48px; }
+  .hdr .bz-zz { width: 82px; flex: none; }
   .hdr nav { display: flex; gap: 52px; font-size: 15px; font-weight: 400; }
   .hdr nav a.on { color: var(--gold); }
   .hdr .ic { margin-left: auto; display: flex; gap: 14px; }
@@ -50,7 +50,7 @@
   .hero.scaled .in { transform-origin: top left; width: 1200px; margin: 0; }
   @media (max-width: 900px) {
     .hdr { height: 70px; gap: 14px; }
-    .hdr img { width: 58px; height: 34px; }
+    .hdr .bz-zz { width: 58px; }
     .hdr nav { display: none; }
     .hdr .ic span { width: 36px; height: 36px; }
     .hero { height: auto; margin-top: 0; padding: 0 0 30px; }
@@ -68,7 +68,7 @@
 </head>
 <body>
 <header class="hdr">
-  <img src="img/zz.png" alt="Barberzz Tattoo">
+  <span class="bz-zz" aria-label="Barberzz Tattoo"></span>
   <nav><a class="on" href="#">Главная</a><a href="#">О студии</a><a href="#">Услуги и цены</a><a href="#">Работы</a><a href="#">Контакты</a></nav>
   <span class="ic"><span class="mx">MAX</span><span class="vk">VK</span></span>
 </header>
@@ -106,5 +106,6 @@
 </script>
 <script src="tattoo.js?v=2" defer></script>
 <script src="tattoo-cursor.js?v=5" defer></script>
+<script src="../zz-logo.js?v=2" defer></script>
 </body>
 </html>

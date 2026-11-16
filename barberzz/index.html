@@ -17,7 +17,7 @@
 
   /* шапка как у Barberzz */
   .hdr { position: sticky; top: 0; z-index: 10; background: #000; height: 80px; display: flex; align-items: center; padding: 0 44px; gap: 28px; }
-  .hdr .zz { width: 74px; height: 44px; flex: none; }
+  .hdr .zz { width: 74px; flex: none; }
   .hdr nav { flex: 1; display: flex; justify-content: center; gap: 30px; }
   .hdr nav a { font-weight: 600; font-size: 15px; text-transform: uppercase; letter-spacing: .01em; white-space: nowrap; }
   .hdr nav a:hover { color: var(--gold); }
@@ -66,7 +66,7 @@
   @media (max-width: 900px) {
     .hdr { height: 60px; padding: 0 16px; }
     .hdr nav, .hdr .ph { display: none; }
-    .hdr .zz { width: 56px; height: 34px; }
+    .hdr .zz { width: 56px; }
     .hdr .ic { margin-left: auto; }
     .hero { height: auto; padding-bottom: 34px; }
     .hero .map { top: 0; height: 100%; }
@@ -85,7 +85,7 @@
 </head>
 <body>
 <header class="hdr">
-  <img class="zz" src="img/zz.png" alt="Barberzz">
+  <span class="bz-zz zz" aria-label="Barberzz"></span>
   <nav><a href="#">О нас</a><a href="#">Мастера</a><a href="#">Услуги и цены</a><a href="#">Локация</a><a href="#">Контакты</a><a href="#">Тату-студия</a><a href="#">Отзывы</a><a href="#">Обучение</a></nav>
   <span class="ph">+7 4212 41 - 83 - 35</span>
   <span class="ic"><span>VK</span><span>TG</span><span>MAX</span></span>
@@ -122,5 +122,6 @@
   })();
 </script>
 <script src="bust.js?v=4" defer></script>
+<script src="zz-logo.js?v=2" defer></script>
 </body>
 </html>
