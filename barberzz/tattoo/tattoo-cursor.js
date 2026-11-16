@@ -1,84 +1,66 @@
-/* Курсор — тату-машинка Barberzz Tattoo (по образцу курсора-ножниц).
-   Мышь: системный курсор скрыт, машинка ведёт мышку кончиком иглы; над кнопками и статуей игла «жужжит»,
-   при клике — вибрация и капли краски. В полях ввода — обычный текстовый курсор.
+/* Курсор — тату-машинка Barberzz Tattoo (фото машинки, по образцу курсора-ножниц).
+   Мышь: системный курсор скрыт, машинка ведёт мышку кончиком иглы; над кнопками и статуей «жужжит»,
+   при клике — вибрация и капли золотой краски (цвет полосы на статуе). В полях ввода — обычный курсор.
    Касание: машинка появляется в точке пальца и коротко срабатывает. */
 (function () {
   'use strict';
   var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var HOT = 'a, button, [role="button"], label, summary, select, [data-cursor="hot"], .bz-tattoo, .bz-bust';
   var TEXT = 'input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="button"]):not([type="submit"]), textarea, [contenteditable="true"]';
+  var script = document.currentScript;
+  var base = (script && script.getAttribute('data-base')) || (script ? script.src.replace(/[^/]*$/, '') : '');
+  var SIZE = 46;                              // ширина машинки на экране, px
+  var TIP_X = 0.7 / 160, TIP_Y = 161.4 / 162; // кончик иглы в картинке (доля ширины/высоты)
 
   var css = document.createElement('style');
   css.textContent =
     'html.tm-on, html.tm-on * { cursor: none !important; }' +
     TEXT.split(', ').map(function (s) { return 'html.tm-on ' + s; }).join(', ') + ' { cursor: text !important; }' +
     '.tm-cursor { position: fixed; left: 0; top: 0; z-index: 2147483000; pointer-events: none; opacity: 0; transition: opacity .15s; will-change: transform; }' +
-    '.tm-cursor svg { position: absolute; left: 0; top: 0; width: 42px !important; height: 25px !important; max-width: none !important; overflow: visible; transform-origin: 0 0; transform: rotate(-38deg) scale(var(--k, 1)); transition: transform .2s; filter: drop-shadow(0 0 .7px rgba(0,0,0,.8)) drop-shadow(0 2px 3px rgba(0,0,0,.45)); }' +
-    '.tm-cursor.hot { --k: 1.1; }' +
+    '.tm-cursor img { position: absolute; display: block; width: ' + SIZE + 'px !important; height: auto !important; max-width: none !important;' +
+    ' left: ' + (-TIP_X * SIZE).toFixed(1) + 'px; top: ' + (-TIP_Y * SIZE * 162 / 160).toFixed(1) + 'px;' +
+    ' transform-origin: ' + (TIP_X * 100).toFixed(1) + '% ' + (TIP_Y * 100).toFixed(1) + '%; transform: scale(var(--k, 1)); transition: transform .2s;' +
+    ' filter: drop-shadow(0 2px 3px rgba(0,0,0,.55)); }' +
+    '.tm-cursor.hot { --k: 1.08; }' +
     '.tm-drop { position: fixed; left: 0; top: 0; z-index: 2147483000; border-radius: 50%; pointer-events: none; }';
   document.head.appendChild(css);
 
   var el = document.createElement('div');
   el.className = 'tm-cursor';
   el.setAttribute('aria-hidden', 'true');
-  // кончик иглы — в точке (0,0); машинка уходит вправо-вверх
-  el.innerHTML =
-    '<svg viewBox="0 -24 62 34">' +
-      '<g class="tm-body">' +
-        // рама
-        '<path d="M28 -3 L28 -17 Q28 -20 31 -20 L55 -20 Q58 -20 58 -17 L58 -12 L52 -12 L52 -3 Z" fill="#1d1f21" stroke="#e8ad21" stroke-width="1"/>' +
-        // катушки (медь с витками)
-        '<rect x="33" y="-19" width="7" height="13" rx="2" fill="#b8733a" stroke="#5a3418" stroke-width=".6"/>' +
-        '<rect x="42.5" y="-19" width="7" height="13" rx="2" fill="#b8733a" stroke="#5a3418" stroke-width=".6"/>' +
-        '<path d="M33.5 -16h6M33.5 -13h6M33.5 -10h6M43 -16h6M43 -13h6M43 -10h6" stroke="#7a4520" stroke-width=".7"/>' +
-        // якорь и пружина
-        '<rect x="32" y="-22.6" width="22" height="2" rx="1" fill="#c9ced3" stroke="#555" stroke-width=".4"/>' +
-        '<path d="M53 -22 q2 -2 4 0 t4 0" fill="none" stroke="#c9ced3" stroke-width=".8"/>' +
-        '<circle cx="56" cy="-15.5" r="1.4" fill="#e8ad21"/>' +
-        // держатель и трубка с насечкой (золото)
-        '<rect x="44" y="-4.2" width="10" height="8.4" rx="1.5" fill="#1d1f21" stroke="#e8ad21" stroke-width=".8"/>' +
-        '<rect x="15" y="-3.4" width="32" height="6.8" rx="3.2" fill="#e8ad21" stroke="#7a5a10" stroke-width=".6"/>' +
-        '<path d="M19 -3.2v6.4M22 -3.2v6.4M25 -3.2v6.4M28 -3.2v6.4M31 -3.2v6.4M34 -3.2v6.4" stroke="#a87a12" stroke-width=".8"/>' +
-        '<path d="M16 -2.2 H46" stroke="#fff3c8" stroke-width=".7" opacity=".8"/>' +
-        // носик
-        '<path d="M15 -3 L8 -1.3 L8 1.3 L15 3 Z" fill="#2a2c2e" stroke="#000" stroke-width=".4"/>' +
-      '</g>' +
-      // игла (дрожит отдельно)
-      '<g class="tm-needle"><path d="M0 0 L9 -.45 L9 .45 Z" fill="#dfe3e7" stroke="#555" stroke-width=".3"/></g>' +
-    '</svg>';
+  var img = new Image(); img.alt = ''; img.decoding = 'async'; img.src = base + 'machine.webp?v=1';
+  el.appendChild(img);
   document.body.appendChild(el);
-  var body = el.querySelector('.tm-body'), needle = el.querySelector('.tm-needle');
 
   var x = 0, y = 0, hot = false, down = false, buzzUntil = 0, raf = 0, touchTimer = 0;
   function place() { el.style.transform = 'translate(' + x + 'px,' + y + 'px)'; }
   function buzz(now) {
     var on = !reduced && (down || hot || now < buzzUntil);
     if (on) {
-      var ph = (now / 1000) * 90 * Math.PI * 2;                     // ~90 Гц как у машинки (визуально — дрожь)
-      needle.setAttribute('transform', 'translate(' + (Math.sin(ph) * 1.1 - 0.6).toFixed(2) + ',0)');
-      body.setAttribute('transform', 'translate(' + (Math.random() * 0.6 - 0.3).toFixed(2) + ',' + (Math.random() * 0.6 - 0.3).toFixed(2) + ')');
+      var amp = down || now < buzzUntil ? 0.9 : 0.45;               // при клике дрожит сильнее
+      var s = Math.sin(now / 1000 * 90 * Math.PI * 2) * amp;        // ход иглы вдоль оси машинки
+      var jx = s * 0.7 + (Math.random() - 0.5) * 0.4, jy = -s * 0.7 + (Math.random() - 0.5) * 0.4;
+      img.style.translate = jx.toFixed(2) + 'px ' + jy.toFixed(2) + 'px';
       raf = requestAnimationFrame(buzz);
-    } else {
-      needle.removeAttribute('transform'); body.removeAttribute('transform'); raf = 0;
-    }
+    } else { img.style.translate = ''; raf = 0; }
   }
   function kick() { if (!raf) raf = requestAnimationFrame(buzz); }
 
+  // капли цвета золотой полосы со статуи: основной, блик и тень
+  var GOLD = ['#c4a675', '#c4a675', '#d1b489', '#aa9263'];
   function ink() {
     if (reduced) return;
     for (var i = 0; i < 5; i++) {
       var d = document.createElement('div'); d.className = 'tm-drop';
       var s = 2.6 + Math.random() * 2.8; d.style.width = d.style.height = s + 'px';
-      // цвет золотой полосы со статуи: основной, блик и тень
-      var GOLD = ['#c4a675', '#c4a675', '#d1b489', '#aa9263'];
       var col = GOLD[(Math.random() * GOLD.length) | 0];
       d.style.background = 'radial-gradient(circle at 35% 30%, #efe0c0 0, ' + col + ' 45%, #8f7a52 100%)';
       d.style.boxShadow = '0 0 3px rgba(196,166,117,.55)';
       document.body.appendChild(d);
-      var a = Math.random() * Math.PI * 2, r = 8 + Math.random() * 16;
+      var a = Math.PI * (0.55 + Math.random() * 0.9), r = 8 + Math.random() * 16;   // разлёт вниз и в стороны от иглы
       d.animate([
         { transform: 'translate(' + (x - s / 2) + 'px,' + (y - s / 2) + 'px) scale(1)', opacity: 1 },
-        { transform: 'translate(' + (x - s / 2 + Math.cos(a) * r) + 'px,' + (y - s / 2 + Math.sin(a) * r + 10) + 'px) scale(.4)', opacity: 0 }
+        { transform: 'translate(' + (x - s / 2 + Math.cos(a) * r) + 'px,' + (y - s / 2 + Math.abs(Math.sin(a)) * r + 10) + 'px) scale(.4)', opacity: 0 }
       ], { duration: 800 + Math.random() * 350, easing: 'cubic-bezier(.2,.7,.4,1)' }).onfinish = function () { this.effect.target.remove(); };
     }
   }
