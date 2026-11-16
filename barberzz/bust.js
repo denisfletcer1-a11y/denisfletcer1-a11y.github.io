@@ -8,7 +8,7 @@
     if (el.__bz) return; el.__bz = true;
     var base = el.getAttribute('data-src') || 'bust/';
     var N = +el.getAttribute('data-frames') || 120;
-    var auto = +(el.getAttribute('data-speed') || 0.2);           // кадров за 1/60 с в покое (один оборот ≈ 19 с)
+    var auto = +(el.getAttribute('data-speed') || 0.3);           // кадров за 1/60 с в покое (один оборот ≈ 13 с)
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     var cv = document.createElement('canvas');
     cv.setAttribute('aria-label', 'Бюст Barberzz — можно повернуть');
@@ -18,13 +18,13 @@
     hint.className = 'bz-hint';
     hint.innerHTML = '<span>⟲</span> Покрутите бюст';
     el.appendChild(hint);
-    var ctx = cv.getContext('2d');
+    var ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
     var imgs = new Array(N), loaded = 0, ready = false;
     var pos = 0, vel = auto, drag = false, lastX = 0, lastT = 0, moved = 0, shown = -1, idle = 0;
 
     function fit() {
       var r = el.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
-      cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.max(1, Math.round(r.height * d));
+      cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.max(1, Math.round(r.height * d)); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
       shown = -1;
     }
     function draw() {
@@ -53,7 +53,7 @@
     function load(i) {
       var im = new Image(); im.decoding = 'async';
       im.onload = function () { loaded++; if (i === 0) { ready = true; el.classList.add('bz-ready'); shown = -1; draw(); } };
-      im.src = base + ('00' + i).slice(-3) + '.webp';
+      im.src = base + ('00' + i).slice(-3) + '.webp' + (el.getAttribute('data-v') ? '?v=' + el.getAttribute('data-v') : '');
       imgs[i] = im;
     }
     // сначала каждый 8-й кадр (быстро видно вращение), потом остальные
