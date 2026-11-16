@@ -13,7 +13,7 @@
     'html.tm-on, html.tm-on * { cursor: none !important; }' +
     TEXT.split(', ').map(function (s) { return 'html.tm-on ' + s; }).join(', ') + ' { cursor: text !important; }' +
     '.tm-cursor { position: fixed; left: 0; top: 0; z-index: 2147483000; pointer-events: none; opacity: 0; transition: opacity .15s; will-change: transform; }' +
-    '.tm-cursor svg { position: absolute; left: 0; top: 0; width: 58px !important; height: 34px !important; max-width: none !important; overflow: visible; transform-origin: 0 0; transform: rotate(-38deg) scale(var(--k, 1)); transition: transform .2s; filter: drop-shadow(0 0 .7px rgba(0,0,0,.8)) drop-shadow(0 2px 3px rgba(0,0,0,.45)); }' +
+    '.tm-cursor svg { position: absolute; left: 0; top: 0; width: 42px !important; height: 25px !important; max-width: none !important; overflow: visible; transform-origin: 0 0; transform: rotate(-38deg) scale(var(--k, 1)); transition: transform .2s; filter: drop-shadow(0 0 .7px rgba(0,0,0,.8)) drop-shadow(0 2px 3px rgba(0,0,0,.45)); }' +
     '.tm-cursor.hot { --k: 1.1; }' +
     '.tm-drop { position: fixed; left: 0; top: 0; z-index: 2147483000; border-radius: 50%; pointer-events: none; }';
   document.head.appendChild(css);
