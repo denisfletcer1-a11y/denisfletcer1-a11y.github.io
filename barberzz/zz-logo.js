@@ -1,6 +1,6 @@
 /* Barberzz — анимированный объёмный знак ZZ (глянцевое золото, как 3D-шрифт).
    У каждой буквы две половинки: прилетают (верхняя сверху, нижняя снизу) и защёлкиваются; на стыке — вспышка,
-   затем по знаку пробегает глянцевый блик. Повтор раз в 8 с, при наведении и по нажатию.
+   затем по знаку пробегает глянцевый блик. Повтор: пауза 3 с после сборки, при наведении и по нажатию.
    Вставка: <span class="bz-zz"></span> + <script src="…/zz-logo.js" defer></script>; размер — шириной .bz-zz. */
 (function () {
   'use strict';
@@ -70,7 +70,8 @@
     function play() { last = Date.now(); el.classList.remove('play'); void el.offsetWidth; el.classList.add('play'); }
     var start = function () { setTimeout(play, 300); };
     if (document.readyState === 'complete') start(); else addEventListener('load', start, { once: true });
-    var every = +(el.getAttribute('data-every') || 8);
+    var pause = +(el.getAttribute('data-pause') || 3);           // пауза между повторами, с
+    var every = 2.45 + pause;                                    // 2,45 с — сама сборка с бликом
     if (every > 0) setInterval(function () { if (!document.hidden && Date.now() - last > every * 1000 - 50) play(); }, 500);
     var host = el.closest('a') || el;
     host.addEventListener('mouseenter', function () { if (Date.now() - last > 2600) play(); });
