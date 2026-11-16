@@ -68,7 +68,7 @@
     if (reduced) return;
     for (var i = 0; i < 5; i++) {
       var d = document.createElement('div'); d.className = 'tm-drop';
-      var s = 1.6 + Math.random() * 2.6; d.style.width = d.style.height = s + 'px';
+      var s = 2.6 + Math.random() * 2.8; d.style.width = d.style.height = s + 'px';
       // цвет золотой полосы со статуи: основной, блик и тень
       var GOLD = ['#c4a675', '#c4a675', '#d1b489', '#aa9263'];
       var col = GOLD[(Math.random() * GOLD.length) | 0];
@@ -79,7 +79,7 @@
       d.animate([
         { transform: 'translate(' + (x - s / 2) + 'px,' + (y - s / 2) + 'px) scale(1)', opacity: 1 },
         { transform: 'translate(' + (x - s / 2 + Math.cos(a) * r) + 'px,' + (y - s / 2 + Math.sin(a) * r + 10) + 'px) scale(.4)', opacity: 0 }
-      ], { duration: 520 + Math.random() * 300, easing: 'cubic-bezier(.2,.7,.4,1)' }).onfinish = function () { this.effect.target.remove(); };
+      ], { duration: 800 + Math.random() * 350, easing: 'cubic-bezier(.2,.7,.4,1)' }).onfinish = function () { this.effect.target.remove(); };
     }
   }
 
