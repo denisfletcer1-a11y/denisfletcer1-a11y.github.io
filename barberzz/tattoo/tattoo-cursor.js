@@ -69,7 +69,11 @@
     for (var i = 0; i < 5; i++) {
       var d = document.createElement('div'); d.className = 'tm-drop';
       var s = 1.6 + Math.random() * 2.6; d.style.width = d.style.height = s + 'px';
-      d.style.background = Math.random() < 0.6 ? '#e8ad21' : '#ffffff';
+      // цвет золотой полосы со статуи: основной, блик и тень
+      var GOLD = ['#c4a675', '#c4a675', '#d1b489', '#aa9263'];
+      var col = GOLD[(Math.random() * GOLD.length) | 0];
+      d.style.background = 'radial-gradient(circle at 35% 30%, #efe0c0 0, ' + col + ' 45%, #8f7a52 100%)';
+      d.style.boxShadow = '0 0 3px rgba(196,166,117,.55)';
       document.body.appendChild(d);
       var a = Math.random() * Math.PI * 2, r = 8 + Math.random() * 16;
       d.animate([
