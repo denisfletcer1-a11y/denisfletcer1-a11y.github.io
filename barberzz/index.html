@@ -3,125 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Barberzz — 3D-бюст на первом экране (демо)</title>
+<title>Демо временно недоступно</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --gold: #e8ad21; --gold2: #cc9500; --orange: #ff9c00; --dark: #333; --bg: #dbdbdb; --navy: #020f17; }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; }
-  body { background: var(--bg); font-family: 'TildaSans', 'Montserrat', Arial, sans-serif; color: #fff; -webkit-font-smoothing: antialiased; }
-  a { color: inherit; text-decoration: none; }
-
-  /* шапка как у Barberzz */
-  .hdr { position: sticky; top: 0; z-index: 10; background: #000; height: 80px; display: flex; align-items: center; padding: 0 44px; gap: 28px; }
-  .hdr .zz { width: 74px; flex: none; }
-  .hdr nav { flex: 1; display: flex; justify-content: center; gap: 30px; }
-  .hdr nav a { font-weight: 600; font-size: 15px; text-transform: uppercase; letter-spacing: .01em; white-space: nowrap; }
-  .hdr nav a:hover { color: var(--gold); }
-  .hdr .ph { font-weight: 600; font-size: 14px; white-space: nowrap; }
-  .hdr .ic { display: flex; gap: 14px; }
-  .hdr .ic span { width: 30px; height: 30px; border-radius: 50%; background: var(--gold); color: #000; display: grid; place-items: center; font: 700 11px/1 Montserrat, sans-serif; }
-
-  /* первый экран */
-  .hero { position: relative; height: 650px; overflow: hidden; background: var(--bg); }
-  .hero .map { position: absolute; left: 0; right: 0; top: -184px; height: 747px; background: url(img/map.png) center / cover no-repeat; opacity: .9; }
-  .hero .in { position: relative; max-width: 1200px; height: 100%; margin: 0 auto; }
-  .hero .beam { position: absolute; left: -500px; top: -179px; width: 973px; height: 715px; background: url(img/panel.png) center / contain no-repeat; pointer-events: none; }
-  .hero .bz-bust { position: absolute; left: -40px; top: 0; width: 640px; height: 640px; }
-  .rings { position: absolute; left: 490px; top: 48px; display: grid; gap: 21px; }
-  .rings i { width: 37px; height: 37px; border-radius: 50%; border: 9px solid var(--gold); display: block; }
-  .rings i:nth-child(n+4) { border-color: var(--dark); }
-  .hero h1 { position: absolute; left: 578px; top: 21px; margin: 0; font-weight: 600; font-size: 99px; line-height: 99px; text-transform: uppercase; letter-spacing: -.01em; }
-  .hero .sub { position: absolute; left: 564px; top: 338px; font-size: 30px; font-weight: 300; text-transform: uppercase; white-space: nowrap; }
-  .hero .sub b { font-weight: 700; }
-  .hero .btn { position: absolute; left: 878px; top: 595px; height: 38px; padding: 0 18px; display: inline-flex; align-items: center; border: 3px solid var(--gold); border-radius: 30px; font-size: 15px; font-weight: 300; }
-  .hero .btn:hover { background: var(--gold); color: #000; }
-
-  .bz-bust { touch-action: pan-y; user-select: none; -webkit-user-select: none; }
-  .bz-bust video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; pointer-events: none; opacity: 0; transition: opacity .6s ease;
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 9%, #000 96%, transparent 100%);
-    -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 9%, #000 96%, transparent 100%); mask-composite: intersect; }
-  .bz-bust.bz-ready video { opacity: 1; }
-  .bz-hint { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); padding: 7px 14px; border-radius: 30px; background: rgba(0, 0, 0, .55); color: #fff; font: 500 13px/1 Montserrat, sans-serif; white-space: nowrap; pointer-events: none; transition: opacity .5s; }
-  .bz-hint span { color: var(--gold); margin-right: 4px; }
-  .bz-touched .bz-hint { opacity: 0; }
-
-  /* следующий блок — как на сайте */
-  .band { background: var(--navy); padding: 46px 0; }
-  .band .in { max-width: 1200px; margin: 0 auto; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; }
-  .band h2 { margin: 0; font-size: 44px; font-weight: 700; text-transform: uppercase; }
-  .band h2 i { color: var(--gold); font-style: normal; margin-right: 8px; }
-  .band .out { font-size: 64px; font-weight: 600; color: transparent; -webkit-text-stroke: 1.5px #fff; letter-spacing: .06em; }
-  .note { max-width: 1200px; margin: 0 auto; padding: 18px 16px 30px; color: #555; font: 400 14px/1.5 Montserrat, sans-serif; }
-  .note b { color: #222; }
-
-  /* ноутбуки поменьше */
-  .hero.scaled .in { transform-origin: top left; width: 1200px; margin: 0; }
-  @media (max-width: 1100px) { .hdr nav { gap: 18px; } .hdr nav a { font-size: 13px; } .hdr .ph { display: none; } }
-
-  /* телефоны и планшеты */
-  @media (max-width: 900px) {
-    .hdr { height: 60px; padding: 0 16px; }
-    .hdr nav, .hdr .ph { display: none; }
-    .hdr .zz { width: 56px; }
-    .hdr .ic { margin-left: auto; }
-    .hero { height: auto; padding-bottom: 34px; }
-    .hero .map { top: 0; height: 100%; }
-    .hero .in { transform: none; width: auto; padding: 0 16px; }
-    .hero .beam { left: -55%; top: -60px; width: 150%; height: 520px; }
-    .hero .bz-bust { position: relative; left: auto; top: auto; width: min(92vw, 420px); height: min(108vw, 490px); margin: 0 auto; }
-    .rings { position: static; display: flex; gap: 10px; margin: 18px 0 14px; }
-    .rings i { width: 22px; height: 22px; border-width: 6px; }
-    .hero h1 { position: static; font-size: clamp(40px, 11.5vw, 72px); line-height: 1; }
-    .hero .sub { position: static; white-space: normal; font-size: clamp(16px, 4.6vw, 24px); margin-top: 14px; }
-    .hero .btn { position: static; margin-top: 22px; }
-    .band h2 { font-size: 26px; }
-    .band .out { display: none; }
-  }
+  html, body { margin: 0; height: 100%; }
+  body { background: #111314; color: #ddd; font: 400 16px/1.6 Arial, sans-serif; display: grid; place-items: center; text-align: center; padding: 16px; box-sizing: border-box; }
+  h1 { font-size: 22px; font-weight: 600; color: #fff; margin: 0 0 8px; }
+  p { margin: 0; color: #9a9a9a; }
 </style>
 </head>
 <body>
-<header class="hdr">
-  <span class="bz-zz zz" aria-label="Barberzz"></span>
-  <nav><a href="#">О нас</a><a href="#">Мастера</a><a href="#">Услуги и цены</a><a href="#">Локация</a><a href="#">Контакты</a><a href="#">Тату-студия</a><a href="#">Отзывы</a><a href="#">Обучение</a></nav>
-  <span class="ph">+7 4212 41 - 83 - 35</span>
-  <span class="ic"><span>VK</span><span>TG</span><span>MAX</span></span>
-</header>
-
-<section class="hero">
-  <div class="map" aria-hidden="true"></div>
-  <div class="in">
-    <div class="beam" aria-hidden="true"></div>
-    <!-- 3D-бюст: этот div + скрипт и есть блок для вставки в Тильду -->
-    <div class="bz-bust" data-video="bust.mp4?v=5" data-poster="bust-poster.jpg?v=5"></div>
-    <div class="rings" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <h1>Искусство<br>в каждой<br>стрижке</h1>
-    <p class="sub"><b style="color:var(--orange)">//</b> <b>BARBER</b><b style="color:var(--gold2)">ZZ-</b> твой путь к индивидуальности</p>
-    <a class="btn" href="#">Консультация в MAX</a>
+  <div>
+    <h1>Демо временно недоступно</h1>
+    <p>Чтобы посмотреть, напишите разработчику.</p>
   </div>
-</section>
-
-<section class="band"><div class="in"><h2><i>//</i>О барбершопе</h2><span class="out">ABOUT US</span></div></section>
-
-<p class="note"><b>Демо для Barberzz.</b> Первый экран вашего сайта, где вместо картинки бюста стоит объёмный бюст 360°: он медленно вращается сам, а мышкой или пальцем его можно повернуть в любую сторону. На сайт он встаёт в ваш Zero-блок на место текущей картинки, остальное на странице не меняется.</p>
-
-<script>
-  // ноутбуки 901–1239 px: первый экран уменьшается целиком, как Zero-блок Тильды
-  (function () {
-    var hero = document.querySelector('.hero'), inn = hero.querySelector('.in');
-    function fit() {
-      var w = document.documentElement.clientWidth;
-      if (w > 900 && w < 1240) { var k = w / 1240; hero.classList.add('scaled'); inn.style.transform = 'scale(' + k + ')'; inn.style.marginLeft = (20 * k) + 'px'; hero.style.height = Math.round(650 * k) + 'px'; }
-      else { hero.classList.remove('scaled'); inn.style.transform = ''; inn.style.marginLeft = ''; hero.style.height = ''; }
-      window.dispatchEvent(new Event('bz-resize'));
-    }
-    fit(); addEventListener('resize', fit);
-  })();
-</script>
-<script src="bust.js?v=4" defer></script>
-<script src="zz-logo.js?v=3" defer></script>
 </body>
 </html>
