@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Сезон 96 — каркасные дома и бани под ключ в Екатеринбурге</title>
+<meta name="description" content="Каркасные дома, бани и пристрои под ключ в Екатеринбурге и рядом. Строим поэтапно: 30% при договоре, остальное перед каждым этапом. Работаем с 2009 года.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0f2236">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="img/hero_night.webp" media="(min-aspect-ratio: 6/5)" fetchpriority="high">
+<link rel="preload" as="image" href="img/hero_night_m.webp" media="(max-aspect-ratio: 6/5)" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="fonts/jost-cyrillic-300-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/inter-cyrillic-400-normal.woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=s1">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="Сезон 96 — в начало">
+      <span class="logo-plate"><img src="img/logo.svg" alt="" width="40" height="43"></span>
+      <span class="logo-text"><b>Сезон 96</b><small>каркасные дома и бани</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Разделы сайта">
+      <a href="#build">Как строим</a>
+      <a href="#evening">Тёплый дом</a>
+      <a href="#calc">Цены</a>
+      <a href="#steps">Как работаем</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a class="btn btn-primary btn-sm nav-cta" href="#calc">Рассчитать дом</a>
+    <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- 1. Первый экран -->
+  <section class="hero" id="top">
+    <div class="hero-layer" id="heroLayer">
+      <picture class="hero-media">
+        <source media="(max-aspect-ratio: 6/5)" srcset="img/hero_night_m.webp">
+        <img id="heroImg" src="img/hero_night.webp" alt="Каркасный дом вечером: тёплый свет в больших окнах" width="2400" height="1340" fetchpriority="high">
+      </picture>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="callouts" id="callouts" aria-hidden="true">
+        <span class="callout" data-x="1660" data-y="300" data-side="right"><i></i><em>Утеплённая кровля · 200 мм</em></span>
+        <span class="callout" data-x="1702" data-y="590" data-side="right"><i></i><em>Большие окна в гостиной</em></span>
+        <span class="callout" data-x="1880" data-y="880" data-side="right"><i></i><em>Фасад из дерева</em></span>
+      </div>
+    </div>
+    <div class="wrap hero-content">
+      <div class="hero-copy reveal">
+        <p class="kicker">Каркасные дома, бани и пристрои</p>
+        <h1>Тёплый каркасный дом <em>поэтапно, без кредита</em></h1>
+        <p class="lead">Дачные и жилые дома по каркасной технологии в Екатеринбурге и рядом.<span class="lead-more"> 30% при договоре — остальное перед каждым этапом. Работаем с 2009 года, по договору и с гарантией.</span></p>
+        <div class="cta-row">
+          <a class="btn btn-light" href="#calc">Рассчитать стоимость</a>
+          <a class="btn btn-ghost-light" href="#build">Смотреть, как строим</a>
+        </div>
+      </div>
+      <ul class="hero-facts reveal">
+        <li><b>с 2009</b><span>строим дома и бани</span></li>
+        <li><b>30%</b><span>при договоре, дальше — по этапам</span></li>
+        <li><b>от 950 тыс</b><span>каркасный дом под ключ</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. Дом строится по этапам -->
+  <section class="section build" id="build">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Поэтапное строительство</p>
+        <h2>Дом растёт <em>этап за этапом</em></h2>
+        <p class="lead">Делим стройку на 6 этапов: вы платите только за следующий этап — без банка и переплат. Нажмите на любой этап, чтобы посмотреть его ближе.</p>
+      </header>
+
+      <div class="player reveal" id="player">
+        <div class="player-frame">
+          <video id="buildVideo" muted playsinline preload="none" poster="media/build_poster.jpg" data-src="media/build.mp4" aria-label="Анимация: дом строится от пустого участка до готового дома вечером"></video>
+          <div class="player-top">
+            <span class="player-month" id="playerMonth">Неделя 1</span>
+            <span class="player-stage" id="playerStage">Участок</span>
+          </div>
+          <button class="player-btn" id="playerBtn" type="button" aria-label="Пауза"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/><path class="i-play" d="M8 5.5v13l11-6.5z"/><path class="i-replay" d="M12 5a7 7 0 1 1-6.6 4.7l1.9.7A5 5 0 1 0 12 7v3L7.5 6 12 2z"/></svg></button>
+          <div class="player-bar"><i id="playerBar"></i></div>
+        </div>
+        <ol class="stages" id="stages"></ol>
+        <div class="stage-info" id="stageInfo" aria-live="polite">
+          <p class="stage-name"></p>
+          <p class="stage-text"></p>
+          <p class="stage-time"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Тёплый дом: день и вечер -->
+  <section class="section evening" id="evening">
+    <div class="wrap evening-grid">
+      <div class="evening-copy reveal">
+        <p class="kicker">Для постоянного проживания</p>
+        <h2>Он действительно тёплый — <em>по-настоящему</em></h2>
+        <p class="lead">Утепляем стены, пол и кровлю, ставим пароизоляцию и ветрозащиту — в таком доме можно жить круглый год. Потяните шторку, чтобы увидеть дом днём и вечером.</p>
+        <ul class="specs">
+          <li><b>200 мм</b><span>утепление кровли и стен</span></li>
+          <li><b>5 лет</b><span>минимальный стаж наших мастеров</span></li>
+          <li><b>17 лет</b><span>строим каркасные дома</span></li>
+        </ul>
+      </div>
+      <div class="dn-frame reveal" id="dnFrame" data-cursor="hot" style="--pos:50%">
+        <img class="dn-img" src="img/house_night.webp" alt="Дом вечером, свет в окнах" width="1600" height="900" loading="lazy">
+        <img class="dn-img dn-day" src="img/house_day.webp" alt="Тот же дом днём" width="1600" height="900" loading="lazy">
+        <span class="dn-tag dn-tag-l">День</span>
+        <span class="dn-tag dn-tag-r">Вечер</span>
+        <span class="dn-line" aria-hidden="true"></span>
+        <span class="dn-handle" id="dnHandle" role="slider" tabindex="0" aria-label="Шторка «день и вечер»" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <svg viewBox="0 0 28 12" aria-hidden="true"><path d="M8 2 3 6l5 4M20 2l5 4-5 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Калькулятор -->
+  <section class="section calc" id="calc">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Цены</p>
+        <h2>Сколько стоит дом — <em>и сколько платить по этапам</em></h2>
+        <p class="lead">Выберите тип и размер дома из наших типовых проектов: покажем цену под ключ, первый платёж и график оплаты по этапам.</p>
+      </header>
+      <div class="calc-grid reveal">
+        <form class="calc-form" id="calcForm" onsubmit="return false">
+          <fieldset class="calc-group">
+            <legend>Тип дома</legend>
+            <div class="seg seg-types" id="calcType">
+              <button type="button" data-v="veranda" class="on">С верандой</button>
+              <button type="button" data-v="mansard">С мансардой</button>
+              <button type="button" data-v="terrace">С террасой</button>
+              <button type="button" data-v="two">1,5 и 2 этажа</button>
+              <button type="button" data-v="banya">Бани</button>
+            </div>
+            <p class="calc-hint" id="classHint"></p>
+          </fieldset>
+          <fieldset class="calc-group">
+            <legend>Размер, м</legend>
+            <div class="sizes" id="calcSize"></div>
+          </fieldset>
+          <p class="calc-hint">Не нашли свой вариант? Строим и по индивидуальным проектам, делаем пристрои и надстройку второго этажа.</p>
+        </form>
+
+        <aside class="calc-result" aria-live="polite">
+          <p class="res-label">Стоимость под ключ</p>
+          <p class="res-price" id="resPrice">—</p>
+          <p class="res-range" id="resRange"></p>
+          <dl class="res-list">
+            <div><dt>При заключении договора, 30%</dt><dd id="resFirst">—</dd></div>
+            <div><dt>Дальше — перед каждым этапом</dt><dd id="resStage">—</dd></div>
+            <div><dt>Срок строительства</dt><dd id="resTime">—</dd></div>
+          </dl>
+          <p class="res-sub">График оплаты по этапам</p>
+          <div class="res-bars" id="resBars" aria-hidden="true"></div>
+          <a class="btn btn-primary btn-wide" href="#contact" id="resCta">Получить точный расчёт</a>
+          <p class="res-note">Цены — по типовым проектам с нашего сайта. Точную стоимость посчитаем на участке: выезд и консультация бесплатно.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Как работаем -->
+  <section class="section steps" id="steps">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Как мы работаем</p>
+        <h2>Пять шагов <em>до новоселья</em></h2>
+      </header>
+      <ol class="step-list">
+        <li class="step reveal"><span class="step-n">01</span><h3>Выезд на участок</h3><p>Бесплатно: замер, осмотр и консультация — в Екатеринбурге и рядом.</p></li>
+        <li class="step reveal"><span class="step-n">02</span><h3>Расчёт и договор</h3><p>Считаем стоимость и заключаем договор прямо на объекте.</p></li>
+        <li class="step reveal"><span class="step-n">03</span><h3>Стройка по этапам</h3><p>30% при договоре, дальше платите перед началом каждого этапа.</p></li>
+        <li class="step reveal"><span class="step-n">04</span><h3>Сдача дома</h3><p>Проверяем всё вместе и подписываем акт. Сроки не срываем.</p></li>
+        <li class="step reveal"><span class="step-n">05</span><h3>Гарантия</h3><p>Отвечаем за работу по договору — приедем, если что-то пойдёт не так.</p></li>
+      </ol>
+      <div class="perks">
+        <div class="perk reveal"><b>С 2009 года</b><span>Отработали технологию каркасного дома до мелочей.</span></div>
+        <div class="perk reveal"><b>Без банка и переплат</b><span>Поэтапная оплата: 5–7 этапов по удобному графику.</span></div>
+        <div class="perk reveal"><b>Свой автопарк</b><span>Работаем с 9:00 до 21:00 и не срываем сроки.</span></div>
+        <div class="perk reveal"><b>Ещё мы делаем</b><span>Пристрои, надстройку второго этажа и балконы под ключ.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Заявка -->
+  <section class="section contact" id="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-copy reveal">
+        <p class="kicker kicker-light">Экскурсия по объектам</p>
+        <h2>Приезжайте посмотреть наши дома</h2>
+        <p class="lead">Покажем дома в процессе строительства и уже готовые: потрогаете материалы и посмотрите, как устроен каркас изнутри.</p>
+        <dl class="contact-list">
+          <div><dt>Офис</dt><dd>Екатеринбург, ул. Посадская, 21, оф. 235</dd></div>
+          <div><dt>Часы</dt><dd>Ежедневно 9:00–21:00</dd></div>
+          <div><dt>Телефон</dt><dd><a href="tel:+73432000282">+7 (343) 200-02-82</a><br><a href="tel:+79530016298">+7 (953) 001-62-98</a></dd></div>
+          <div><dt>MAX, Telegram</dt><dd><a href="tel:+79041636791">+7 (904) 163-67-91</a></dd></div>
+        </dl>
+      </div>
+      <form class="lead-form reveal" id="leadForm" novalidate>
+        <p class="form-title">Записаться на экскурсию или расчёт</p>
+        <label class="field"><span>Ваше имя</span><input name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" required></label>
+        <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (900) 000-00-00" required></label>
+        <label class="field"><span>Комментарий</span><textarea name="comment" rows="3" placeholder="Например: дом 6×8 с верандой, участок под Екатеринбургом"></textarea></label>
+        <input type="hidden" name="estimate" id="estimateField">
+        <p class="form-estimate" id="formEstimate" hidden></p>
+        <button class="btn btn-primary btn-wide" type="submit">Отправить</button>
+        <p class="form-note" id="formNote" aria-live="polite">Перезвоним в течение 15 минут в рабочее время.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <a class="logo" href="#top"><span class="logo-plate"><img src="img/logo.svg" alt="" width="40" height="43"></span><span class="logo-text"><b>Сезон 96</b><small>строительная компания</small></span></a>
+      <p class="footer-muted">Каркасные дома, бани и пристрои в Екатеринбурге и рядом.</p>
+    </div>
+    <div>
+      <p>Екатеринбург, ул. Посадская, 21, оф. 235</p>
+      <p class="footer-muted">Ежедневно 9:00–21:00</p>
+    </div>
+    <div>
+      <p><a href="tel:+73432000282">+7 (343) 200-02-82</a></p>
+      <p><a href="tel:+79530016298">+7 (953) 001-62-98</a></p>
+    </div>
+  </div>
+  <p class="wrap footer-demo">Демо-набросок для СК «Сезон 96». Цены и контакты — с сайта sezon96.ru; фото и анимация стройки — пример, заменим на ваши дома.</p>
+</footer>
+
+<script src="js/crosshair-cursor.js?v=1"></script>
+<script src="js/app.js?v=s1"></script>
+</body>
+</html>
