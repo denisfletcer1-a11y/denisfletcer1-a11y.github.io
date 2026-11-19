@@ -14,6 +14,20 @@
   const unitWord = p.unit === 'м²' ? 'м²' : 'шт';
 
   document.title = p.name + ' — купить от завода | Славянская плитка';
+  // адрес, описание и разметка товара для поиска и превью в мессенджерах
+  (function seo() {
+    const cn = document.querySelector('link[rel=canonical]'), base = cn ? cn.href.replace(/product\.html.*$/, '') : '';
+    const url = base + 'product.html?id=' + p.id, price = SP.minPrice(p);
+    const desc = (p.cat === 'plitka' && p.unit === 'м²' ? 'Тротуарная плитка «' + p.name + '»' : p.name) + ' от завода в Славянске-на-Кубани' + (p.onRequest ? '' : ', от ' + SP.money(price) + ' ₽/' + (p.unit === 'м²' ? 'м²' : 'шт')) + '. ' + sizeLabel(p) + '. Доставка по Краснодарскому краю.';
+    const set = (sel, attr, v) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, v); };
+    set('link[rel=canonical]', 'href', url); set('meta[property="og:url"]', 'content', url);
+    set('meta[name=description]', 'content', desc); set('meta[property="og:description"]', 'content', desc);
+    set('meta[property="og:title"]', 'content', document.title);
+    if (base) set('meta[property="og:image"]', 'content', base + imgOf(p).split('?')[0]);
+    const ld = { '@context': 'https://schema.org', '@type': 'Product', name: p.name, image: base + imgOf(p).split('?')[0], description: desc, brand: { '@type': 'Brand', name: 'Славянская плитка' } };
+    if (!p.onRequest) ld.offers = { '@type': 'Offer', priceCurrency: 'RUB', price: String(price), availability: 'https://schema.org/InStock', url };
+    const sc = document.createElement('script'); sc.type = 'application/ld+json'; sc.textContent = JSON.stringify(ld); document.head.appendChild(sc);
+  })();
   $('#pName').textContent = (p.cat === 'plitka' && p.unit === 'м²' ? 'Тротуарная плитка «' + p.name + '»' : p.name);
   $('#crumbName').textContent = p.name;
   $('#crumbCat').textContent = SP.CATS[p.cat]; $('#crumbCat').href = 'catalog.html?cat=' + p.cat;
@@ -37,7 +51,8 @@
   const BAD = /Форма, размер|ширина \d+мм/i;   // мелкие чертежи с сайта завода заменены своими
   const colorPhoto = () => SPH.colors[st.c] || null;
   const GEN = { 'porebrik-trot': 1, 'bordyur-dor': 1, 'palisad-round': 1, 'palisad-sq': 1, gazon: 2, taktil: 1, 'porebrik-sharn': 1, vazon: 1, 'porebrik-prim': 1 };
-  const studio = (p.photos || []).concat(GEN[p.id] && !(p.photos || []).length ? ['img/gen/' + p.id + '.webp'].concat(GEN[p.id] > 1 ? ['img/gen/' + p.id + '-2.webp'] : []) : []);
+  const PP = (window.PROD_PHOTOS || {})[p.id] || [];
+  const studio = PP.length ? PP.slice() : (p.photos || []).concat(GEN[p.id] && !(p.photos || []).length ? ['img/gen/' + p.id + '.webp'].concat(GEN[p.id] > 1 ? ['img/gen/' + p.id + '-2.webp'] : []) : []);
   async function showScene(i) {
     st.view = 'scene'; st.scene = i; photo.classList.remove('on');
     if (!kb) {
@@ -45,6 +60,7 @@
       if (!kb) return showPhoto();
     }
     stage.classList.remove('ready');
+    stage.style.aspectRatio = '1600 / 893';   // пропорция фото дворов — сразу, чтобы ниже ничего не прыгало
     thumbs();
     const { w, h } = await kb.setScene(JSON.parse(JSON.stringify(SCENES[i])));
     if (st.view !== 'scene' || st.scene !== i) return;   // пока грузилось, выбрали другое фото
@@ -152,8 +168,13 @@
   favPaint();
 
   // ---------- вкладки ----------
+  document.querySelector('.tab-btns').addEventListener('keydown', e => {   // стрелки — соседняя вкладка
+    const bs = [...document.querySelectorAll('.tab-btns button')], i = bs.indexOf(document.activeElement);
+    if (i < 0 || !/Arrow(Left|Right)/.test(e.key)) return;
+    const n = bs[(i + (e.key === 'ArrowRight' ? 1 : bs.length - 1)) % bs.length]; n.click(); n.focus(); e.preventDefault();
+  });
   document.querySelectorAll('.tab-btns button').forEach(b => b.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btns button').forEach(x => x.classList.toggle('on', x === b));
+    document.querySelectorAll('.tab-btns button').forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-selected', x === b); x.tabIndex = x === b ? 0 : -1; });
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.id === b.dataset.tab));
   }));
   const hs = SP.heightsOf(p);

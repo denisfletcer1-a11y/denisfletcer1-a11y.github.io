@@ -10,6 +10,7 @@
     color: q.get('color') || 'malva', surface: q.get('surface') || 'smooth', pattern: q.get('pattern') || null,
   };
   const prod = () => SP.byId(st.id);
+  if (window.SCENE_VIEWS) SCENES.forEach(s => { if (SCENE_VIEWS[s.id]) s.views = SCENE_VIEWS[s.id]; });
   const texReady = Paving.preload(SP.COLORS.map(c => c.tex));
   let sceneDone; const sceneReady = new Promise(r => { sceneDone = r; });
   const stage = $('#kbStage');
@@ -47,8 +48,9 @@
     if (!c) return;
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return fade(c, 1);
     const g = c.getContext('2d'), W = c.width, H = c.height;
-    const sc = SCENES.find(x => x.id === st.scene) || SCENES[0];
-    const k = H / 894, hy = sc.cam.hy * k;            // горизонт в пикселях кадра
+    if (kb.free || stage.classList.contains('crisp')) return fade(c, 700);   // «Сверху», «Крупно» и приближение — растворение
+    const sc0 = SCENES.find(x => x.id === st.scene) || SCENES[0], vw = (sc0.views || []).find(v => v.id === st.view), sc = vw || sc0;
+    const hy = sc.cam.hy;                              // горизонт в пикселях кадра (кадр = фото)
     const cells = [];
     let y = H, row = 0;
     while (y > hy + 2) {
@@ -85,15 +87,118 @@
     const b = document.createElement('button');
     b.type = 'button'; b.dataset.id = s.id; b.title = s.name; b.setAttribute('aria-label', s.name);
     b.innerHTML = `<img src="${s.thumb}" alt="" loading="lazy">`;
-    b.addEventListener('click', () => { st.scene = s.id; paintHouses(); loadScene(); });
+    b.addEventListener('click', () => { st.scene = s.id; if (FREE[st.view]) st.view = 'front'; paintHouses(); paintViews(); loadScene(); });
     hb.appendChild(b);
   });
   const paintHouses = () => hb.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.id === st.scene));
+  // ---------- ракурсы: фото дома спереди/слева/справа + «Сверху» и «Крупно» без фото ----------
+  const FREE = { top: 'Сверху', close: 'Крупно' };
+  // «Сверху» — фото участка с дрона (если есть), иначе схема раскладки; «Крупно» — камни вблизи
+  const viewsOf = s => {
+    const v = s.views || [], plan = v.find(x => x.id === 'plan');
+    return [{ id: 'front', label: 'Спереди' }, ...v.filter(x => x.id !== 'plan'), plan || { id: 'top', label: FREE.top }, { id: 'close', label: FREE.close }];
+  };
+  const curScene = () => SCENES.find(x => x.id === st.scene) || SCENES[0];
+  st.view = q.get('view') || 'front';
+  const vb = $('#kbViews');
+  function paintViews() {
+    const list = viewsOf(curScene());
+    if (!list.some(v => v.id === st.view)) st.view = 'front';
+    vb.innerHTML = '';
+    list.forEach(v => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip' + (v.id === st.view ? ' on' : ''); b.textContent = v.label; b.setAttribute('aria-pressed', v.id === st.view);
+      b.addEventListener('click', () => { if (st.view === v.id) return; st.view = v.id; paintViews(); loadScene(); });
+      vb.appendChild(b);
+    });
+  }
+  // ---------- приближение: колёсико, щипок двумя пальцами, перетаскивание, кнопки +/−, двойной клик — сброс ----------
+  const zm = { z: 1, x: 0, y: 0 }, ZMAX = 4;
+  const zr = stage.querySelector('.kc-zoom-reset'), hint = stage.querySelector('.kc-zoom-hint');
+  if (hint && matchMedia('(pointer: coarse)').matches) hint.textContent = 'Двумя пальцами — приблизить';
+  // Пока жест идёт — быстрое растяжение CSS; когда остановились — движок заново рисует видимый участок
+  // в полном разрешении экрана (каждый шов чёткий), а фото подгружается в исходном качестве.
+  let crisp = null, crispT = 0;            // crisp: {z, x, y} — для какого приближения нарисован холст
+  function zApply(anim) {
+    const r = stage.getBoundingClientRect();
+    zm.x = Math.min(0, Math.max(r.width * (1 - zm.z), zm.x)); zm.y = Math.min(0, Math.max(r.height * (1 - zm.z), zm.y));
+    const base = crisp || { z: 1, x: 0, y: 0 }, k = zm.z / base.z;
+    stage.style.setProperty('--zt', `translate(${zm.x - base.x * k}px, ${zm.y - base.y * k}px) scale(${k})`);
+    stage.classList.toggle('zoomed', zm.z > 1.001); stage.classList.toggle('zanim', !!anim);
+    if (zr) zr.hidden = zm.z <= 1.001;
+    clearTimeout(crispT); crispT = setTimeout(sharpen, anim ? 320 : 160);
+  }
+  function sharpen() {
+    if (!kb || !stage.classList.contains('ready')) return;
+    const r = stage.getBoundingClientRect();
+    if (zm.z <= 1.001) {
+      if (crisp) { crisp = null; stage.classList.remove('crisp'); kb.setView(null); stage.style.setProperty('--zt', 'none'); }
+      return;
+    }
+    // видимая часть кадра: холст показан как object-fit: cover, object-position 50% 62%
+    const { w: W, h: H } = kb.size, s0 = Math.max(r.width / W, r.height / H), ox = (r.width - W * s0) * 0.5, oy = (r.height - H * s0) * 0.62;
+    const toImg = (px, py) => [((px - zm.x) / zm.z - ox) / s0, ((py - zm.y) / zm.z - oy) / s0];
+    const [x0, y0] = toImg(0, 0), [x1, y1] = toImg(r.width, r.height);
+    const dpr = Math.min(2, devicePixelRatio || 1), cw = Math.min(2600, r.width * dpr), ch = cw * r.height / r.width;
+    kb.setView([x0, y0, x1 - x0, y1 - y0], cw, ch);
+    crisp = { z: zm.z, x: zm.x, y: zm.y };
+    stage.classList.add('crisp'); stage.classList.remove('zanim');
+    stage.style.setProperty('--zt', 'none');
+  }
+  function zoomAt(f, cx, cy, anim) {
+    const nz = Math.min(ZMAX, Math.max(1, zm.z * f)), k = nz / zm.z;
+    zm.x = cx - (cx - zm.x) * k; zm.y = cy - (cy - zm.y) * k; zm.z = nz; zApply(anim);
+    if (hint) hint.classList.add('gone');
+  }
+  const zReset = () => {
+    zm.z = 1; zm.x = zm.y = 0; clearTimeout(crispT);
+    if (crisp) { crisp = null; stage.classList.remove('crisp'); if (kb) kb.setView(null); }
+    zApply(true);
+  };
+  const local = e => { const r = stage.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  stage.addEventListener('wheel', e => { e.preventDefault(); const [x, y] = local(e); zoomAt(Math.exp(-e.deltaY * 0.0015), x, y, false); }, { passive: false });
+  stage.addEventListener('dblclick', e => { if (e.target.closest('button')) return; zm.z > 1.001 ? zReset() : zoomAt(2, ...local(e), true); });
+  stage.querySelectorAll('.kc-zoom button').forEach(b => b.addEventListener('click', () => {
+    const r = stage.getBoundingClientRect(), d = +b.dataset.z;
+    d ? zoomAt(d > 0 ? 1.5 : 1 / 1.5, r.width / 2, r.height / 2, true) : zReset();
+  }));
+  const ptr = new Map(); let pinch = null, drag = null;
+  stage.addEventListener('pointerdown', e => {
+    if (e.target.closest('button')) return;
+    ptr.set(e.pointerId, local(e));
+    if (ptr.size === 2) { const [a, b] = [...ptr.values()]; pinch = { d: Math.hypot(a[0] - b[0], a[1] - b[1]), z: zm.z }; drag = null; }
+    else if (zm.z > 1.001) { drag = { p: local(e), x: zm.x, y: zm.y }; stage.setPointerCapture(e.pointerId); }
+  });
+  stage.addEventListener('pointermove', e => {
+    if (!ptr.has(e.pointerId)) return;
+    ptr.set(e.pointerId, local(e));
+    if (pinch && ptr.size === 2) {
+      const [a, b] = [...ptr.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      zoomAt(pinch.z * d / pinch.d / zm.z, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2, false);
+    } else if (drag) { const p = local(e); zm.x = drag.x + p[0] - drag.p[0]; zm.y = drag.y + p[1] - drag.p[1]; zApply(false); }
+  });
+  const up = e => { ptr.delete(e.pointerId); if (ptr.size < 2) pinch = null; if (!ptr.size) drag = null; };
+  stage.addEventListener('pointerup', up); stage.addEventListener('pointercancel', up);
+  addEventListener('resize', () => zApply(false));
+
   let loadN = 0;
   async function loadScene() {
+    zReset();
     const n = ++loadN, c = snap();
     const slow = setTimeout(() => stage.classList.add('busy'), c ? 500 : 0);
-    const s = SCENES.find(x => x.id === st.scene) || SCENES[0];
+    const base = curScene();
+    stage.classList.toggle('free', !!FREE[st.view]);
+    if (FREE[st.view]) {
+      await texReady;
+      if (n !== loadN) { clearTimeout(slow); return; }
+      kb.setFree(st.view); kb.set(design());
+      clearTimeout(slow);
+      stage.classList.add('ready'); stage.classList.remove('busy');
+      fade(c, 500); caption(); sceneDone();
+      return;
+    }
+    const vw = (base.views || []).find(v => v.id === st.view);
+    const s = vw ? { ...base, ...vw, id: base.id, name: base.name } : base;
     await kb.setScene(JSON.parse(JSON.stringify(s)));
     if (n !== loadN) { clearTimeout(slow); return; }   // пока грузилось, выбрали другой дом
     kb.set(design());
@@ -102,12 +207,22 @@
     stage.classList.add('ready'); stage.classList.remove('busy');
     fade(c, 600);
     caption(); sceneDone();
+    if (vw && vw.zoom) {   // вид сверху: сразу приближаем к площадке, чтобы были видны камни
+      const r = stage.getBoundingClientRect(), { w: W, h: H } = kb.size, s0 = Math.max(r.width / W, r.height / H);
+      const ox = (r.width - W * s0) * 0.5, oy = (r.height - H * s0) * 0.62, f = vw.focus || [0.5, 0.6];
+      setTimeout(() => {   // центр площадки — в центр окна
+        if (n !== loadN) return;
+        zm.z = vw.zoom; zm.x = r.width / 2 - (ox + f[0] * W * s0) * zm.z; zm.y = r.height / 2 - (oy + f[1] * H * s0) * zm.z;
+        if (hint) hint.classList.add('gone'); zApply(true);
+      }, 250);
+    }
   }
   // стрелки на картинке, свайп и клавиши ← →
   function step(d) {
     const i = SCENES.findIndex(x => x.id === st.scene);
     st.scene = SCENES[(i + d + SCENES.length) % SCENES.length].id;
-    paintHouses(); loadScene();
+    if (FREE[st.view]) st.view = 'front';
+    paintHouses(); paintViews(); loadScene();
   }
   stage.insertAdjacentHTML('beforeend', '<button class="kc-nav kc-prev" type="button" aria-label="Предыдущий дом"><svg class="ic"><use href="#i-chev"/></svg></button><button class="kc-nav kc-next" type="button" aria-label="Следующий дом"><svg class="ic"><use href="#i-chev"/></svg></button>');
   stage.querySelector('.kc-prev').addEventListener('click', () => step(-1));
@@ -116,6 +231,7 @@
   stage.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
   stage.addEventListener('touchend', e => {
     if (sx === null) return;
+    if (zm.z > 1.001 || e.touches.length) { sx = null; return; }   // при приближении палец двигает картинку, а не листает дома
     const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; sx = null;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
   });
@@ -139,6 +255,7 @@
       const b = fb.children[i++]; if (!b) return;
       const p = SP.byId(b.dataset.id);
       const big = ['antara', 'pryam', 'origami', 'triada', 'domino'].includes(p.model);
+      if (window.PROD_PHOTOS && PROD_PHOTOS[p.id]) { b.querySelector('img').src = window.UI.imgOf(p).replace('img/products/', 'img/products/thumb/'); b.classList.add('photo'); setTimeout(next, 0); return; }   // фото изделия — как в каталоге
       b.querySelector('img').src = Paving.stones({ form: p.model, pattern: p.patterns[0], ...SP.look('grey'), surface: 'smooth', radius: big ? 0.36 : 0.22 }, 240);
       setTimeout(next, 0);
     };
@@ -213,8 +330,8 @@
     return { p, h, pr, qty };
   }
   function caption() {
-    const s = SCENES.find(x => x.id === st.scene);
-    $('#kbCap').textContent = `${s ? s.name : ''}: ${prod().name}, ${SP.PATTERNS[st.pattern] ? SP.PATTERNS[st.pattern].toLowerCase() + ', ' : ''}${SP.colorById(st.color).name.toLowerCase()}. Плитка нарисована по фото поверхности с сайта завода; оттенок на экране может отличаться.`;
+    const s = SCENES.find(x => x.id === st.scene), head = st.view === 'top' ? 'Вид сверху, схема раскладки' : st.view === 'close' ? 'Плитка крупно' : (s ? s.name : '');
+    $('#kbCap').textContent = `${head}: ${prod().name}, ${SP.PATTERNS[st.pattern] ? SP.PATTERNS[st.pattern].toLowerCase() + ', ' : ''}${SP.colorById(st.color).name.toLowerCase()}. Плитка нарисована по фото поверхности с сайта завода; оттенок на экране может отличаться.`;
   }
   area.addEventListener('input', price);
   $('#kbReserve').addEventListener('change', price);
@@ -238,5 +355,6 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') vm.classList.remove('on'); });
 
   paintAll();
+  paintViews();
   loadScene();
 })();

@@ -7,7 +7,7 @@
     if (!list.length) {
       $('#cartLayout').style.gridTemplateColumns = '1fr';
       $('#cartSide').hidden = true;
-      host.innerHTML = '<div class="empty-box"><h3>Корзина пока пуста</h3><p>Выберите плитку в каталоге или соберите двор в конструкторе.</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn btn-main" href="catalog.html">В каталог</a><a class="btn btn-line" href="konstruktor.html">Конструктор двора</a></div></div>';
+      host.innerHTML = '<div class="empty-box"><h2>Корзина пока пуста</h2><p>Выберите плитку в каталоге или соберите двор в конструкторе.</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn btn-main" href="catalog.html">В каталог</a><a class="btn btn-line" href="konstruktor.html">Конструктор двора</a></div></div>';
       return;
     }
     $('#cartLayout').style.gridTemplateColumns = ''; $('#cartSide').hidden = false;
@@ -18,7 +18,7 @@
       const surf = p.prices ? ', ' + SP.SURFACES[it.s].toLowerCase() + ' слой' : '';
       return `<div class="ci" data-key="${cart.key(it)}">
         <a class="ph" href="product.html?id=${p.id}&color=${it.c}&surface=${it.s}"><img src="${imgOf(p)}" alt=""></a>
-        <div><h3><a href="product.html?id=${p.id}&color=${it.c}&surface=${it.s}">${p.name}</a></h3><p class="meta">${SP.colorById(it.c).name}${surf}, ${it.h} мм · ${SP.money(it.price)} ₽/${unit}</p></div>
+        <div><h2><a href="product.html?id=${p.id}&color=${it.c}&surface=${it.s}">${p.name}</a></h2><p class="meta">${SP.colorById(it.c).name}${surf}, ${it.h} мм · ${SP.money(it.price)} ₽/${unit}</p></div>
         <div class="right"><div class="qty"><button type="button" data-d="-1" aria-label="Меньше">−</button><input type="number" min="1" value="${it.qty}" aria-label="Количество"><span>${unit}</span><button type="button" data-d="1" aria-label="Больше">+</button></div>
         <span class="sum">${SP.money(sum)} ₽</span><button class="del" type="button" aria-label="Удалить"><svg class="ic"><use href="#i-trash"/></svg></button></div></div>`;
     }).join('');

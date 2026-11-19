@@ -11,7 +11,7 @@
   const list = () => (cur === 'all' ? O : O.filter(o => o.pid === cur));
   function add(n) {
     const part = list().slice(shown, shown + n);
-    g.insertAdjacentHTML('beforeend', part.map(o => `<figure class="obj" data-zoom><img src="${o.img}" alt="${o.name}" loading="lazy"><figcaption><b>№${o.n}</b><a href="product.html?id=${o.pid}">${o.name}</a></figcaption></figure>`).join(''));
+    g.insertAdjacentHTML('beforeend', part.map(o => `<figure class="obj" data-zoom="${o.img}"><img src="${o.img.replace('img/gal/', 'img/gal/thumb/')}" alt="${o.name}" loading="lazy"><figcaption><b>№${o.n}</b><a href="product.html?id=${o.pid}">${o.name}</a></figcaption></figure>`).join(''));
     shown += part.length;
     more.hidden = shown >= list().length;
   }

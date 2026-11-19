@@ -168,7 +168,7 @@
   addEventListener('load', () => setTimeout(rvCheck, 600));
 
   // ---------- карточки товаров (каталог, главная, похожие) ----------
-  function imgOf(p) { return p.photo || 'img/products/' + p.id + '.webp'; }
+  function imgOf(p) { return (window.PROD_PHOTOS && PROD_PHOTOS[p.id]) ? 'img/products/' + p.id + '.webp?v=' + (window.PROD_V || 1) : p.photo || 'img/products/' + p.id + '.webp'; }
   function unitLabel(p) { return p.unit === 'м²' ? '₽/м²' : '₽/шт'; }
   function sizeLabel(p) {
     if (!p.sizes) return 'размеры и цвета — уточните у менеджера';
@@ -192,7 +192,7 @@
         <span class="cat">${SP.CATS[p.cat]}</span>
         <h3><a href="product.html?id=${p.id}">${p.name}</a></h3>
         <span class="sz">${sizeLabel(p)}</span>
-        <span class="dots" aria-label="Цвета">${cols.map(c => `<i style="background:${swatchBg(c)}" title="${c.name}"></i>`).join('')}</span>
+        <span class="dots" role="img" aria-label="Цвета: ${cols.map(c => c.name).join(', ')}">${cols.map(c => `<i style="background:${swatchBg(c)}" title="${c.name}"></i>`).join('')}</span>
         <div class="row"><span class="price">${p.onRequest ? '<small>Цена по запросу</small>' : `<small>от</small> ${SP.money(SP.minPrice(p))} <small>${unitLabel(p)}</small>`}</span><a class="btn btn-line btn-sm" href="product.html?id=${p.id}">Подробнее</a></div>
       </div>
     </article>`;
@@ -235,7 +235,12 @@
     inp.addEventListener('keydown', e => { if (e.key === 'Escape') ov.classList.remove('on'); if (e.key === 'Enter') { const f = res.querySelector('a'); if (f) location.href = f.href; } });
   }
   const ck = $('#cookie');
-  if (ck && !store.get('cookie-ok', false)) { ck.hidden = false; $('#cookieOk').addEventListener('click', () => { store.set('cookie-ok', true); ck.hidden = true; }); }
+  if (ck && !store.get('cookie-ok', false)) {
+    // полоса внизу экрана; под неё — отступ, чтобы она не закрывала кнопки (например, «Оформить заказ»)
+    const root = document.documentElement, fit = () => root.style.setProperty('--ck-h', ck.offsetHeight + 'px');
+    ck.hidden = false; document.body.classList.add('has-cookie'); fit(); addEventListener('resize', fit);
+    $('#cookieOk').addEventListener('click', () => { store.set('cookie-ok', true); ck.hidden = true; document.body.classList.remove('has-cookie'); root.style.removeProperty('--ck-h'); removeEventListener('resize', fit); });
+  }
 
   // «Спросите прямо сейчас»: готовые вопросы складываются в сообщение
   $$('[data-ask]').forEach(box => {
@@ -243,6 +248,7 @@
     box.innerHTML = `<div class="ask"><div class="ask-head"><b>Спросите прямо сейчас</b><span>Менеджер ответит в рабочее время, обычно за 15 минут</span></div>
       <form class="ask-form" novalidate><div class="ask-msg">Здравствуйте! Мне необходимо <input name="m2" type="number" min="1" placeholder="…" aria-label="Площадь, м²"> м². Прошу ответить на этот номер <label class="fld" style="display:inline-block;min-width:210px"><input name="phone" type="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" aria-label="Телефон"></label></div>
       <div class="chips-row ask-q">${Q.map(q => `<button class="chip" type="button">${q}</button>`).join('')}</div>
+      <label class="consent"><input type="checkbox" name="ok"> <span>Я соглашаюсь на <a href="politika.html" target="_blank" rel="noopener">обработку персональных данных</a></span></label>
       <button class="btn btn-main" type="submit">Отправить вопрос</button><p class="form-note"></p></form></div>`;
     UI.maskPhone(box.querySelector('input[type=tel]'));
     box.querySelectorAll('.ask-q .chip').forEach(c => c.addEventListener('click', () => { c.classList.toggle('on'); }));
@@ -261,4 +267,14 @@
   window.addEventListener('pageshow', e => { if (e.persisted) restart(); });
   const a = lg.closest('a');
   if (a) a.addEventListener('mouseenter', () => { if (Date.now() - t > 1800) restart(); });
+})();
+
+// ---------- видео: грузится и играет только когда видно на экране (экономия трафика на телефоне) ----------
+(function () {
+  const vids = [...document.querySelectorAll('video[data-autoplay]')];
+  if (!vids.length) return;
+  const play = v => { v.preload = 'auto'; const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+  if (!('IntersectionObserver' in window)) { vids.forEach(play); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => { e.isIntersecting ? play(e.target) : e.target.pause(); }), { threshold: 0.2 });
+  vids.forEach(v => { if (!v.closest('.modal')) io.observe(v); });
 })();

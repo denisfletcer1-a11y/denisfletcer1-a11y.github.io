@@ -6,11 +6,23 @@
 <title>Конструктор тротуарной плитки онлайн — Славянская плитка</title>
 <meta name="description" content="Подберите тротуарную плитку для двора: выберите дом, форму и цвет плитки — двор на фото сразу изменится. Цены по прайсу завода.">
 <meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://xn--80aafykcc5aoq.xn--p1ai/konstruktor.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Славянская плитка">
+<meta property="og:title" content="Конструктор тротуарной плитки онлайн — Славянская плитка">
+<meta property="og:description" content="Подберите тротуарную плитку для двора: выберите дом, форму и цвет плитки — двор на фото сразу изменится. Цены по прайсу завода.">
+<meta property="og:url" content="https://xn--80aafykcc5aoq.xn--p1ai/konstruktor.html">
+<meta property="og:image" content="https://xn--80aafykcc5aoq.xn--p1ai/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#f6f2ec">
+
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/lora-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=1115185758">
+<link rel="stylesheet" href="css/styles.css?v=1119135604">
 </head>
 <body class="page-kon" data-nav="konstruktor">
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
@@ -46,7 +58,7 @@
 <div class="demo-bar" role="note"><b>Демоверсия сайта.</b> Цены — из прайса завода от 01.06.2025. Заказы и заявки в демо никуда не отправляются.</div>
 <header class="hdr" id="hdr">
   <div class="wrap hdr-in">
-    <a class="logo" href="index.html" aria-label="Славянская плитка — на главную">
+    <a class="logo" href="index.html">
       <span class="logo-ic lg3 run" aria-hidden="true"><span class="lg3-s"><i class="lg3-b b1"><b class="ft"></b><b class="fb"></b><b class="fl"></b><b class="fr"></b><b class="fu"></b><b class="fd"></b></i><i class="lg3-b b2"><b class="ft"></b><b class="fb"></b><b class="fl"></b><b class="fr"></b><b class="fu"></b><b class="fd"></b></i></span></span>
       <span class="logo-t"><b>Славянская<br>плитка</b><small class="logo-roll" aria-hidden="true"><span>Славянский завод<br>тротуарной плитки</span><span>Конструктор<br>двора онлайн</span><span>Визуализация<br>бесплатно</span><span>Цены<br>производителя</span></small><span class="sr">Славянский завод тротуарной плитки</span></span>
     </a>
@@ -77,19 +89,22 @@
     <div class="kc-view">
       <div class="kb-stage" id="kbStage">
         <canvas id="kbCanvas" aria-label="Двор с выбранной плиткой"></canvas>
+        <div class="kc-zoom" aria-label="Масштаб"><button type="button" data-z="1" aria-label="Приблизить">+</button><button type="button" data-z="-1" aria-label="Отдалить">−</button><button type="button" data-z="0" aria-label="Вернуть масштаб" class="kc-zoom-reset" hidden>1:1</button></div>
+        <span class="kc-zoom-hint">Колёсико или щипок — приблизить</span>
         <div class="loading"><span><i></i>Укладываем плитку…</span></div>
         <span class="kc-logo" aria-hidden="true"><svg viewBox="0 0 64 54"><path d="M32 4 58 15 32 26 6 15z" fill="#c4825f"/><path d="M6 15 32 26v24L6 39z" fill="#9a5132"/><path d="M58 15 32 26v24l26-11z" fill="#7a3b22"/></svg>Славянская плитка</span>
       </div>
+      <div class="kc-views chips-row" id="kbViews" role="group" aria-label="Ракурс"></div>
       <p class="kb-cap" id="kbCap"></p>
     </div>
-    <div class="kc-panel">
-      <div class="kc-block"><h4>Выберите тип дома</h4><div class="kc-houses" id="kbHouses"></div></div>
-      <div class="kc-block"><h4>Выберите форму плитки</h4>
+    <div class="kc-panel" data-wait>
+      <div class="kc-block"><h2 class="kc-h">Выберите тип дома</h2><div class="kc-houses" id="kbHouses"></div></div>
+      <div class="kc-block"><h2 class="kc-h">Выберите форму плитки</h2>
         <div class="kc-forms-wrap"><button class="kc-arrow" type="button" data-dir="-1" aria-label="Назад"><svg class="ic"><use href="#i-chev"/></svg></button><div class="kc-forms" id="kbForms"></div><button class="kc-arrow" type="button" data-dir="1" aria-label="Вперёд"><svg class="ic"><use href="#i-chev"/></svg></button></div>
       </div>
-      <div class="kc-block"><h4>Выберите цвет плитки</h4><div class="kc-colors" id="kbColors"></div></div>
-      <div class="kc-block kc-more" id="kbPatWrap"><h4>Рисунок укладки</h4><div class="chips-row" id="kbPatterns"></div></div>
-      <div class="kc-block kc-more"><h4>Фактура лицевого слоя</h4><div class="chips-row" id="kbSurfaces"></div></div>
+      <div class="kc-block"><h2 class="kc-h">Выберите цвет плитки</h2><div class="kc-colors" id="kbColors"></div></div>
+      <div class="kc-block kc-more" id="kbPatWrap"><h2 class="kc-h">Рисунок укладки</h2><div class="chips-row" id="kbPatterns"></div></div>
+      <div class="kc-block kc-more"><h2 class="kc-h">Фактура лицевого слоя</h2><div class="chips-row" id="kbSurfaces"></div></div>
       <div class="kc-prod">
         <div><b id="kbProd"></b><span id="kbProdSub"></span></div>
         <button class="fav-btn" type="button" id="kbFav" aria-label="В избранное"><svg class="ic"><use href="#i-heart"/></svg></button>
@@ -112,12 +127,12 @@
       <h2>Оплата и доставка</h2>
       <div class="cards-3 kon-2">
         <div><b>Доставка манипулятором</b><span>По Славянску-на-Кубани и всему Краснодарскому краю, возможна в день заказа. Выгружаем поддоны прямо на участок.</span></div>
-        <div><b>Оплата</b><span>Наличными или картой при получении, по счёту для организаций. Залог за поддон 500 ₽ возвращается.</span></div>
+        <div><b>Оплата</b><span>Наличными в офисе, картой, переводом или по QR-коду; организациям — на расчётный счёт без НДС. Можно частями: обычно аванс 50 %. Залог за поддон 500 ₽ возвращается.</span></div>
       </div>
       <h2 style="margin-top:30px">Отзывы покупателей</h2>
       <div class="revs kon-2">
-        <blockquote><div class="stars">★★★★★</div>«Огромное спасибо этой прекрасной фирме, менеджерам, водителю — за профессионализм, чёткое разъяснение, оформление, исполнение заказа».<cite>Эмма — отзыв с сайта завода</cite></blockquote>
-        <blockquote><div class="stars">★★★★★</div>«Хочу выразить благодарность за внимательный, профессиональный подход к покупателям. Рекомендую!»<cite>Раиса — отзыв с сайта завода</cite></blockquote>
+        <blockquote><div class="stars" role="img" aria-label="Оценка 5 из 5">★★★★★</div>«Огромное спасибо этой прекрасной фирме, менеджерам, водителю — за профессионализм, чёткое разъяснение, оформление, исполнение заказа».<cite>Эмма — отзыв с сайта завода</cite></blockquote>
+        <blockquote><div class="stars" role="img" aria-label="Оценка 5 из 5">★★★★★</div>«Хочу выразить благодарность за внимательный, профессиональный подход к покупателям. Рекомендую!»<cite>Раиса — отзыв с сайта завода</cite></blockquote>
       </div>
       <h2 style="margin-top:30px">Популярные вопросы</h2>
       <div class="faq">
@@ -134,14 +149,14 @@
 <div class="modal" id="visModal" role="dialog" aria-modal="true" aria-labelledby="visTitle">
   <div class="modal-box vis-box">
     <button class="modal-x" type="button" data-close-vis aria-label="Закрыть"><svg class="ic"><use href="#i-x"/></svg></button>
-    <video class="vis-video" poster="video/poster.webp" autoplay muted loop playsinline preload="none"><source src="video/konstruktor.webm" type="video/webm"><source src="video/konstruktor.mp4" type="video/mp4"></video>
+    <video class="vis-video" poster="video/poster.webp?v=2" data-autoplay muted loop playsinline preload="none"><source src="video/konstruktor.mp4?v=2" type="video/mp4"><source src="video/konstruktor.webm?v=2" type="video/webm"></video>
     <div class="vis-body">
       <h3 id="visTitle">Визуализация всех вариантов плитки в вашем дворе</h3>
       <p>Это быстро, удобно и бесплатно. Пришлите фото двора — дизайнер завода уложит на него выбранную плитку и пришлёт картинку с расчётом.</p>
       <form class="mform" data-lead novalidate>
         <label class="fld"><svg class="ic"><use href="#i-user"/></svg><input name="name" autocomplete="name" placeholder="Ваше имя"></label>
         <label class="fld"><svg class="ic"><use href="#i-phone"/></svg><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Телефон, MAX или Telegram"></label>
-        <label class="consent"><input type="checkbox" name="ok" checked> Я соглашаюсь с обработкой персональных данных</label>
+        <label class="consent"><input type="checkbox" name="ok"> <span>Я соглашаюсь на <a href="politika.html" target="_blank" rel="noopener">обработку персональных данных</a></span></label>
         <button class="btn btn-main btn-block" type="submit">Отправить заявку</button>
         <p class="form-note"></p>
       </form>
@@ -153,14 +168,14 @@
 <footer class="ftr">
   <div class="wrap ftr-top">
     <div class="ftr-about">
-      <a class="logo" href="index.html" aria-label="На главную">
+      <a class="logo" href="index.html">
         <svg class="logo-ic" viewBox="0 0 64 54" aria-hidden="true"><path d="M32 4 58 15 32 26 6 15z" fill="#c4825f"/><path d="M6 15 32 26v24L6 39z" fill="#9a5132"/><path d="M58 15 32 26v24l26-11z" fill="#7a3b22"/><path d="M19 9.5 45 20.5" stroke="#f6efe8" stroke-width="2.2"/><path d="M19 20.6v24" stroke="#f6efe8" stroke-width="2.2"/></svg>
         <span class="logo-t"><b>Славянская<br>плитка</b><small>Славянский завод<br>тротуарной плитки</small></span>
       </a>
-      <p>Производим тротуарную плитку, бордюры и стеновые блоки методом полусухого вибропрессования. Продаём оптом и в розницу.</p>
+      <p>Производим тротуарную плитку, бордюры и стеновые блоки на собственном заводе в Славянске-на-Кубани. Продаём оптом и в розницу.</p>
     </div>
     <div>
-      <h4>Продукция</h4>
+      <h2 class="ftr-h">Продукция</h2>
       <ul>
         <li><a href="catalog.html?cat=plitka">Тротуарная плитка</a></li>
         <li><a href="catalog.html?cat=bordyur">Бордюры и поребрики</a></li>
@@ -170,7 +185,7 @@
       </ul>
     </div>
     <div>
-      <h4>Покупателям</h4>
+      <h2 class="ftr-h">Покупателям</h2>
       <ul>
         <li><a href="buyers.html#delivery">Доставка</a></li>
         <li><a href="buyers.html#payment">Оплата</a></li>
@@ -180,7 +195,7 @@
       </ul>
     </div>
     <div>
-      <h4>Сервисы</h4>
+      <h2 class="ftr-h">Сервисы</h2>
       <ul>
         <li><a href="konstruktor.html">Конструктор двора</a></li>
         <li><a href="primerka.html">Примерка на фото двора</a></li>
@@ -190,7 +205,7 @@
       </ul>
     </div>
     <div>
-      <h4>Контакты</h4>
+      <h2 class="ftr-h">Контакты</h2>
       <ul>
         <li><a href="tel:+79883336400">+7 988 333-64-00</a> — отдел сбыта</li>
         <li><a href="tel:+78614644484">8 (86146) 4-44-84</a> — приёмная</li>
@@ -205,6 +220,8 @@
     <span><svg class="ic"><use href="#i-pin"/></svg>Славянск-на-Кубани</span>
     <i class="sep" aria-hidden="true"></i>
     <a href="tel:+79883336400"><svg class="ic"><use href="#i-phone"/></svg>+7 988 333-64-00</a>
+    <i class="sep" aria-hidden="true"></i>
+    <a href="politika.html">Политика конфиденциальности</a>
   </div>
   <div class="wrap ftr-demo">
     Демонстрационная версия сайта для Славянского завода тротуарной плитки. Тексты, фото и цены — с сайта slavplitka.ru и из прайса от 01.06.2025. Фото на первом экране, фото домов в конструкторе и часть фото изделий подготовлены для демо; плитка на фото рисуется программой по размерам из прайса и фото поверхности с сайта завода.
@@ -225,7 +242,7 @@
       <label class="fld"><svg class="ic"><use href="#i-user"/></svg><input name="name" autocomplete="name" placeholder="Ваше имя"></label>
       <label class="fld"><svg class="ic"><use href="#i-phone"/></svg><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__"></label>
       <label class="fld" id="mCommentWrap" hidden><textarea name="comment" rows="3" placeholder="Комментарий: адрес доставки, сроки, вопросы"></textarea></label>
-      <label class="consent"><input type="checkbox" name="ok" checked> Я соглашаюсь с обработкой персональных данных</label>
+      <label class="consent"><input type="checkbox" name="ok"> <span>Я соглашаюсь на <a href="politika.html" target="_blank" rel="noopener">обработку персональных данных</a></span></label>
       <button class="btn btn-main btn-block" type="submit" id="mSubmit">Отправить</button>
       <p class="form-note" id="mNote"></p>
     </form>
@@ -237,11 +254,14 @@
   <div class="search-box"><svg class="ic"><use href="#i-search"/></svg><input id="searchIn" type="search" placeholder="Поиск по товару: брусчатка, бордюр, листопад…" autocomplete="off"><button class="modal-x" type="button" id="searchX" aria-label="Закрыть"><svg class="ic"><use href="#i-x"/></svg></button></div>
   <div class="search-res" id="searchRes"></div>
 </div>
-<div class="cookie" id="cookie" hidden><p>Сайт использует файлы cookie и сервис Яндекс Метрика, чтобы улучшать работу сайта. Продолжая, вы соглашаетесь с этим.</p><button class="btn btn-main btn-sm" type="button" id="cookieOk">Понятно</button></div>
-<script src="js/data.js?v=1115185758"></script>
-<script src="js/common.js?v=1115185758"></script>
-<script src="js/paving.js?v=1115185758"></script>
-<script src="js/scenes.js?v=1115185758"></script>
-<script src="js/konstruktor.js?v=1115185758"></script>
+<div class="cookie" id="cookie" hidden><p>Мы используем cookie и Яндекс Метрику, чтобы сайт работал лучше. <a href="politika.html#cookie">Подробнее</a></p><button class="btn btn-main btn-sm" type="button" id="cookieOk">Понятно</button></div>
+<script src="js/data.js?v=1119135604"></script>
+<script src="js/prodphotos.js?v=1119135604"></script>
+<script src="js/common.js?v=1119135604"></script>
+<script src="js/paving.js?v=1119135604"></script>
+<script src="js/scenes.js?v=1119135604"></script>
+<script src="js/views.js?v=1119135604"></script>
+<script src="js/konstruktor.js?v=1119135604"></script>
+<script>document.documentElement.classList.add('rendered')</script>
 </body>
 </html>
