@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дом собирается на глазах — «Сезон 96»</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { --blue: #20557d; --green: #8db946; --ink: #1d2226; --muted: #5d666d; --line: #e3e6e8; --bg: #f6f7f5; --ar: 16 / 9; --arn: 1.7778; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+  .s96 { max-width: 1180px; margin: 0 auto; padding: 22px 16px 34px; }
+  .s96-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; margin-bottom: 16px; }
+  .s96-head h2 { margin: 0; font: 700 clamp(22px, 2.6vw, 32px)/1.15 system-ui, sans-serif; color: var(--blue); }
+  .s96-head p { margin: 6px 0 0; color: var(--muted); max-width: 640px; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tabs button { border: 1px solid var(--line); background: #fff; color: var(--ink); padding: 10px 16px; border-radius: 999px; font: 600 14.5px/1 system-ui, sans-serif; cursor: pointer; }
+  .tabs button.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+  .vgroups { display: grid; grid-template-columns: 6fr 4fr 2fr; gap: 10px; margin: 0 0 12px; }
+  .vg-cap { font: 600 12px/1 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 7px; }
+  .vars { display: grid; gap: 6px; }
+  .vg-video .vars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vars button { text-align: left; border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 8px 11px; cursor: pointer; color: var(--muted); font: 400 12.5px/1.3 system-ui, sans-serif; min-height: 100%; }
+  .vars button b { display: block; color: var(--ink); font: 700 14px/1.3 system-ui, sans-serif; margin-bottom: 1px; }
+  .vars button b i { font-style: normal; color: var(--green); margin-right: 6px; }
+  .vars button.on { border-color: var(--green); box-shadow: inset 0 0 0 1px var(--green); background: #fbfdf7; }
+
+  .scrollwrap { position: relative; }
+  .scrollwrap.tall { height: 330vh; }
+  .scrollwrap.tall .player { position: sticky; top: max(12px, calc((100vh - min(100vw - 32px, 1148px) / var(--arn)) / 2)); }
+  .player { position: relative; border-radius: 14px; overflow: hidden; background: #cfd5d8; aspect-ratio: var(--ar); box-shadow: 0 18px 40px -24px rgba(0, 0, 0, .45);
+    width: min(100%, calc(80vh * var(--arn))); margin: 0 auto; }
+  .player video, .player .lay img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .player .lay { position: absolute; inset: 0; }
+  .player .lay img { user-select: none; -webkit-user-drag: none; pointer-events: none; }
+  .p-cap { position: absolute; left: 3%; top: 4%; display: flex; align-items: center; gap: 14px; padding: 10px 18px 10px 14px; border-radius: 12px; background: rgba(12, 22, 30, .6); color: #fff; pointer-events: none; }
+  .p-cap b { font: 700 clamp(26px, 4.4vw, 52px)/1 system-ui, sans-serif; color: var(--green); }
+  .p-cap span { font: 700 clamp(14px, 1.9vw, 22px)/1.2 system-ui, sans-serif; }
+  .p-cap small { display: block; font: 400 clamp(12px, 1.4vw, 16px)/1.3 system-ui, sans-serif; color: #c8e1f0; }
+  .p-hint { position: absolute; left: 50%; bottom: 7%; transform: translateX(-50%); padding: 8px 14px; border-radius: 999px; background: rgba(12, 22, 30, .62); color: #fff; font: 600 13.5px/1.2 system-ui, sans-serif; pointer-events: none; white-space: nowrap; transition: opacity .4s; }
+  .p-btn { position: absolute; right: 14px; bottom: 18px; width: 52px; height: 52px; border-radius: 50%; border: 0; background: #fff; color: var(--blue); display: grid; place-items: center; cursor: pointer; box-shadow: 0 6px 18px rgba(0, 0, 0, .25); z-index: 3; }
+  .p-btn svg { width: 22px; height: 22px; fill: currentColor; }
+  .p-btn .i-play, .p-btn .i-replay { display: none; }
+  .player.paused .i-pause, .player.ended .i-pause { display: none; }
+  .player.paused:not(.ended) .i-play { display: block; }
+  .player.ended .i-replay { display: block; }
+  .p-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(255, 255, 255, .4); z-index: 2; }
+  .p-bar i { display: block; height: 100%; background: var(--green); transform: scaleX(0); transform-origin: left; }
+  .p-tools { position: absolute; left: 14px; bottom: 18px; display: flex; gap: 6px; flex-wrap: wrap; z-index: 3; max-width: 70%; }
+  .p-tools button { border: 0; border-radius: 999px; padding: 8px 13px; background: rgba(255, 255, 255, .92); color: var(--ink); font: 600 13px/1 system-ui, sans-serif; cursor: pointer; box-shadow: 0 3px 10px rgba(0, 0, 0, .18); }
+  .p-tools button.on { background: var(--blue); color: #fff; }
+  /* оплата по этапам */
+  .p-pay { position: absolute; right: 3%; top: 4%; width: min(300px, 42%); padding: 12px 14px; border-radius: 12px; background: rgba(255, 255, 255, .94); box-shadow: 0 8px 24px rgba(0, 0, 0, .2); font-size: 13.5px; line-height: 1.35; }
+  .p-pay h4 { margin: 0 0 6px; font: 700 12px/1 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .p-pay .now { font: 700 20px/1.2 system-ui, sans-serif; color: var(--blue); }
+  .p-pay .now small { display: block; font: 400 13px/1.3 system-ui, sans-serif; color: var(--muted); }
+  .p-pay .meter { height: 8px; border-radius: 4px; background: #e7ecef; margin: 10px 0 5px; overflow: hidden; }
+  .p-pay .meter i { display: block; height: 100%; width: 0; background: var(--green); transition: width .5s; }
+  .p-pay .sum { color: var(--muted); }
+  .p-pay .sum b { color: var(--ink); }
+  /* рентген и до/после */
+  .xr-top { clip-path: circle(0 at 50% 50%); }
+  .xr-ring { position: absolute; width: 0; height: 0; pointer-events: none; }
+  .xr-ring::after { content: ""; position: absolute; left: calc(var(--r) * -1); top: calc(var(--r) * -1); width: calc(var(--r) * 2); height: calc(var(--r) * 2); border-radius: 50%; box-shadow: 0 0 0 3px rgba(255, 255, 255, .95), 0 0 0 7px rgba(32, 85, 125, .35), 0 6px 26px rgba(0, 0, 0, .35); }
+  .xr-ring span { position: absolute; left: 0; top: calc(var(--r) + 12px); transform: translateX(-50%); white-space: nowrap; padding: 5px 10px; border-radius: 999px; background: var(--blue); color: #fff; font: 600 12.5px/1 system-ui, sans-serif; }
+  .cmp-top { clip-path: inset(0 0 0 var(--x, 50%)); }
+  .cmp-line { position: absolute; top: 0; bottom: 0; left: var(--x, 50%); width: 0; pointer-events: none; }
+  .cmp-line::before { content: ""; position: absolute; top: 0; bottom: 0; left: -1.5px; width: 3px; background: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, .35); }
+  .cmp-line i { position: absolute; top: 50%; left: 0; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; background: #fff; box-shadow: 0 4px 14px rgba(0, 0, 0, .3); display: grid; place-items: center; color: var(--blue); font: 700 18px/1 system-ui; }
+  .cmp-tag { position: absolute; bottom: 7%; padding: 6px 11px; border-radius: 6px; background: rgba(12, 22, 30, .66); color: #fff; font: 600 13px/1 system-ui, sans-serif; pointer-events: none; }
+  /* 3D */
+  .h3d { position: absolute; inset: 0; background: #dfe8ee; }
+  .h3d-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .h3d-lab { position: absolute; left: 0; top: 0; pointer-events: auto; cursor: pointer; white-space: nowrap; padding: 5px 10px 5px 6px; margin: -14px 0 0 10px; border-radius: 8px; background: rgba(255, 255, 255, .93); box-shadow: 0 3px 12px rgba(0, 0, 0, .18); font: 600 12.5px/1.25 system-ui, sans-serif; color: var(--ink); transition: opacity .35s; }
+  .h3d-lab b { display: inline-block; min-width: 22px; margin-right: 6px; padding: 2px 4px; border-radius: 5px; background: var(--green); color: #14260a; text-align: center; font-size: 11.5px; }
+  .h3d-lab small { display: block; margin-left: 28px; font-weight: 400; color: var(--muted); font-size: 11.5px; }
+  .h3d-lab.on { background: var(--blue); color: #fff; }
+  .h3d-lab.on small { color: #d5e6f2; }
+  .h3d-load { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-weight: 600; }
+
+  .stages { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 6px; }
+  .stages button { width: 100%; height: 100%; text-align: left; border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 9px 10px; cursor: pointer; color: var(--muted); font: 500 13px/1.25 system-ui, sans-serif; }
+  .stages button b { display: block; font-size: 11px; letter-spacing: .08em; color: var(--green); margin-bottom: 3px; }
+  .stages button em { display: block; font-style: normal; font-size: 11.5px; color: var(--blue); margin-top: 2px; }
+  .stages button.done { color: var(--ink); }
+  .stages button.on { border-color: var(--blue); color: var(--blue); box-shadow: inset 0 -3px 0 var(--blue); }
+  .info { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-top: 14px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .card h3 { margin: 0 0 6px; font: 700 18px/1.25 system-ui, sans-serif; color: var(--blue); }
+  .card p { margin: 0; color: var(--ink); }
+  .card .pay { margin-top: 10px; color: var(--muted); font-size: 14px; }
+  .house dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 8px 0 12px; font-size: 14.5px; }
+  .house dt { color: var(--muted); } .house dd { margin: 0; font-weight: 600; }
+  .price { font: 700 24px/1 system-ui, sans-serif; color: var(--ink); }
+  .cta { display: inline-block; margin-top: 12px; background: var(--green); color: #14260a; text-decoration: none; padding: 11px 18px; border-radius: 8px; font-weight: 700; }
+  [hidden] { display: none !important; }
+  @media (max-width: 980px) {
+    .vgroups { grid-template-columns: 1fr; }
+    .vars, .vg-video .vars { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(170px, 1fr); overflow-x: auto; padding-bottom: 4px; }
+  }
+  @media (max-width: 820px) {
+    .stages { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 130px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+    .stages li { scroll-snap-align: start; }
+    .info { grid-template-columns: 1fr; }
+    .vars button span { display: none; }
+    .vars, .vg-video .vars { grid-auto-columns: max-content; }
+    .p-pay { width: 46%; padding: 8px 10px; font-size: 12px; }
+    .p-pay .now { font-size: 15px; } .p-pay h4, .p-pay .now small { display: none; }
+    .p-cap { padding: 6px 10px; gap: 8px; } .p-cap small { display: none; }
+    .p-btn { width: 42px; height: 42px; right: 10px; bottom: 12px; }
+    .p-tools { left: 8px; bottom: 12px; } .p-tools button { padding: 7px 10px; font-size: 12px; }
+    .h3d-lab { font-size: 11px; padding: 3px 7px 3px 4px; } .h3d-lab small { display: none; }
+  }
+</style>
+</head>
+<body>
+<section class="s96" id="s96build">
+  <div class="s96-head">
+    <div>
+      <h2>Ваш дом собирается на глазах</h2>
+      <p>От винтовых свай до готового фасада — так строим каркасный дом. Нажмите на этап, чтобы остановиться и рассмотреть.</p>
+    </div>
+    <div class="tabs" role="tablist" id="s96tabs"></div>
+  </div>
+  <div class="vgroups" id="s96varwrap"></div>
+  <div class="scrollwrap" id="s96wrap">
+    <div class="player paused" id="s96player">
+      <video id="s96video" muted playsinline preload="metadata"></video>
+      <div class="lay" id="s96lay" hidden></div>
+      <div class="p-cap" id="s96cap" hidden><b id="s96capn"></b><span><span id="s96capt"></span><small id="s96capw"></small></span></div>
+      <div class="p-pay" id="s96pay" hidden><h4>Оплата по этапам</h4><div class="now" id="s96paynow"></div><div class="meter"><i id="s96paybar"></i></div><div class="sum" id="s96paysum"></div></div>
+      <div class="p-tools" id="s96tools" hidden></div>
+      <div class="p-hint" id="s96hint" hidden></div>
+      <button class="p-btn" type="button" id="s96btn" aria-label="Смотреть">
+        <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+        <svg class="i-replay" viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"/></svg>
+      </button>
+      <div class="p-bar" id="s96barw"><i id="s96bar"></i></div>
+    </div>
+  </div>
+  <ol class="stages" id="s96stages"></ol>
+  <div class="info">
+    <div class="card"><h3 id="s96name"></h3><p id="s96text"></p><p class="pay" id="s96paytext">Оплата по этапам: 30% при заключении договора, следующие платежи — перед началом очередного этапа. Без банка и переплат.</p></div>
+    <div class="card house"><h3 id="s96title"></h3><dl id="s96spec"></dl><div class="price" id="s96price"></div><a class="cta" id="s96cta" href="#" target="_top">Хочу такой дом</a></div>
+  </div>
+</section>
+<script>
+(() => {
+  const HOUSES = {
+    '7x9': {
+      tab: 'Дом 7×9 с верандой', title: 'Каркасный дом 7×9 с верандой', price: 2750000, weeks: 6, ar: [16, 9],
+      url: 'https://sezon96.ru/store/karkasnye-doma/karkasnyy-dom-7h9-s-verandoy/',
+      spec: [['Площадь', '63 м²'], ['Веранда', '2,5 × 7 м, крыльцо 1,5 × 2,5 м'], ['Этажность', 'одноэтажный, второй свет'], ['Срок', '6 недель'], ['Гарантия', '36 месяцев']],
+      stages: [
+        ['Участок', 'Разметка участка', 'Выезжаем на участок, размечаем пятно дома 7×9 и веранды. Заключаем договор.', 1],
+        ['Сваи', 'Винтовые сваи', '16 винтовых свай 2500/89 мм под дом, отдельные — под веранду и крыльцо.', 1],
+        ['Обвязка', 'Обвязка и лаги', 'Обвязка и лаги из доски 50×200 мм с шагом 600 мм.', 2],
+        ['Пол', 'Черновой пол', 'Настил пола — плита ОСП-3 22 мм.', 2],
+        ['Каркас', 'Каркас стен', 'Каркас стен высотой 2,5 м и толщиной 200 мм, проёмы под окна в пол.', 3],
+        ['Стропила', 'Стропильная система', 'Двускатная стропильная система и ферма веранды из клеёного бруса.', 4],
+        ['Утепление', 'Утепление и ветрозащита', 'Утеплитель Knauf TS 036 Aquastatik, ветрозащитная мембрана, обрешётка.', 4],
+        ['Кровля', 'Кровля, окна, двери', 'Металлочерепица «Монтеррей» RAL 7024, окна REHAU с ламинацией «серый графит».', 5],
+        ['Готово', 'Фасад и веранда — дом готов', 'Металлосайдинг «Короед» цвета «зелёный мох», веранда и крыльцо. Дом готов за 6 недель.', 6],
+      ],
+    },
+    '6x7': {
+      tab: 'Дом 6×7 с мансардой', title: 'Каркасный дом 6×7 с мансардой', price: 1950000, weeks: 4, ar: [4, 3],
+      url: 'https://sezon96.ru/store/karkasnye-doma/karkasnyy-dom-6h7-s-mansardoy-i-krylcom/',
+      spec: [['Площадь', '70 м²'], ['Мансарда', '4 × 7 м'], ['Крыльцо', '1,5 × 4,5 м с кровлей'], ['Срок', '4 недели'], ['Гарантия', '36 месяцев']],
+      stages: [
+        ['Участок', 'Разметка участка', 'Выезжаем на участок, размечаем пятно дома 6×7 и крыльца. Заключаем договор.', 1],
+        ['Сваи', 'Винтовые сваи', '16 винтовых свай 2500/89 мм под дом и крыльцо.', 1],
+        ['Обвязка', 'Обвязка и лаги', 'Обвязка и лаги из доски 50×200 мм.', 1],
+        ['Пол', 'Пол', 'Настил пола — шпунтованная доска камерной сушки.', 2],
+        ['Каркас', 'Каркас стен', 'Каркас стен 2,5 м, толщина 150 мм, проёмы под окна и дверь.', 2],
+        ['Стропила', 'Мансарда и стропила', 'Перекрытие и крутая двускатная стропильная система — мансарда 4×7 м.', 3],
+        ['Утепление', 'Утепление и ветрозащита', 'Утеплитель Knauf TS 036 Aquastatik, ветрозащита, обрешётка.', 3],
+        ['Кровля', 'Кровля, окна, дверь', 'Металлочерепица «Монтеррей» цвета «шоколад», окна REHAU, входная дверь.', 4],
+        ['Готово', 'Фасад и крыльцо — дом готов', 'Обшивка имитацией бруса, крыльцо 1,5×4,5 м с кровлей. Дом готов за 4 недели.', 4],
+      ],
+    },
+  };
+  // оплата: % от цены перед этапом (30 / 15 / 15 / 15 / 15 / 10)
+  const PAY = { 0: 30, 2: 15, 4: 15, 5: 15, 7: 15, 8: 10 };
+  const PAY_NOTE = { 0: 'при заключении договора', 2: 'перед обвязкой и полом', 4: 'перед каркасом стен', 5: 'перед стропилами', 7: 'перед кровлей и окнами', 8: 'после сдачи дома' };
+  const DIRS = ['lr', 'lr', 'lr', 'up', 'down', 'lr', 'down', 'rl'];   // откуда растёт следующий этап (как в роликах)
+  const VARS = {
+    holo: ['A', 'Чертёж оживает', 'Луч-сканер рисует голубой чертёж детали, и она становится настоящей.', 'video'],
+    crane: ['B', 'Сборка краном', 'Детали опускаются на тросе, с тенью и облачком пыли.', 'video'],
+    timelapse: ['C', 'Таймлапс стройки', 'День и ночь, стройка растёт рывками, счётчик дней.', 'video'],
+    prostor: ['D', 'Спокойное проявление', 'Каждый этап мягко проявляется по месту — как в «Простор».', 'video'],
+    pay: ['E', 'Стройка и оплата', 'Рядом с каждым этапом — сколько и когда платить.', 'video'],
+    scroll: ['F', 'Стройка по прокрутке', 'Листаете страницу — дом растёт, вверх — разбирается.', 'img'],
+    compare: ['G', 'До / после', 'Ползунок: пустой участок ↔ готовый дом.', 'img'],
+    explode: ['H', 'Взрыв-схема', 'Дом раскладывается по слоям в воздухе, у каждого — подпись.', '3d'],
+  };
+  const GROUPS = [['vg-video', 'Видео', ['holo', 'crane', 'timelapse', 'prostor', 'pay']], ['vg-int', 'Интерактив', ['scroll', 'compare']], ['vg-3d', '3D-модель', ['explode']]];
+  const $ = id => document.getElementById(id);
+  const qs = new URLSearchParams(location.search);
+  let V = VARS[qs.get('v')] ? qs.get('v') : 'holo', K = '7x9';
+  if (qs.has('only')) $('s96varwrap').hidden = true;   // для встраивания: ?v=crane&only
+  $('s96varwrap').innerHTML = GROUPS.map(([cls, cap, keys]) => `<div class="${cls}"><p class="vg-cap">${cap}</p><div class="vars">${keys.map(k => `<button type="button" data-v="${k}"><b><i>${VARS[k][0]}</i>${VARS[k][1]}</b><span>${VARS[k][2]}</span></button>`).join('')}</div></div>`).join('');
+  $('s96varwrap').addEventListener('click', e => { const b = e.target.closest('button[data-v]'); if (b && b.dataset.v !== V) { V = b.dataset.v; load(K, true); } });
+  const player = $('s96player'), video = $('s96video'), btn = $('s96btn'), bar = $('s96bar'), list = $('s96stages'), lay = $('s96lay'), wrap = $('s96wrap');
+  let H = null, META = null, cur = -1, raf = 0, userPaused = false, mode = null, extra = null, gen = 0;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rub = n => n.toLocaleString('ru-RU').replace(/,/g, ' ') + ' ₽';
+  const still = i => `media/stills/${K}/${String(i).padStart(2, '0')}.jpg`;
+
+  $('s96tabs').innerHTML = Object.entries(HOUSES).map(([k, h]) => `<button type="button" role="tab" data-k="${k}">${h.tab}</button>`).join('');
+  $('s96tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b && b.dataset.k !== K) load(b.dataset.k, true); });
+
+  function payInfo(i) {
+    let paid = 0; for (const k in PAY) if (+k <= i) paid += PAY[k];
+    return { paid, now: PAY[i] || 0 };
+  }
+  function show(i) {
+    if (i === cur) return; cur = i; const s = H.stages[i];
+    [...list.children].forEach((li, k) => { const b = li.firstChild; b.classList.toggle('on', k === i); b.classList.toggle('done', k < i); });
+    $('s96name').textContent = s[1]; $('s96text').textContent = s[2];
+    $('s96capn').textContent = String(i + 1).padStart(2, '0'); $('s96capt').textContent = s[1];
+    $('s96capw').textContent = i === H.stages.length - 1 ? `дом готов за ${H.weeks} недел${H.weeks < 5 ? 'и' : 'ь'}` : `неделя ${s[3]} из ${H.weeks}`;
+    if (V === 'pay') {
+      const p = payInfo(i);
+      $('s96paynow').innerHTML = p.now ? `${rub(H.price * p.now / 100)} <small>${p.now}% ${PAY_NOTE[i]}</small>` : `0 ₽ <small>этап уже оплачен</small>`;
+      $('s96paybar').style.width = p.paid + '%';
+      $('s96paysum').innerHTML = `Оплачено <b>${rub(H.price * p.paid / 100)}</b> из ${rub(H.price)}`;
+    }
+    const li = list.children[i]; if (list.scrollWidth > list.clientWidth + 4) list.scrollTo({ left: li.offsetLeft - (list.clientWidth - li.offsetWidth) / 2, behavior: 'smooth' });
+  }
+  function setBar(f) { bar.style.transform = `scaleX(${Math.min(1, Math.max(0, f)).toFixed(4)})`; }
+
+  // ───── видео ─────
+  function stageAt(t) { let i = 0; for (let k = 1; k < META.stages.length; k++) if (t >= META.stages[k] - 0.6) i = k; return i; }
+  function tick() { raf = 0; if (mode !== 'video' || !META) return; const t = video.currentTime || 0; setBar(t / META.duration); show(stageAt(t)); if (!video.paused && !video.ended) raf = requestAnimationFrame(tick); }
+  const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+  function state() {
+    if (mode === '3d' && extra && extra.play) { player.classList.toggle('paused', !extra.playing); player.classList.remove('ended'); return; }
+    player.classList.toggle('paused', video.paused); player.classList.toggle('ended', video.ended); btn.setAttribute('aria-label', video.ended ? 'Смотреть снова' : video.paused ? 'Смотреть' : 'Пауза');
+  }
+  function play() { const p = video.play(); if (p && p.catch) p.catch(state); }
+
+  function teardown() {
+    if (extra && extra.destroy) extra.destroy(); extra = null;
+    video.pause(); video.removeAttribute('src'); video.load(); video.hidden = true;
+    lay.hidden = true; lay.innerHTML = ''; lay.onpointermove = lay.onpointerdown = null;
+    ['s96cap', 's96pay', 's96tools', 's96hint'].forEach(id => $(id).hidden = true);
+    $('s96tools').innerHTML = ''; btn.hidden = true; $('s96barw').hidden = true; list.hidden = false;
+    wrap.classList.remove('tall'); removeEventListener('scroll', onScroll);
+    $('s96paytext').hidden = false;
+  }
+
+  async function load(k, autoplay) {
+    const my = ++gen; teardown();
+    H = HOUSES[k]; K = k; cur = -1; mode = VARS[V][3];
+    const ar = mode === '3d' ? [16, 9] : H.ar;
+    player.style.setProperty('--ar', `${ar[0]} / ${ar[1]}`); player.style.setProperty('--arn', ar[0] / ar[1]);
+    wrap.style.setProperty('--arn', ar[0] / ar[1]);
+    $('s96varwrap').querySelectorAll('button[data-v]').forEach(b => b.classList.toggle('on', b.dataset.v === V));
+    [...$('s96tabs').children].forEach(b => { b.classList.toggle('on', b.dataset.k === k); b.setAttribute('aria-selected', b.dataset.k === k); });
+    list.innerHTML = H.stages.map((s, i) => `<li><button type="button" data-i="${i}"><b>${String(i + 1).padStart(2, '0')}</b>${s[0]}${V === 'pay' && PAY[i] ? `<em>${PAY[i]}% · ${rub(H.price * PAY[i] / 100)}</em>` : ''}</button></li>`).join('');
+    $('s96title').textContent = H.title; $('s96price').textContent = rub(H.price); $('s96cta').href = H.url;
+    $('s96spec').innerHTML = H.spec.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('');
+    if (mode === 'video') {
+      const tag = V === 'pay' ? 'prostor' : V;
+      META = await (await fetch(`media/build_${k}_${tag}.json`)).json(); if (my !== gen) return;
+      video.hidden = false; btn.hidden = false; $('s96barw').hidden = false; $('s96pay').hidden = V !== 'pay';
+      video.poster = `media/build_${k}_${tag}_poster.jpg`; video.src = `media/build_${k}_${tag}.mp4`; video.load();
+      show(0); state();
+      if (autoplay && !reduced) { userPaused = false; play(); }
+    } else if (V === 'scroll') initScroll();
+    else if (V === 'xray') initXray();
+    else if (V === 'compare') initCompare();
+    else await init3d(my);
+  }
+
+  // ───── G. стройка по прокрутке ─────
+  let SC = null;
+  function initScroll() {
+    lay.hidden = false; $('s96cap').hidden = false; $('s96barw').hidden = false; wrap.classList.add('tall');
+    lay.innerHTML = H.stages.map((_, i) => `<img alt="" src="${still(i)}" style="opacity:${i ? 0 : 1}">`).join('');
+    SC = [...lay.children]; const hint = $('s96hint'); hint.hidden = false; hint.textContent = 'Прокручивайте вниз — дом будет расти ↓'; hint.style.opacity = 1;
+    addEventListener('scroll', onScroll, { passive: true }); onScroll(); show(0);
+  }
+  function onScroll() {
+    if (V !== 'scroll' || !SC) return;
+    const r = wrap.getBoundingClientRect(), span = r.height - innerHeight + 40;
+    const p = Math.min(1, Math.max(0, (-r.top + 20) / span)); setBar(p);
+    const n = H.stages.length - 1, x = Math.min(n - 1e-4, p * n * 1.04), i = Math.floor(x), f = Math.min(1, (x - i) * 1.35);
+    $('s96hint').style.opacity = p > .04 ? 0 : 1;
+    SC.forEach((im, k) => {
+      if (k <= i) { im.style.opacity = 1; im.style.webkitMaskImage = im.style.maskImage = 'none'; }
+      else if (k === i + 1) {
+        const d = DIRS[i], to = { lr: 'to right', rl: 'to left', up: 'to top', down: 'to bottom' }[d], a = (f * 130 - 30).toFixed(1);
+        const m = `linear-gradient(${to}, #000 ${a}%, transparent ${(+a + 30).toFixed(1)}%)`;
+        im.style.opacity = 1; im.style.webkitMaskImage = im.style.maskImage = m;
+      } else im.style.opacity = 0;
+    });
+    show(f > .5 ? Math.min(n, i + 1) : i);
+  }
+  function scrollToStage(i) {
+    const r = wrap.getBoundingClientRect(), span = r.height - innerHeight + 40, n = H.stages.length - 1;
+    scrollTo({ top: scrollY + r.top - 20 + span * Math.min(1, (i + .02) / (n * 1.04)), behavior: 'smooth' });
+  }
+
+  // ───── H. рентген ─────
+  const XR = [[5, 'Каркас'], [6, 'Утепление'], [2, 'Сваи и обвязка']];
+  function initXray() {
+    lay.hidden = false; let src = 5, label = 'Каркас';
+    lay.innerHTML = `<img alt="" src="${still(8)}"><img alt="" class="xr-top" src="${still(src)}"><div class="xr-ring"><span>${label}</span></div>`;
+    const top = lay.children[1], ring = lay.children[2];
+    const tools = $('s96tools'); tools.hidden = false;
+    tools.innerHTML = XR.map(([i, t], j) => `<button type="button" data-i="${i}" class="${j ? '' : 'on'}">${t}</button>`).join('');
+    tools.onclick = e => { const b = e.target.closest('button'); if (!b) return; src = +b.dataset.i; label = b.textContent; top.src = still(src); ring.firstChild.textContent = label; [...tools.children].forEach(x => x.classList.toggle('on', x === b)); show(src); };
+    const hint = $('s96hint'); hint.hidden = false; hint.textContent = 'Водите курсором или пальцем по дому';
+    let auto = true, t0 = performance.now(), x = .5, y = .5;
+    const R = () => Math.round(lay.clientWidth * .15);
+    function place() {
+      const w = lay.clientWidth, h = lay.clientHeight, r = R();
+      top.style.clipPath = `circle(${r}px at ${(x * w).toFixed(1)}px ${(y * h).toFixed(1)}px)`;
+      ring.style.cssText = `left:${(x * w).toFixed(1)}px;top:${(y * h).toFixed(1)}px;--r:${r}px`;
+    }
+    const move = e => { const b = lay.getBoundingClientRect(); x = (e.clientX - b.left) / b.width; y = (e.clientY - b.top) / b.height; auto = false; hint.style.opacity = 0; place(); };
+    lay.onpointermove = move; lay.onpointerdown = move; lay.style.touchAction = 'pan-y';
+    const step = now => { if (V !== 'xray') return; if (auto) { const t = (now - t0) / 1000; x = .5 + .22 * Math.sin(t * .7); y = .55 + .14 * Math.sin(t * 1.1 + 1); place(); } requestAnimationFrame(step); };
+    requestAnimationFrame(step); show(src);
+  }
+
+  // ───── I. до / после ─────
+  function initCompare() {
+    lay.hidden = false; let before = 0;
+    lay.innerHTML = `<img alt="" src="${still(before)}"><img alt="" class="cmp-top" src="${still(8)}"><span class="cmp-tag" style="left:3%">${H.stages[before][1]}</span><span class="cmp-tag" style="right:3%">Готовый дом</span><div class="cmp-line"><i>⇆</i></div>`;
+    const base = lay.children[0], tagL = lay.children[2];
+    let x = .5, drag = false, auto = true, t0 = performance.now();
+    const set = v => { x = Math.min(.98, Math.max(.02, v)); lay.style.setProperty('--x', (x * 100).toFixed(2) + '%'); };
+    const pos = e => { const b = lay.getBoundingClientRect(); set((e.clientX - b.left) / b.width); };
+    lay.style.touchAction = 'pan-y';
+    lay.onpointerdown = e => { drag = true; auto = false; $('s96hint').style.opacity = 0; lay.setPointerCapture(e.pointerId); pos(e); };
+    lay.onpointermove = e => { if (drag) pos(e); };
+    lay.onpointerup = lay.onpointercancel = () => { drag = false; };
+    const hint = $('s96hint'); hint.hidden = false; hint.textContent = 'Тяните ползунок влево-вправо'; hint.style.opacity = 1;
+    extra = { before(i) { before = Math.min(i, 7); base.src = still(before); tagL.textContent = H.stages[before][1]; show(before); } };
+    const step = now => { if (V !== 'compare') return; if (auto) set(.5 + .3 * Math.sin((now - t0) / 1000 * 1.1)); requestAnimationFrame(step); };
+    requestAnimationFrame(step); set(.5); show(0);
+  }
+
+  // ───── J/K/L. 3D ─────
+  let lib = null;
+  function loadLib() { return lib || (lib = new Promise((ok, no) => { const s = document.createElement('script'); s.src = 'js/house3d.js'; s.onload = () => ok(window.House3D); s.onerror = no; document.head.appendChild(s); })); }
+  async function init3d(my) {
+    lay.hidden = false; lay.innerHTML = '<div class="h3d"><div class="h3d-load">Загружаем 3D-модель…</div></div>';
+    const box = lay.firstChild; const L = await loadLib(); if (my !== gen) return;
+    box.innerHTML = '';
+    const glb = `models/house${K}.glb`, labels = H.stages.map(s => s[1]);
+    const hint = $('s96hint'); hint.hidden = false; hint.textContent = 'Крутите модель мышкой или пальцем'; hint.style.opacity = 1;
+    setTimeout(() => { hint.style.opacity = 0; }, 4000);
+    const tools = $('s96tools');
+    if (V === 'build3d') {
+      $('s96cap').hidden = false; btn.hidden = false; $('s96barw').hidden = false;
+      extra = await L.mountBuild(box, { glb, labels, onStage: i => show(i) }); if (my !== gen) { extra.destroy(); return; }
+      show(0); state();
+      const pr = () => { if (V !== 'build3d' || !extra) return; setBar(extra.progress()); state(); requestAnimationFrame(pr); }; pr();
+    } else if (V === 'explode') {
+      tools.hidden = false; tools.innerHTML = '<button type="button" data-e="0">Собрать</button><button type="button" data-e="1" class="on">Разобрать</button>';
+      extra = await L.mountExplode(box, { glb, labels, onStage: i => show(i) }); if (my !== gen) { extra.destroy(); return; }
+      tools.onclick = e => { const b = e.target.closest('button'); if (!b) return; extra.set(+b.dataset.e); [...tools.children].forEach(x => x.classList.toggle('on', x === b)); };
+      show(H.stages.length - 1);
+    } else {
+      list.hidden = true; $('s96paytext').hidden = true;
+      tools.hidden = false; tools.innerHTML = '<button type="button" data-e="0">Собрать</button><button type="button" data-e="1" class="on">Разобрать</button>';
+      extra = await L.mountPie(box, { house: K }); if (my !== gen) { extra.destroy(); return; }
+      tools.onclick = e => { const b = e.target.closest('button'); if (!b) return; extra.set(+b.dataset.e); [...tools.children].forEach(x => x.classList.toggle('on', x === b)); };
+      $('s96name').textContent = 'Из чего состоит стена';
+      $('s96text').textContent = K === '6x7' ? 'Тёплый контур 150 мм: имитация бруса снаружи, вентзазор, ветрозащита, каркас с утеплителем Knauf, пароизоляция и внутренняя отделка. Крутите кусок стены и смотрите каждый слой.' : 'Тёплый контур 200 мм: металлосайдинг «Короед», вентзазор, ветрозащита, каркас с утеплителем Knauf, пароизоляция и внутренняя отделка. Крутите кусок стены и смотрите каждый слой.';
+    }
+  }
+
+  list.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return; const i = +b.dataset.i;
+    if (mode === 'video') {
+      if (!META) return; userPaused = true; video.pause();
+      const go = () => { video.currentTime = Math.min(META.stages[i] + 0.05, META.duration - 0.05); show(i); kick(); };
+      if (video.readyState >= 1) go(); else video.addEventListener('loadedmetadata', go, { once: true });
+    } else if (V === 'scroll') scrollToStage(i);
+    else if (V === 'xray') { const t = $('s96tools'), m = [...t.children].find(x => +x.dataset.i === i); if (m) m.click(); else { lay.children[1].src = still(i); lay.children[2].firstChild.textContent = H.stages[i][0]; [...t.children].forEach(x => x.classList.remove('on')); show(i); } }
+    else if (V === 'compare' && extra) extra.before(i);
+    else if (V === 'build3d' && extra) { extra.seek(i); show(i); state(); }
+    else if (V === 'explode' && extra) { extra.focus(i); show(i); }
+  });
+  btn.addEventListener('click', () => {
+    if (mode === '3d' && extra && extra.play) { extra.playing ? extra.pause() : extra.play(); state(); return; }
+    if (video.ended) { video.currentTime = 0; userPaused = false; play(); } else if (video.paused) { userPaused = false; play(); } else { userPaused = true; video.pause(); }
+  });
+  ['play', 'pause'].forEach(ev => video.addEventListener(ev, () => { state(); kick(); }));
+  video.addEventListener('ended', () => { state(); show(H.stages.length - 1); setBar(1); });
+  video.addEventListener('timeupdate', kick); video.addEventListener('seeked', kick);
+  // запуск, когда блок виден на экране; пауза, когда ушёл
+  new IntersectionObserver(es => es.forEach(e => {
+    if (mode !== 'video' || !video.src) return;
+    if (e.isIntersecting && e.intersectionRatio > 0.45 && !userPaused && !video.ended && !reduced) play();
+    else if (!e.isIntersecting && !video.paused) video.pause();
+  }), { threshold: [0, 0.45] }).observe(player);
+  const start = qs.get('dom');
+  load(HOUSES[start] ? start : '7x9', false);
+})();
+</script>
+</body>
+</html>
