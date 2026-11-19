@@ -196,7 +196,7 @@
     compare: ['G', 'До / после', 'Ползунок: пустой участок ↔ готовый дом.', 'img'],
     explode: ['H', 'Взрыв-схема', 'Дом раскладывается по слоям в воздухе, у каждого — подпись.', '3d'],
   };
-  const GROUPS = [['vg-video', 'Видео', ['holo', 'crane', 'timelapse', 'prostor', 'pay']], ['vg-int', 'Интерактив', ['scroll', 'compare']], ['vg-3d', '3D-модель', ['explode']]];
+  const GROUPS = [['vg-video', 'Сборка поэтапно', ['holo', 'crane', 'timelapse', 'prostor', 'pay']], ['vg-int', 'Интерактив', ['scroll', 'compare']], ['vg-3d', '3D-модель', ['explode']]];
   const $ = id => document.getElementById(id);
   const qs = new URLSearchParams(location.search);
   let V = VARS[qs.get('v')] ? qs.get('v') : 'holo', K = '7x9';
