@@ -22,7 +22,7 @@
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/lora-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=1119135604">
+<link rel="stylesheet" href="css/styles.css?v=1123165353">
 </head>
 <body class="page-primerka" data-nav="konstruktor">
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
@@ -84,7 +84,7 @@
 <main id="main">
 <div class="wrap">
   <nav class="crumbs" aria-label="Навигация"><a href="index.html">Главная</a><i>/</i><a href="konstruktor.html">Конструктор</a><i>/</i><span>Примерка на фото</span></nav>
-  <div class="page-head"><h1>Плитка на фото вашего двора</h1><p>Загрузите фото своего участка и поставьте четыре точки на углы места под плитку. Плитка ляжет в перспективе, а тени с фото сохранятся. Посмотреть плитку на готовых фото домов можно в <a class="link-arrow" href="konstruktor.html">конструкторе</a>.</p></div>
+  <div class="page-head"><h1>Плитка на фото вашего двора</h1><p>Загрузите фото своего участка — нейросеть сама найдёт двор и уложит плитку точно по контуру, в перспективе и с тенями с фото. Можно и обвести двор вручную. Посмотреть плитку на готовых фото домов можно в <a class="link-arrow" href="konstruktor.html">конструкторе</a>.</p></div>
   <div class="pr">
     <div class="pr-stage" id="prStage">
       <div class="pr-wrap" id="prWrap" hidden>
@@ -104,15 +104,21 @@
       </div>
       <div class="pr-tips" id="prTips" hidden>
         <b>Как получить точную картинку</b>
-        <ol><li>Поставьте точки на углы места под плитку: две ближние внизу, две дальние выше.</li><li>Укажите справа ширину участка по ближнему краю — от неё зависит размер камней.</li><li>Выберите форму, рисунок и цвет. Готовое фото можно сохранить или отправить менеджеру вместе с расчётом.</li></ol>
+        <ol><li>Нейросеть выделит двор сама. Если пропустила кусок — «+ Добавить» и нажмите на него, лишнее — «− Убрать». Или выберите «Обвести контур» и нажимайте по краю двора.</li><li>Оранжевые точки задают перспективу: поставьте их на углы любого прямоугольника на земле — например, края дорожки или плит. Две ближние внизу, две дальние выше.</li><li>Укажите справа ширину между ближними точками — от неё зависит размер камней.</li><li>Выберите форму, рисунок и цвет. Готовое фото можно сохранить или отправить менеджеру вместе с расчётом.</li></ol>
       </div>
       <p class="pr-help" id="prHelp">Тяните оранжевые точки на углы участка под плитку</p>
     </div>
     <div class="pr-panel">
+      <div class="opt"><h2 class="opt-h">Где класть плитку</h2>
+        <div class="chips-row" id="prMode" role="group" aria-label="Как выделить двор"><button class="chip on" type="button" data-m="ai">Нейросеть</button><button class="chip" type="button" data-m="poly">Обвести контур</button><button class="chip" type="button" data-m="quad">4 точки</button></div>
+        <p class="muted pr-hint" id="prModeHint"></p>
+        <div class="pr-tools" id="prAiTools"><button class="chip on" type="button" id="prToolAdd">+ Добавить</button><button class="chip" type="button" id="prToolCut">− Убрать</button><button class="chip" type="button" id="prUndo">Отменить</button><button class="chip" type="button" id="prClear">Сбросить</button></div>
+        <p class="pr-ai-status" id="prAiStatus" aria-live="polite"></p>
+      </div>
       <div class="opt"><h2 class="opt-h">Форма плитки</h2><select class="inp" id="prForm" aria-label="Форма плитки"></select></div>
       <div class="opt" id="prPatWrap"><h2 class="opt-h">Рисунок укладки</h2><div class="chips-row" id="prPatterns"></div></div>
       <div class="opt"><h2 class="opt-h">Цвет <em id="prColorName"></em></h2><div class="kb-colors" id="prColors"></div></div>
-      <div class="opt"><h2 class="opt-h">Ширина участка по ближнему краю <em id="prWidthOut"></em></h2><input class="range" type="range" id="prWidth" aria-label="Ширина участка по ближнему краю, м" min="1.5" max="15" step="0.5" value="4"><p class="muted" style="font-size:12.5px;margin-top:6px">От ширины зависит размер камней на фото. Глубина участка считается по перспективе: <span id="prDepth">появится после загрузки фото</span>.</p></div>
+      <div class="opt"><h2 class="opt-h">Ширина между ближними точками <em id="prWidthOut"></em></h2><input class="range" type="range" id="prWidth" aria-label="Ширина между ближними оранжевыми точками, м" min="1.5" max="15" step="0.5" value="4"><p class="muted" style="font-size:12.5px;margin-top:6px">От ширины зависит размер камней на фото. Глубина участка считается по перспективе: <span id="prDepth">появится после загрузки фото</span>.</p></div>
       <div class="kb-buy">
         <div class="kb-prod"><div><b id="prProd"></b><span id="prSub"></span></div></div>
         <div class="buy-btns" style="margin-top:12px"><button class="btn btn-main" type="button" id="prLead">Отправить менеджеру</button><button class="btn btn-ghost" type="button" id="prSave">Сохранить фото</button></div>
@@ -212,12 +218,12 @@
   <div class="search-res" id="searchRes"></div>
 </div>
 <div class="cookie" id="cookie" hidden><p>Мы используем cookie и Яндекс Метрику, чтобы сайт работал лучше. <a href="politika.html#cookie">Подробнее</a></p><button class="btn btn-main btn-sm" type="button" id="cookieOk">Понятно</button></div>
-<script src="js/data.js?v=1119135604"></script>
-<script src="js/prodphotos.js?v=1119135604"></script>
-<script src="js/common.js?v=1119135604"></script>
-<script src="js/paving.js?v=1119135604"></script>
-<script src="js/scenes.js?v=1119135604"></script>
-<script src="js/primerka.js?v=1119135604"></script>
+<script src="js/data.js?v=1123165353"></script>
+<script src="js/prodphotos.js?v=1123165353"></script>
+<script src="js/common.js?v=1123165353"></script>
+<script src="js/paving.js?v=1123165353"></script>
+<script src="js/scenes.js?v=1123165353"></script>
+<script src="js/primerka.js?v=1123165353"></script>
 <script>document.documentElement.classList.add('rendered')</script>
 </body>
 </html>

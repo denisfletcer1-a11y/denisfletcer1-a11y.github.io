@@ -1132,3 +1132,23 @@ html:not(.rendered) [data-wait] { visibility: hidden; animation: wait-show 0s 6s
 /* «хлебные крошки» на телефоне — в одну строку (длинное название товара обрезается многоточием, страница не прыгает) */
 @media (max-width: 680px) { .crumbs { flex-wrap: nowrap; white-space: nowrap; overflow: hidden; } .crumbs > :last-child { overflow: hidden; text-overflow: ellipsis; min-width: 0; } }
 .prose a[href^="tel:"], .prose a[href^="mailto:"] { white-space: nowrap; }
+
+/* ---------- примерка: нейросеть и контур ---------- */
+.pr-hint { font-size: 12.5px; margin-top: 8px; }
+.pr-tools { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.pr-tools[hidden], .pr-tools .chip[hidden] { display: none; }
+.pr-ai-status { font-size: 12.5px; margin: 8px 0 0; color: var(--ink2); min-height: 0; }
+.pr-ai-status:empty { display: none; }
+.pr-ai-status.busy::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 7px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; vertical-align: -1px; animation: prspin .8s linear infinite; }
+.pr-ai-status.err { color: #b4472a; }
+@keyframes prspin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .pr-ai-status.busy::before { animation: none; } }
+.pr-handles { cursor: crosshair; }
+.pr-handles .pr-poly { fill: rgba(232, 112, 54, .12); stroke: #fff; stroke-width: 2; stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; pointer-events: none; }
+.pr-handles circle.pv { fill: #fff; stroke: rgba(232, 112, 54, .95); stroke-width: 2.5; }
+.pr-handles circle.pv.first { fill: rgba(232, 112, 54, .95); stroke: #fff; }
+.pr-handles .pa { pointer-events: none; }
+.pr-handles .pa circle { stroke: #fff; stroke-width: 2.5; vector-effect: non-scaling-stroke; cursor: default; }
+.pr-handles .pa.add circle { fill: #2f8f4e; }
+.pr-handles .pa.cut circle { fill: #c0392b; }
+.pr-handles .pa path { stroke: #fff; fill: none; stroke-linecap: round; }
