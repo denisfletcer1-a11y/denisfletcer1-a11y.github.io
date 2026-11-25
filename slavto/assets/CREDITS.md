@@ -1,0 +1,3 @@
+- spr_hoaiskej: "spr_hoaiskej" by dronmo (https://sketchfab.com/3d-models/b5b7983b29cc43bc9f412e9aba442c59) is licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Optimized for the web by paprika3D.
+- motorbike: "motorbike" by AR Quick Look USDZ (https://sketchfab.com/3d-models/a6f3fd942d26435a808e9052515e4260) is licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Optimized for the web by paprika3D.
+- Truck WIP: "Truck WIP" by Renafox (https://sketchfab.com/3d-models/33e925207e134652bd8c2465e5c16957) is licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Optimized for the web by paprika3D.
