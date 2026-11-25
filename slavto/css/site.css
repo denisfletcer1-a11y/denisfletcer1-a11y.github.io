@@ -401,3 +401,17 @@ a.pill:hover { background: rgba(255, 194, 26, .26); }
 @media (max-width: 420px) { .clients.logos li { width: calc(50% - 4px); } .clients.logos li.wide { width: 100%; } }
 .zone-tabs { grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); }
 @media (max-width: 600px) { .zone-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* остальная техника — ООО «Славянск-Сервис» */
+.heavy { margin-top: 28px; border: 1px solid var(--line); border-radius: var(--r); padding: clamp(20px, 3vw, 30px); background: var(--bg); }
+.heavy-h { display: flex; gap: 24px; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; margin-bottom: 18px; }
+.heavy-h h3 { font-size: 20px; margin-bottom: 6px; }
+.heavy-h p { color: var(--ink2); font-size: 15px; margin: 0; max-width: 560px; }
+.heavy-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.heavy-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+.heavy-list li { background: #fff; border: 1px solid var(--line); border-radius: var(--r-sm); padding: 14px 16px; display: grid; gap: 4px; }
+.heavy-list .code { justify-self: start; font-size: 12px; font-weight: 700; background: var(--navy); color: #fff; border-radius: 7px; padding: 3px 8px; }
+.heavy-list b { font-size: 15px; }
+.heavy-list .hp { font-weight: 800; font-size: 18px; }
+.heavy-n { color: var(--mut); font-size: 13px; margin: 14px 0 0; }
+@media (max-width: 520px) { .heavy-btns .btn { flex: 1 1 100%; } }
