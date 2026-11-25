@@ -415,3 +415,20 @@ a.pill:hover { background: rgba(255, 194, 26, .26); }
 .heavy-list .hp { font-weight: 800; font-size: 18px; }
 .heavy-n { color: var(--mut); font-size: 13px; margin: 14px 0 0; }
 @media (max-width: 520px) { .heavy-btns .btn { flex: 1 1 100%; } }
+
+/* ОСАГО */
+.osago { background: linear-gradient(135deg, #fff8e1 0%, #ffffff 60%); }
+.osago-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.osago-pts { list-style: none; padding: 0; margin: 0 0 28px; display: grid; gap: 14px; }
+.osago-pts li { display: grid; grid-template-columns: 26px 1fr; gap: 2px 12px; }
+.osago-pts li::before { content: "✓"; grid-row: span 2; width: 26px; height: 26px; border-radius: 50%; background: var(--acc); display: grid; place-items: center; font-weight: 800; font-size: 13px; }
+.osago-pts b { font-size: 17px; }
+.osago-pts span { color: var(--ink2); font-size: 15px; }
+.osago-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.osago-card { background: var(--navy); color: #fff; border-radius: var(--r); padding: clamp(22px, 3vw, 34px); box-shadow: var(--sh); }
+.osago-card h3 { margin-bottom: 14px; }
+.osago-card ul { margin: 0 0 18px; padding-left: 18px; display: grid; gap: 8px; color: #dbe1ea; }
+.osago-n { color: #a8b2c2; font-size: 13.5px; margin: 0; }
+.osago-chk { font-weight: 600; color: var(--ink); }
+@media (max-width: 900px) { .osago-grid { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .osago-btns .btn { flex: 1 1 100%; } }

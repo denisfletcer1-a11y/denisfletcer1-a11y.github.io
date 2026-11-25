@@ -238,6 +238,7 @@
     ph.value = '+7' + (p[0] ? ` (${p[0]}` : '') + (p[0].length === 3 ? ')' : '') + (p[1] ? ` ${p[1]}` : '') + (p[2] ? `-${p[2]}` : '') + (p[3] ? `-${p[3]}` : '');
   });
   $$('[data-biz]').forEach(a => a.addEventListener('click', () => { form.dataset.biz = '1'; }));
+  $$('[data-osago]').forEach(a => a.addEventListener('click', () => { $('#fOsago').checked = true; }));
   form.addEventListener('submit', e => {
     e.preventDefault();
     let ok = true;
@@ -245,7 +246,7 @@
     if (!form.agree.checked) { msg.className = 'form-msg err'; msg.textContent = 'Отметьте согласие на обработку данных.'; return; }
     if (!ok) { msg.className = 'form-msg err'; msg.textContent = 'Заполните имя, телефон и дату.'; return; }
     const c = CATS.find(x => x.id === fCat.value), d = new Date(fDate.value + 'T12:00');
-    const body = `Заявка на техосмотр${form.dataset.biz ? ' (юрлицо, договор)' : ''}\n\nИмя: ${form.name.value}\nТелефон: ${form.phone.value}\nТранспорт: ${c.name} (${c.code})\nДата: ${d.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })}\nВремя: ${slot || 'любое'}`;
+    const body = `Заявка на техосмотр${form.dataset.biz ? ' (юрлицо, договор)' : ''}\n\nИмя: ${form.name.value}\nТелефон: ${form.phone.value}\nТранспорт: ${c.name} (${c.code})\nДата: ${d.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })}\nВремя: ${slot || 'любое'}${form.osago.checked ? '\nНужен полис ОСАГО: да' : ''}`;
     // Демоверсия: заявка открывается письмом. В рабочей версии уходит на почту и в мессенджер автоматически.
     location.href = `mailto:${EMAIL}?subject=${encodeURIComponent('Запись на техосмотр — ' + form.name.value)}&body=${encodeURIComponent(body)}`;
     msg.className = 'form-msg ok'; msg.textContent = 'Спасибо! Заявка сформирована — эксперт перезвонит и подтвердит время.';
