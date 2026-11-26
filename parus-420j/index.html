@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Конструктор лодки «Парус 420 J» — соберите комплектацию в 3D</title>
+<meta name="description" content="Соберите свою лодку «Парус 420 J» в 3D: цвет корпуса, оборудование, мотор и прицеп. Итоговая стоимость и смета в PDF.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0e0f12">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/app.css?v=3">
+</head>
+<body>
+<div class="app">
+  <section class="view" id="view" aria-label="3D-модель лодки">
+    <header class="vh">
+      <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c6 7 9 15 8 25H12C14 19 16 11 20 4z" fill="#ff6b1a"/><path d="M8 31h24l-3 4H11z" fill="#e8ecf2"/></svg><span><b>ПАРУС</b><small>Наши лодки</small></span></div>
+      <h1 id="title">Парус 420 J</h1>
+      <p class="sum" id="summary">базовая комплектация</p>
+    </header>
+    <div class="load" id="load"><span></span>Загружаем 3D…</div>
+    <p class="hint" id="hint" aria-live="polite">Нажмите на люк или дверцу на лодке, чтобы открыть</p>
+    <div class="tools" role="toolbar" aria-label="Управление видом">
+      <div class="views" id="views">
+        <button type="button" data-view="iso" title="Общий вид">3/4</button>
+        <button type="button" data-view="bow" title="Нос">Нос</button>
+        <button type="button" data-view="side" title="Борт">Борт</button>
+        <button type="button" data-view="stern" title="Корма">Корма</button>
+        <button type="button" data-view="top" title="Сверху">Сверху</button>
+        <button type="button" data-view="cockpit" title="Кокпит">Кокпит</button>
+      </div>
+      <div class="modes">
+        <button type="button" id="mRot" class="on" aria-pressed="true"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Вращение</button>
+        <button type="button" id="mPan" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Сдвиг</button>
+        <button type="button" id="mDim" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M3 17h18M3 14v6M21 14v6M7 17v-2M11 17v-3M15 17v-2M19 17v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Размеры</button>
+        <button type="button" id="zIn" title="Приблизить" aria-label="Приблизить">+</button>
+        <button type="button" id="zOut" title="Отдалить" aria-label="Отдалить">−</button>
+        <button type="button" id="mFull" title="На весь экран" aria-label="На весь экран"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button type="button" id="mShare" title="Скопировать ссылку на комплектацию" aria-label="Поделиться"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <aside class="panel" aria-label="Комплектация">
+    <div class="scroll" id="scroll">
+      <section class="blk">
+        <h2>Модель</h2>
+        <div class="lineup" id="lineup"></div>
+        <div class="model on"><b id="mName">Парус 420 J</b><span id="mType">с консолью</span><small id="mSize"></small><em id="mPrice"></em></div>
+        <p class="note" id="mNote"></p>
+        <p class="note"><b>В базовой комплектации:</b></p><ul class="base" id="mBase"></ul>
+      </section>
+      <section class="blk">
+        <h2>Цвет корпуса</h2>
+        <div class="colors" id="colors" role="radiogroup" aria-label="Цвет корпуса"></div>
+      </section>
+      <section class="blk">
+        <h2>Графика на бортах</h2>
+        <div class="chips" id="gfx"></div>
+      </section>
+      <section class="blk">
+        <h2>Люки и дверцы</h2>
+        <p class="note" id="hatchState">Все закрыты</p>
+        <div class="seg"><button type="button" id="hOpen">Открыть все</button><button type="button" id="hClose">Закрыть все</button></div>
+        <p class="note">Люки и дверцы можно открывать по одному — нажатием на лодке.</p>
+      </section>
+      <section class="blk">
+        <h2>Кресла</h2>
+        <div class="row-q"><span>Кресло капитана / пассажира <em>6 000 ₽/шт.</em></span><div class="cnt"><button type="button" id="sMinus" aria-label="Меньше">−</button><output id="sCnt">0</output><button type="button" id="sPlus" aria-label="Больше">+</button></div></div>
+        <div id="seatBases"></div>
+      </section>
+      <div id="groups"></div>
+      <section class="blk">
+        <h2>Мотор</h2>
+        <div class="chips" id="motors"></div>
+        <button type="button" class="btn ghost eng" id="engine" disabled><span class="eng-dot"></span><span id="engT">Запустить мотор</span></button>
+        <p class="note">Для «Парус 420 J» — мотор до 10 л.с.</p>
+      </section>
+      <section class="blk">
+        <h2>Прицеп</h2>
+        <div class="seg two"><button type="button" id="trNo" class="on">Без прицепа</button><button type="button" id="trYes">С прицепом</button></div>
+      </section>
+    </div>
+    <footer class="total">
+      <div class="trow"><span id="tlabel">Стоимость опций</span><b id="total">0 ₽</b></div>
+      <p class="tnote" id="tnote">+ цена лодки и мотора — по запросу</p>
+      <details class="comp"><summary>Состав комплектации</summary><ul id="comp"></ul></details>
+      <div class="tbtns"><button type="button" class="btn ghost" id="pdf">Смета (PDF)</button><button type="button" class="btn accent" id="lead">Узнать сроки и доставку</button></div>
+    </footer>
+  </aside>
+</div>
+
+<dialog class="dlg" id="dlg">
+  <form method="dialog" id="leadForm">
+    <h3>Узнать сроки и доставку</h3>
+    <p>Менеджер получит вашу комплектацию и перезвонит.</p>
+    <label>Имя<input name="name" required autocomplete="name"></label>
+    <label>Телефон<input name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="+7"></label>
+    <label class="chk"><input type="checkbox" name="agree" required> Согласен на обработку персональных данных</label>
+    <div class="tbtns"><button type="button" class="btn ghost" id="dlgClose">Отмена</button><button class="btn accent" type="submit">Отправить</button></div>
+    <p class="note">Демо: в рабочей версии заявка уходит менеджеру на почту или в мессенджер.</p>
+  </form>
+</dialog>
+
+<div class="print" id="print"></div>
+<div class="toast" id="toast" role="status"></div>
+<script src="js/config.js?v=3"></script>
+<script src="js/boat3d.js?v=5"></script>
+<script src="js/app.js?v=4"></script>
+</body>
+</html>
