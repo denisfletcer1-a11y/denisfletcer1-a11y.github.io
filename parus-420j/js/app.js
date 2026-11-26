@@ -15,7 +15,7 @@
     if (p.get('b')) S.seatBase = p.get('b').split(',').map(x => (x === 'amort' ? 'amort' : 'tumba')).concat(['tumba', 'tumba']).slice(0, 2);
     if (p.get('m') && C.motors.some(m => m.id === p.get('m'))) S.motor = p.get('m');
     if (p.get('t')) S.trailer = p.get('t') === '1';
-    if (p.get('g') && C.graphics.some(g => g.id === p.get('g'))) S.graphics = p.get('g');
+    if (C.graphics.length && p.get('g') && C.graphics.some(g => g.id === p.get('g'))) S.graphics = p.get('g');
   }
   function writeHash() {
     const p = new URLSearchParams(); p.set('c', S.color);
@@ -28,9 +28,13 @@
   // ---- модель ----
   $('#mName').textContent = C.model.name; $('#mType').textContent = C.model.type; $('#mSize').textContent = C.model.size; $('#mNote').textContent = C.model.note;
   $('#title').textContent = C.model.name;
-  $('#lineup').innerHTML = C.lineup.map(m => `<button type="button" class="lu${m.active ? ' on' : ''}" ${m.active ? '' : 'disabled'}><b>${m.name}</b><span>${rub(m.price)}</span>${m.active ? '' : '<small>3D после чертежа</small>'}</button>`).join('');
+  $('#lineup').innerHTML = C.lineup.map(m => `<button type="button" class="lu${m.active ? ' on' : ''}${m.img ? ' img' : ''}" ${m.active || m.href ? '' : 'disabled'} ${m.href && !m.active ? `data-href="${m.href}"` : ''}>${m.img ? `<img src="${m.img}" alt="" loading="lazy"${m.active || m.href ? '' : ' class="dim"'}>` : ''}<b>${m.name}</b><span>${m.price ? rub(m.price) : 'цена по запросу'}</span>${m.active || m.href ? (m.tag ? `<small>${m.tag}</small>` : '') : '<small>3D после чертежа</small>'}</button>`).join('');
+  $('#lineup').addEventListener('click', e => { const b = e.target.closest('button[data-href]'); if (b) location.href = b.dataset.href; });
   $('#mBase').innerHTML = C.model.base.map(x => `<li>${x}</li>`).join('');
-  $('#mPrice').innerHTML = rub(C.model.basePrice) + (C.model.oldPrice ? ` <s>${rub(C.model.oldPrice)}</s>` : '');
+  $('#mPrice').innerHTML = C.model.basePrice ? rub(C.model.basePrice) + (C.model.oldPrice ? ` <s>${rub(C.model.oldPrice)}</s>` : '') : 'цена по запросу';
+  if (!C.seat) $('#sMinus').closest('.blk').hidden = true;
+  if (!C.graphics.length) { $('#gfx').closest('.blk').hidden = true; S.graphics = 'none'; }
+  if (C.motorNote) $('#mtNote').textContent = C.motorNote;
 
   // ---- цвета ----
   if (C.colors.length < 2) $('#colors').closest('.blk').hidden = true;
@@ -59,7 +63,7 @@
 
   function price() {
     let sum = 0; const rows = [];
-    rows.push([C.model.name + ' (' + C.model.type + '). В базе: ' + C.model.base.join(', '), C.model.basePrice]);
+    rows.push([C.model.name + ' (' + C.model.type + '). В базе: ' + C.model.base.join(', '), C.model.basePrice || null]);
     if (C.model.basePrice) sum += C.model.basePrice;
     allItems.forEach(i => { if (S.opts.has(i.id)) { sum += i.price; rows.push([i.name + ' (' + i.qty + ')', i.price]); } });
     for (let k = 0; k < S.seats; k++) { const b = C.seat.bases.find(x => x.id === S.seatBase[k]); sum += C.seat.price + b.price; rows.push(['Кресло ' + (k + 1) + ' + ' + b.name.toLowerCase(), C.seat.price + b.price]); }
@@ -102,12 +106,23 @@
   // ---- 3D ----
   const view = $('#view'), hint = $('#hint');
   boat = window.Boat3D && Boat3D.createBoat(view, {
-    onHatch: (open, all) => { $('#hatchState').textContent = open ? (open === all ? 'Все открыты' : 'Открыто: ' + open + ' из ' + all) : 'Все закрыты'; },
+    model: C.model.engine,
+    onHatch: (open, all) => { $('#hatchState').textContent = open ? (open === all ? 'Все открыты' : 'Открыто: ' + open + ' из ' + all) : 'Все закрыты'; hatchUi(); },
+    onAutoRotate: on => { mode('#mAuto', on); },
     onHover: t => { hint.textContent = t || 'Нажмите на люк или дверцу на лодке, чтобы открыть'; hint.classList.toggle('act', !!t); },
   });
   if (boat) requestAnimationFrame(() => view.classList.add('ready')); else $('#load').textContent = '3D недоступно в этом браузере';
+  function hatchUi() {
+    if (!boat) return;
+    $('#hatchList').innerHTML = boat.hatchList().map((x, i) => `<button type="button" data-h="${i}" class="${x.open ? 'on' : ''}" aria-pressed="${x.open}">${x.label}</button>`).join('');
+  }
+  $('#hatchList').addEventListener('click', e => { const b = e.target.closest('button[data-h]'); if (b) boat?.toggleHatch(+b.dataset.h); });
+  hatchUi();
+  // сцена: студия / на воде / закат
+  $$('.envs button').forEach(b => b.onclick = () => { boat?.setEnv(b.dataset.env); $$('.envs button').forEach(x => x.classList.toggle('on', x === b)); if (b.dataset.env !== 'studio') { $('#trNo').click(); } });
   $$('#views button').forEach(b => b.onclick = () => { boat?.view(b.dataset.view); $$('#views button').forEach(x => x.classList.toggle('on', x === b)); });
-  const mode = (id, on) => { $(id).classList.toggle('on', on); $(id).setAttribute('aria-pressed', on); };
+  function mode(id, on) { $(id).classList.toggle('on', on); $(id).setAttribute('aria-pressed', on); }
+  $('#mAuto').onclick = () => { const on = boat ? boat.setAutoRotate(!$('#mAuto').classList.contains('on')) : false; mode('#mAuto', on); };
   $('#mRot').onclick = () => { boat?.setPan(false); mode('#mRot', true); mode('#mPan', false); };
   $('#mPan').onclick = () => { boat?.setPan(true); mode('#mRot', false); mode('#mPan', true); };
   let dims = false; $('#mDim').onclick = () => { dims = !dims; boat?.setDims(dims); mode('#mDim', dims); };

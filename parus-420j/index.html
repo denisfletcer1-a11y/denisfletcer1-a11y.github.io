@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0e0f12">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="css/app.css?v=3">
+<link rel="stylesheet" href="css/app.css?v=6">
 </head>
 <body>
 <div class="app">
@@ -20,6 +20,11 @@
     </header>
     <div class="load" id="load"><span></span>Загружаем 3D…</div>
     <p class="hint" id="hint" aria-live="polite">Нажмите на люк или дверцу на лодке, чтобы открыть</p>
+    <div class="envs" role="group" aria-label="Сцена">
+      <button type="button" data-env="studio" class="on" title="Студия">Студия</button>
+      <button type="button" data-env="water" title="Лодка на воде, с качкой">На воде</button>
+      <button type="button" data-env="sunset" title="Закат на воде">Закат</button>
+    </div>
     <div class="tools" role="toolbar" aria-label="Управление видом">
       <div class="views" id="views">
         <button type="button" data-view="iso" title="Общий вид">3/4</button>
@@ -31,6 +36,7 @@
       </div>
       <div class="modes">
         <button type="button" id="mRot" class="on" aria-pressed="true"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Вращение</button>
+        <button type="button" id="mAuto" aria-pressed="false" title="Медленное вращение"><svg viewBox="0 0 24 24"><path d="M12 5a7 7 0 1 0 7 7M19 5v4h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>Облёт</button>
         <button type="button" id="mPan" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Сдвиг</button>
         <button type="button" id="mDim" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M3 17h18M3 14v6M21 14v6M7 17v-2M11 17v-3M15 17v-2M19 17v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Размеры</button>
         <button type="button" id="zIn" title="Приблизить" aria-label="Приблизить">+</button>
@@ -62,7 +68,8 @@
         <h2>Люки и дверцы</h2>
         <p class="note" id="hatchState">Все закрыты</p>
         <div class="seg"><button type="button" id="hOpen">Открыть все</button><button type="button" id="hClose">Закрыть все</button></div>
-        <p class="note">Люки и дверцы можно открывать по одному — нажатием на лодке.</p>
+        <div class="hlist" id="hatchList"></div>
+        <p class="note">Или нажмите на кружок прямо на лодке.</p>
       </section>
       <section class="blk">
         <h2>Кресла</h2>
@@ -74,7 +81,7 @@
         <h2>Мотор</h2>
         <div class="chips" id="motors"></div>
         <button type="button" class="btn ghost eng" id="engine" disabled><span class="eng-dot"></span><span id="engT">Запустить мотор</span></button>
-        <p class="note">Для «Парус 420 J» — мотор до 10 л.с.</p>
+        <p class="note" id="mtNote">Для «Парус 420 J» — мотор до 10 л.с.</p>
       </section>
       <section class="blk">
         <h2>Прицеп</h2>
@@ -104,8 +111,8 @@
 
 <div class="print" id="print"></div>
 <div class="toast" id="toast" role="status"></div>
-<script src="js/config.js?v=3"></script>
-<script src="js/boat3d.js?v=8"></script>
-<script src="js/app.js?v=4"></script>
+<script src="js/config.js?v=5"></script>
+<script src="js/boat3d.js?v=10"></script>
+<script src="js/app.js?v=7"></script>
 </body>
 </html>

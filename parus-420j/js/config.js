@@ -6,8 +6,8 @@ window.BOAT_CONFIG = {
     base: ['Кринолины с утками', 'Рундук в носу и кормовой рундук', 'Передвижная лавка', 'Консоль и ветровое стекло с дверцей', 'Рым в носу, сливная пробка'] },
   // линейка производителя (цены с сайта nashilodki.com); 3D пока только у 420 J
   lineup: [
-    { id: '370j', name: '370 J', price: 190000 }, { id: '400j', name: '400 J', price: 197000 },
-    { id: '420j', name: '420 J', price: 210000, active: true }, { id: '420dc', name: '420 DC', price: 210000 },
+    { id: '370j', name: '370 J', price: 190000, img: 'img/thumb-420j.webp' }, { id: '400j', name: '400 J', price: 197000, img: 'img/thumb-420j.webp' },
+    { id: '420j', name: '420 J', price: 210000, img: 'img/thumb-420j.webp', active: true }, { id: '420dc', name: '420 DC', price: 210000, img: 'img/thumb-420j.webp' },
   ],
   graphics: [ { id: 'none', name: 'Без графики' }, { id: 'text', name: 'Надпись' }, { id: 'stripe', name: 'Надпись и полоса' } ],
   // цвет корпуса — как на фото производителя; выбор цвета добавим, когда Ирина пришлёт доступные цвета
