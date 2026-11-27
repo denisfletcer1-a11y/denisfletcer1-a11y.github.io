@@ -146,14 +146,20 @@
   // ---- смета PDF (печать в PDF из браузера) ----
   $('#pdf').onclick = () => {
     const p = price(), img = boat ? boat.snapshot() : '';
-    $('#print').innerHTML = `<h2>${C.brand} — ${C.model.name}</h2><p>${C.model.type}, ${C.model.size}</p>${img ? `<img src="${img}" alt="">` : ''}
-      <table>${p.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1] == null ? 'по запросу' : r[1] ? rub(r[1]) : 'в базе'}</td></tr>`).join('')}<tr><td><b>Итого по опциям</b></td><td><b>${rub(p.sum)}</b></td></tr></table>
+    const unknown = p.rows.some(r => r[1] == null), date = new Date().toLocaleDateString('ru-RU');
+    $('#print').innerHTML = `<h2>Смета: ${C.model.name}</h2><p>${C.model.type}, ${C.model.size} · от ${date}</p>${img ? `<img src="${img}" alt="">` : ''}
+      <table>${p.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1] == null ? 'по запросу' : r[1] ? rub(r[1]) : 'в базе'}</td></tr>`).join('')}<tr><td><b>${C.model.basePrice ? 'Итого с лодкой' : 'Итого'}</b></td><td><b>${rub(p.sum)}</b></td></tr></table>
+      ${unknown ? '<p>Позиции «по запросу» в итог не включены — их стоимость уточнит менеджер.</p>' : ''}
       <p>Ссылка на комплектацию: ${location.href}</p><p>Смета предварительная. Сроки и доставку уточнит менеджер.</p>`;
     setTimeout(() => window.print(), 100);
   };
   // ---- заявка ----
   const dlg = $('#dlg');
   $('#lead').onclick = () => dlg.showModal?.(); $('#dlgClose').onclick = () => dlg.close();
+  // телефон: не меньше 10 цифр, иначе форма не отправится и браузер покажет подсказку
+  const phone = $('#leadForm input[name=phone]');
+  const checkPhone = () => { const d = phone.value.replace(/\D/g, ''); phone.setCustomValidity(d.length >= 10 && d.length <= 12 ? '' : 'Введите номер полностью, например +7 900 123-45-67'); };
+  phone.addEventListener('input', checkPhone); checkPhone();
   $('#leadForm').addEventListener('submit', () => { toast('Спасибо! Менеджер свяжется с вами'); });
 
   readHash(); update();
