@@ -232,3 +232,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .opt[aria-pressed="true"] .sw { background: var(--acc); }
 .opt[aria-pressed="true"] .sw::after { transform: translateX(18px); background: #fff; }
 .opt:disabled .sw { opacity: .5; }
+
+/* ---- панель видов на телефоне: кнопки делят ширину поровну, ничего не вылезает (по скриншоту с телефона 27.11) ---- */
+@media (max-width: 900px) {
+  .tools { overflow: hidden; justify-content: stretch; }
+  .views, .modes { display: contents; }
+  .tools button:not([hidden]):not(#zIn):not(#zOut):not(#mRot):not(#mPan):not([data-view="bow"]):not([data-view="stern"]) { flex: 1 1 0; min-width: 0; }
+  .views button, .modes button { padding: 3px 1px; font-size: clamp(8.5px, 2.55vw, 10.5px); letter-spacing: -.01em; white-space: nowrap; overflow: hidden; }
+  #mFull::after, #mShare::after { font-size: clamp(8.5px, 2.55vw, 10.5px); }
+  .tools #mDim { flex-grow: 1.6 !important; } .tools button[data-view="iso"] { flex-grow: .7 !important; }
+}
