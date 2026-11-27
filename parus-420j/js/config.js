@@ -19,8 +19,8 @@ window.BOAT_CONFIG = {
       { id: 'redan', name: 'Реданы', qty: '2 шт.', price: 3000, visual: true },
       { id: 'keelguard', name: 'Кильгард', qty: '1 шт.', price: 4000, visual: true },
       { id: 'rails', name: 'Леера на капот', qty: '2 шт.', price: 3000, visual: true },
-      { id: 'capot_plate', name: 'Усиление капота под электроякорь и лебёдку', qty: '1 шт.', price: 3000 },
-      { id: 'seat_plates', name: 'Усиление пластинами ПНД под кресла', qty: '2 шт.', price: 2500, needs: 'seats', needsText: 'Сначала добавьте кресло' },
+      { id: 'capot_plate', name: 'Усиление капота под электроякорь и лебёдку', qty: '1 шт.', price: 3000, inner: true, hint: 'внутри корпуса, подсветим на 3D' },
+      { id: 'seat_plates', name: 'Усиление пластинами ПНД под кресла', qty: '2 шт.', price: 2500, inner: true, hint: 'внутри корпуса, подсветим на 3D', needs: 'seats', needsText: 'Сначала добавьте кресло' },
     ] },
     { title: 'Оснащение', items: [
       { id: 'luvers', name: 'Подготовка под люверсы ходового тента', qty: '1 шт.', price: 5000, visual: true },
@@ -35,10 +35,10 @@ window.BOAT_CONFIG = {
       { id: 'echo_tub', name: 'Ванночка под датчик эхолота', qty: '1 шт.', price: 5000, visual: true },
       { id: 'table', name: 'Столик на полку в кокпит', qty: '1 шт.', price: 3000, visual: true },
       { id: 'bench_box', name: 'Рундук-лавка передвижная', qty: '1 шт.', price: 15000, visual: true },
-      { id: 'ladder_plate', name: 'Усиление потопчины под трап', qty: '1 шт.', price: 1500 },
+      { id: 'ladder_plate', name: 'Усиление потопчины под трап', qty: '1 шт.', price: 1500, inner: true, hint: 'внутри корпуса, подсветим на 3D' },
     ] },
     { title: 'Дополнительно', items: [
-      { id: 'console', name: 'Консоль моно «Парус R»', qty: '1 шт.', price: 10000 },
+      { id: 'console', name: 'Консоль моно «Парус R»', qty: '1 шт.', price: 10000, note3d: 'Консоль моно: 3D-вид добавим позже, в смете она учтена' },
       { id: 'tent_run', name: 'Тент ходовой', qty: '1 шт.', price: 17000, visual: true, off: 'tent_trans' },
       { id: 'tent_trans', name: 'Тент транспортировочный', qty: '1 шт.', price: 22000, visual: true, off: 'tent_run', hint: 'на 3D закрывает остальные опции' },
     ] },

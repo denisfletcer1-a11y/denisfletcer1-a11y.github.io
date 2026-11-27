@@ -149,3 +149,72 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .vh { text-shadow: 0 1px 14px rgba(0,0,0,.7), 0 0 2px rgba(0,0,0,.5); }
 .hint { text-shadow: none; }
 @media (min-width: 761px) and (max-width: 1180px) { .hint { top: auto; bottom: 112px; } }
+
+/* ---- телефон: лодка всегда сверху, опции листаются под ней (как просила Ирина 27.11) ---- */
+@media (max-width: 900px) {
+  html, body { height: 100%; overflow: hidden; }
+  .app { display: flex; flex-direction: column; height: 100dvh; }
+  .view { flex: 0 0 auto; height: 42svh; min-height: 260px; max-height: 480px; }
+  .panel { flex: 1 1 auto; min-height: 0; border-top: 1px solid var(--line); }
+  .scroll { overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding: 14px 14px 8px; }
+  .total { position: static; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); }
+  .trow b { font-size: 22px; } .tnote { margin: 0 0 6px; font-size: 12px; } .comp { display: none; }
+  .btn { padding: 11px 14px; }
+  .vh h1 { font-size: 20px; } .brand { margin-bottom: 4px; } .brand svg { width: 26px; height: 26px; }
+  .hint { display: none; }
+  .tools { flex-wrap: nowrap; flex-direction: column; align-items: stretch; gap: 4px; }
+  .views, .modes { align-self: flex-start; }
+  .views button, .modes button { min-height: 30px; padding: 5px 9px; }
+}
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+  .app { flex-direction: row; }
+  .view { height: 100dvh; max-height: none; flex: 1 1 55%; min-height: 0; }
+  .panel { flex: 1 1 45%; border-top: 0; border-left: 1px solid var(--line); }
+}
+
+/* ---- телефон: одна строка иконок под лодкой + компактный итог (27.11) ---- */
+@media (max-width: 900px) {
+  .tools { flex-direction: row; flex-wrap: nowrap; justify-content: center; gap: 0; left: 6px; right: 6px; bottom: 6px;
+    background: rgba(14, 15, 18, .8); border: 1px solid var(--line); border-radius: 14px; padding: 3px; backdrop-filter: blur(8px);
+    overflow-x: auto; scrollbar-width: none; }
+  .views, .modes { background: none; border: 0; padding: 0; gap: 0; flex: 0 0 auto; align-self: auto; }
+  .views button[data-view="bow"], .views button[data-view="stern"], #mRot, #mPan, #zIn, #zOut { display: none; }
+  .views button, .modes button { flex-direction: column; gap: 1px; min-height: 40px; padding: 3px 7px; font-size: 10.5px; font-weight: 600; border-radius: 10px; justify-content: center; }
+  .views button::before { content: ""; width: 16px; height: 16px; background: currentColor; opacity: .9;
+    -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; }
+  .views button[data-view="iso"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M12 3l8 4.5v9L12 21l-8-4.5v-9z'/%3E%3Cpath d='M12 12l8-4.5M12 12v9M12 12L4 7.5'/%3E%3C/svg%3E"); }
+  .views button[data-view="side"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M2 11h20l-3 6H6z'/%3E%3Cpath d='M9 11l2-4h4'/%3E%3C/svg%3E"); }
+  .views button[data-view="top"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M12 2c4 3 6 7 6 11v7H6v-7c0-4 2-8 6-11z'/%3E%3C/svg%3E"); }
+  .views button[data-view="cockpit"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3Cpath d='M12 4v6M5 15l5-2M19 15l-5-2'/%3E%3C/svg%3E"); }
+  .modes svg { width: 16px; height: 16px; }
+  #mFull[hidden] { display: none; } #mFull, #mShare { font-size: 0; } #mFull::after { content: "Экран"; font-size: 10.5px; } #mShare::after { content: "Ссылка"; font-size: 10.5px; }
+  .envs { top: 8px; }
+
+  .total { position: relative; display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 6px 8px; }
+  .trow { flex-direction: column; align-items: flex-start; gap: 0; }
+  .trow span { font-size: 11px; } .trow b { font-size: 21px; line-height: 1.1; }
+  .tnote { display: none; }
+  .comp { display: block; grid-column: 2; grid-row: 1; }
+  .comp summary { margin: 0; font-size: 12.5px; color: #c9d0d9; list-style: none; padding: 8px 6px; }
+  .comp summary::-webkit-details-marker { display: none; }
+  .comp summary::after { content: " ▾"; font-size: 12.5px; } .comp[open] summary::after { content: " ▴"; }
+  .comp[open] ul { position: absolute; left: 10px; right: 10px; bottom: calc(100% + 6px); max-height: 45vh; margin: 0; padding: 12px 12px 12px 28px;
+    background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 -10px 30px rgba(0,0,0,.5); z-index: 5; }
+  .comp summary { font-size: 0; } .comp summary::before { content: "Состав"; font-size: 12.5px; }
+  .tbtns { display: contents; }
+  #pdf { grid-column: 3; grid-row: 1; padding: 8px 10px; font-size: 12.5px; border-radius: 10px; }
+  #lead { grid-column: 1 / -1; }
+}
+
+/* ---- узкие и низкие телефоны (по прогону Playwright 27.11) ---- */
+@media (max-width: 900px) { .envs button { min-height: 32px; } }
+@media (max-width: 360px) {
+  .views button, .modes button { padding: 3px 3.5px; font-size: 10px; }
+  #mFull::after, #mShare::after { font-size: 10px; }
+}
+@media (max-width: 900px) and (max-height: 600px) and (orientation: portrait) {
+  .view { height: 40svh; min-height: 220px; }
+  .vh h1 { font-size: 17px; } .brand { display: none; }
+}
+#mFull[hidden] { display: none !important; }
+@media (pointer: coarse) { .b3d-hot::before { content: ""; position: absolute; inset: -9px; border-radius: 50%; } }
