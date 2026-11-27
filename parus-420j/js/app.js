@@ -42,7 +42,7 @@
   $('#colors').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { S.color = b.dataset.c; update(); } });
 
   // ---- опции ----
-  $('#groups').innerHTML = C.groups.map((g, gi) => `<section class="blk"><h2><i>0${gi + 1}</i>${g.title}</h2>${g.items.map(i => `<button type="button" class="opt" data-o="${i.id}" aria-pressed="false"><b>${i.name}</b><span class="pr">${i.price == null ? 'по запросу' : '+' + rub(i.price)}</span><small>${i.qty}${i.visual ? ' · <span class="eye">видно на 3D</span>' : ''}${i.hint ? ' · ' + i.hint : ''}<span class="need"></span></small></button>`).join('')}</section>`).join('');
+  $('#groups').innerHTML = C.groups.map((g, gi) => `<section class="blk"><h2><i>0${gi + 1}</i>${g.title}</h2>${g.items.map(i => `<button type="button" class="opt" data-o="${i.id}" aria-pressed="false"><b>${i.name}</b><span class="sw" aria-hidden="true"></span><small><span class="pr">${i.price == null ? 'по запросу' : '+' + rub(i.price)}</span> · ${i.qty}${i.visual ? ' · <span class="eye">видно на 3D</span>' : ''}${i.hint ? ' · ' + i.hint : ''}<span class="need"></span></small></button>`).join('')}</section>`).join('');
   $('#groups').addEventListener('click', e => {
     const b = e.target.closest('.opt'); if (!b || b.disabled) return;
     const id = b.dataset.o, it = allItems.find(i => i.id === id);

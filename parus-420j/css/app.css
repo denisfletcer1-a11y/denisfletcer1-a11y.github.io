@@ -124,13 +124,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ---- подсказки на люках ---- */
 .b3d-hots { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-.b3d-hot { position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 50%; border: 2px solid rgba(255,255,255,.9); background: rgba(255,107,26,.28); box-shadow: 0 0 0 4px rgba(255,107,26,.18), 0 2px 8px rgba(0,0,0,.5); pointer-events: auto; cursor: pointer; padding: 0; transition: background .2s, transform .05s linear; }
-.b3d-hot::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: #fff; transform: scale(.45); transition: transform .2s; }
-.b3d-hot:hover { background: rgba(255,107,26,.75); }
-.b3d-hot.open { background: rgba(255,107,26,.85); }
-.b3d-hot.open::after { transform: scale(.25); }
-@media (prefers-reduced-motion: no-preference) { .b3d-hot:not(.open) { animation: hotPulse 2.4s ease-in-out infinite; } }
-@keyframes hotPulse { 50% { box-shadow: 0 0 0 9px rgba(255,107,26,0), 0 2px 8px rgba(0,0,0,.5); } }
+.b3d-hot { position: absolute; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.85); background: rgba(255,255,255,.14); box-shadow: 0 0 8px rgba(0,0,0,.35); pointer-events: auto; cursor: pointer; padding: 0; transition: background .2s, transform .05s linear; }
+/* пульсирующее белое кольцо вокруг точки (как у конкурента) */
+.b3d-hot::after { content: ''; position: absolute; inset: -1.5px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.75); opacity: 0; pointer-events: none; }
+.b3d-hot:hover { background: rgba(255,255,255,.32); }
+.b3d-hot.open { background: rgba(255,255,255,.42); border-color: #fff; }
+@media (prefers-reduced-motion: no-preference) { .b3d-hot:not(.open)::after { animation: hotPulse 2s ease-out infinite; } }
+@keyframes hotPulse { 0% { transform: scale(1); opacity: .85; } 100% { transform: scale(2.1); opacity: 0; } }
 /* ---- сцена ---- */
 .envs { position: absolute; right: 16px; top: 16px; z-index: 2; display: flex; gap: 4px; background: rgba(14,15,18,.78); border: 1px solid var(--line); border-radius: 999px; padding: 4px; backdrop-filter: blur(8px); }
 .envs button { border: 0; background: none; padding: 7px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 600; color: #c9d0d9; min-height: 32px; }
@@ -218,3 +218,17 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 #mFull[hidden] { display: none !important; }
 @media (pointer: coarse) { .b3d-hot::before { content: ""; position: absolute; inset: -9px; border-radius: 50%; } }
+
+/* ---- опции: карточка с переключателем (как у конкурента, в цветах «Паруса») ---- */
+.opt { grid-template-columns: 1fr auto; gap: 3px 14px; padding: 12px 14px; border: 1.5px solid var(--line); }
+.opt b { grid-column: 1; grid-row: 1; }
+.opt small { grid-column: 1; grid-row: 2; }
+.opt .pr { font-size: 12.5px; font-weight: 600; color: var(--mut); }
+.opt[aria-pressed="true"] .pr { color: var(--acc2); }
+.opt[aria-pressed="true"] .pr::before { content: none; }
+.opt[aria-pressed="true"] { border-color: var(--acc); background: #241a14; }
+.opt .sw { grid-column: 2; grid-row: 1 / span 2; align-self: center; position: relative; width: 40px; height: 22px; border-radius: 999px; background: #3a3f47; transition: background .2s; flex: none; }
+.opt .sw::after { content: ""; position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: #c9d0d9; box-shadow: 0 1px 3px rgba(0,0,0,.4); transition: transform .2s, background .2s; }
+.opt[aria-pressed="true"] .sw { background: var(--acc); }
+.opt[aria-pressed="true"] .sw::after { transform: translateX(18px); background: #fff; }
+.opt:disabled .sw { opacity: .5; }
