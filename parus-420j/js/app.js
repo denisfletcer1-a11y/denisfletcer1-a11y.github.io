@@ -58,7 +58,7 @@
   $('#motors').innerHTML = C.motors.map(m => `<button type="button" data-m="${m.id}">${m.name}${m.price ? ' · ' + rub(m.price) : ''}</button>`).join('');
   $('#motors').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { S.motor = b.dataset.m; update(); if (S.motor) show('motor'); } });
   $('#gfx').innerHTML = C.graphics.map(g => `<button type="button" data-g="${g.id}">${g.name}</button>`).join('');
-  $('#gfx').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { S.graphics = b.dataset.g; update(); } });
+  $('#gfx').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { S.graphics = b.dataset.g; update(); boat?.view('side'); $$('#views button').forEach(x => x.classList.toggle('on', x.dataset.view === 'side')); } });   // графика на борту — показываем борт
   $('#trNo').onclick = () => { S.trailer = false; update(); }; $('#trYes').onclick = () => { S.trailer = true; update(); show('trailer'); };
 
   function price() {
